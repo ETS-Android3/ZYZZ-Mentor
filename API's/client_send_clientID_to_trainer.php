@@ -34,7 +34,6 @@ $message .= '<h1 style="color:#000000;">Hello! '.$trainerFullName.'</h1>';
 $message .= '<p style="color:#000000;font-size:18px;">We have '.$clientFullName.' that want to be coached by YOU!</p>';
 $message .= '<p style="color:#000000;font-size:18px;"> There client ID is: <u>'.$clientID.'</u> </p>';
 $message .= '<p style="color:#000000;font-size:15px;"><b> Please do not share it with anyone </b></p>';
-$message .='<img src="D:\xampp\htdocs\ZYZZ\Zyzz_Logo.png" alt="ZyzzLogo">';
 $message .= '</body></html>';
  
 // Send the email to the trainer

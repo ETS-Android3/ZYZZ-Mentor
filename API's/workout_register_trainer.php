@@ -19,11 +19,11 @@ if($registerWorkout){
 
 function gen_id($l,$mysqli){
     $generatedID = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $l);
-    $clientIdQuery = $mysqli->query("SELECT plan_id from login_trainer_client where plan_id='$generatedID'");
+    $clientIdQuery = $mysqli->query("SELECT workout_id from workout where workout_id='$generatedID'");
     // To make sure the id generated is not already used.
     while($clientIdQuery->num_rows>0){
         $generatedID = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $l);
-        $clientIdQuery = $mysqli->query("SELECT plan_id from login_trainer_client where plan_id='$generatedID'");
+        $clientIdQuery = $mysqli->query("SELECT workout_id from workout where workout_id='$generatedID'");
     }
     return $generatedID;
 }

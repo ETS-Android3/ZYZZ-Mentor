@@ -46,11 +46,11 @@ else{
 
 }
 function gen_id($l,$mysqli){
-    $generatedID = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz"), 0, $l);
+    $generatedID = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $l);
     $clientIdQuery = $mysqli->query("SELECT client_id from client_info where client_id='$generatedID'");
     // To make sure the id generated is not already used.
     while($clientIdQuery->num_rows>0){
-        $generatedID = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz"), 0, $l);
+        $generatedID = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $l);
         $clientIdQuery = $mysqli->query("SELECT id from client where client_id='$generatedID'");
     }
     return $generatedID;

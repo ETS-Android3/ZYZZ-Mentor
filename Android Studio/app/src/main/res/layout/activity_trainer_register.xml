@@ -215,6 +215,7 @@
                 android:width="155dp"
                 android:height="53dp"
                 android:backgroundTint="@color/yellow"
+                android:onClick="register"
                 android:text="Register"
                 android:textColor="@color/black"
                 app:cornerRadius="10dp" />

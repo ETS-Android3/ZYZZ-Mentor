@@ -2,21 +2,18 @@ package com.dhaini.zyzz;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -63,14 +60,20 @@ public class trainerRegister extends AppCompatActivity{
                 dobEditText.setText(date);
             }
         };
+
+        //Spinner Initialization
         List<String> genders = Arrays.asList("Male","Female");
         Spinner genderSpinner = findViewById(R.id.genderInput);
 
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.selected_item,genders);
-        adapter.setDropDownViewResource(R.layout.my_drop_down);
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.selected_item_spinner,genders);
+        adapter.setDropDownViewResource(R.layout.drop_down_spinner);
         genderSpinner.setAdapter(adapter);
 
     }
 
 
+    public void register(View view) {
+        Intent popupmenu = new Intent(this,TrainerMyClients.class);
+        startActivity(popupmenu);
+    }
 }

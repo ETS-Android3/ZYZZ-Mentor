@@ -33,7 +33,7 @@
         app:layout_constraintHorizontal_bias="0.378"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/homepage" />
+        app:srcCompat="@drawable/homepage_background_image" />
 
     <ImageButton
         android:id="@+id/trainerOption"
@@ -47,20 +47,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.633"
-        app:srcCompat="@drawable/trainer_component" />
+        app:srcCompat="@drawable/trainer_icon_homepage" />
 
     <ImageButton
         android:id="@+id/clientOption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00FFFFFF"
+        android:onClick="ClientLogin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.936"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.633"
-        app:srcCompat="@drawable/client_component" />
+        app:srcCompat="@drawable/client_icon_homepage" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

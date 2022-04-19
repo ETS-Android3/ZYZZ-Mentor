@@ -4,19 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TrainerLogin">
+    tools:context=".ClientLogin"
+    android:background="@drawable/client_login_background"
+    >
 
-    <ImageView
-        android:id="@+id/backgroundImage"
-        android:layout_width="563dp"
-        android:layout_height="895dp"
-        android:alpha="0.3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.31"
-        app:srcCompat="@drawable/trainer_login_background_image" />
+
 
     <EditText
         android:id="@+id/usernameInput"
@@ -112,8 +104,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
+        android:textAllCaps="false"
         android:onClick="createAccount"
-        android:text="create account"
+        android:text="Create Account"
 
         android:textColor="#C4C4C4"
         app:layout_constraintBottom_toBottomOf="parent"

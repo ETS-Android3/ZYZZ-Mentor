@@ -22,11 +22,14 @@ public class MainActivity extends AppCompatActivity {
     }
     public void trainerLogin(View view){ //Pop up window to show the PL logo and a small comment
 
-        Intent popupmenu = new Intent(this,TrainerLogin.class);
+        Intent intent = new Intent(this,TrainerLogin.class);
+
+        startActivity(intent);
+    }
+
+    public void ClientLogin(View view) {
+        Intent popupmenu = new Intent(this,ClientLogin.class);
 
         startActivity(popupmenu);
-
-
-
     }
 }

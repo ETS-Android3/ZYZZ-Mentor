@@ -3,25 +3,23 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".TrainerRegister"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="@color/transparent"
-  >
+
+    tools:context=".ClientRegister">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/trainer_register"
-        >
+        android:background="@drawable/client_register_background">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="200dp"
             android:layout_marginBottom="27dp"
             android:background="@color/transparent"
-            android:src="@drawable/logo_trainer"
+            android:src="@drawable/zyzz_logo_client"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.495"
@@ -82,14 +80,14 @@
                 android:id="@+id/DOBInput"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
                 android:background="@drawable/small_input_text_design"
-                android:ems="10"
-                android:editable="false"
+                android:drawableEnd="@drawable/ic_calendar"
                 android:drawablePadding="10dp"
+                android:editable="false"
+                android:ems="10"
+                android:paddingLeft="10dp"
                 android:paddingEnd="10dp"
                 android:textSize="24sp"
-                android:drawableEnd="@drawable/ic_calendar"
                 tools:ignore="Deprecated" />
 
             <TextView
@@ -108,13 +106,14 @@
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
 
-                android:ems="10"
-
                 android:background="@drawable/small_input_text_design"
+
+                android:ems="10"
 
 
                 android:paddingLeft="10dp"
                 android:textSize="20sp" />
+
 
             <TextView
                 android:layout_width="match_parent"
@@ -137,6 +136,7 @@
                 android:inputType="textWebEmailAddress"
                 android:paddingLeft="10dp"
                 android:textSize="20sp" />
+
 
             <TextView
                 android:layout_width="match_parent"

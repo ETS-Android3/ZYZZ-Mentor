@@ -10,13 +10,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Zyzz">
         <activity
+            android:name=".LoginWithTrainer"
+            android:exported="false" />
+        <activity
+            android:name=".ClientMyTraining"
+            android:exported="false" />
+        <activity
+            android:name=".ClientRegister"
+            android:exported="false" />
+        <activity
+            android:name=".ClientLogin"
+            android:exported="false" />
+        <activity
             android:name=".TrainerAddClient"
             android:exported="false" />
         <activity
             android:name=".TrainerMyClients"
             android:exported="false" />
         <activity
-            android:name=".trainerRegister"
+            android:name=".TrainerRegister"
             android:exported="false" />
         <activity
             android:name=".TrainerLogin"

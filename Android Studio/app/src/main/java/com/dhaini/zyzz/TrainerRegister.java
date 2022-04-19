@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-public class trainerRegister extends AppCompatActivity{
+public class TrainerRegister extends AppCompatActivity{
     EditText dobEditText;
     DatePickerDialog.OnDateSetListener onDateSetListener;
     String gender;
@@ -45,7 +45,7 @@ public class trainerRegister extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        trainerRegister.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, onDateSetListener,
+                        TrainerRegister.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, onDateSetListener,
                         year,month,day);
                 datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 datePickerDialog.show();

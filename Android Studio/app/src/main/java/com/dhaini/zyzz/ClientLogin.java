@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class TrainerLogin extends AppCompatActivity {
+public class ClientLogin extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,15 +16,11 @@ public class TrainerLogin extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE); //hide the actionbar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_trainer_login);
+        setContentView(R.layout.activity_client_login);
     }
-    public void createAccount(View view){ //Pop up window to show the PL logo and a small comment
 
-        Intent popupmenu = new Intent(this, TrainerRegister.class);
-
-        startActivity(popupmenu);
-
-
-
+    public void createAccount(View view) {
+        Intent intent = new Intent(this,ClientRegister.class);
+        startActivity(intent);
     }
 }

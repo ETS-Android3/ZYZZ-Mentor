@@ -2,7 +2,9 @@ package com.dhaini.zyzz;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -17,5 +19,14 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         setContentView(R.layout.activity_main);
+    }
+    public void trainerLogin(View view){ //Pop up window to show the PL logo and a small comment
+
+        Intent popupmenu = new Intent(this,TrainerLogin.class);
+
+        startActivity(popupmenu);
+
+
+
     }
 }

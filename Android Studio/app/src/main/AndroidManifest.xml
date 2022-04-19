@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Zyzz">
         <activity
+            android:name=".trainerRegister"
+            android:exported="false" />
+        <activity
             android:name=".TrainerLogin"
             android:exported="false" />
         <activity

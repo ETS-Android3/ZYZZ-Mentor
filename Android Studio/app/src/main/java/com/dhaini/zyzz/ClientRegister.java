@@ -52,6 +52,7 @@ public class ClientRegister extends AppCompatActivity {
     String gender="";
     String confirmPassword="";
     DatePickerDialog.OnDateSetListener onDateSetListener;
+    clientRegistrationAPI API;
 
 
     @Override
@@ -68,13 +69,13 @@ public class ClientRegister extends AppCompatActivity {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        fullNameEditText = findViewById(R.id.fullNameInputClient);
-        emailEditText = findViewById(R.id.emailInputClient);
-        usernameEditText = findViewById(R.id.usernameInputClient);
-        passwordEditText = findViewById(R.id.passwordInputTrainer);
-        confirmPasswordEditText = findViewById(R.id.confirmPasswordInputClient);
+        fullNameEditText = (EditText) findViewById(R.id.fullNameInputClient);
+        emailEditText =(EditText) findViewById(R.id.emailInputClient);
+        usernameEditText = (EditText) findViewById(R.id.usernameInputClient);
+        passwordEditText = (EditText) findViewById(R.id.passwordInputClient);
+        confirmPasswordEditText = (EditText) findViewById(R.id.confirmPasswordInputClient);
 
-        dobEditText = findViewById(R.id.DOBInputClient);
+        dobEditText = (EditText)findViewById(R.id.DOBInputClient);
         dobEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,32 +106,37 @@ public class ClientRegister extends AppCompatActivity {
     }
 
     public void registerClient(View view) {
-        password = passwordEditText.getText().toString();
+
         username = usernameEditText.getText().toString();
         fullName = usernameEditText.getText().toString();
         email = emailEditText.getText().toString();
         dob = dobEditText.getText().toString();
         gender = genderSpinner.getSelectedItem().toString();
         confirmPassword = confirmPasswordEditText.getText().toString();
+        password = passwordEditText.getText().toString();
 
         if (password.equalsIgnoreCase("") || username.equalsIgnoreCase("")
                 || fullName.equalsIgnoreCase("") || email.equalsIgnoreCase("")
                 || confirmPassword.equalsIgnoreCase("")   || dob.equalsIgnoreCase("") || gender.equalsIgnoreCase("")) {
             toastMessage("Credential Incomplete!");
         }
-        else if(confirmPassword.equals(password)){
+        else if(!confirmPassword.equals(password)){
             toastMessage("Passwords doesn't match!");
+        }
+        else{
+            API = new clientRegistrationAPI();
+            API.execute();
         }
 
 
     }
 
-    public Toast toastMessage(String message) {
+    public void toastMessage(String message) {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
-        return toast;
+        toast.show();
     }
 
-    class trainerAuthenticationAPI extends AsyncTask<String, Void, String> {
+    class clientRegistrationAPI extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
@@ -141,7 +147,8 @@ public class ClientRegister extends AppCompatActivity {
 
             BasicNameValuePair usernameParam = new BasicNameValuePair("username", username);
             BasicNameValuePair passwordParam = new BasicNameValuePair("password", password);
-            BasicNameValuePair fullNameParam = new BasicNameValuePair("fullName", password);
+            BasicNameValuePair fullNameParam = new BasicNameValuePair("fullName", fullName);
+            BasicNameValuePair emailParam = new BasicNameValuePair("email", email);
             BasicNameValuePair dobParam = new BasicNameValuePair("dob", dob);
             BasicNameValuePair genderParam = new BasicNameValuePair("gender", gender);
             ArrayList<NameValuePair> name_value_pair_list = new ArrayList<>();
@@ -150,7 +157,7 @@ public class ClientRegister extends AppCompatActivity {
             name_value_pair_list.add(usernameParam);
             name_value_pair_list.add(dobParam);
             name_value_pair_list.add(genderParam);
-
+            name_value_pair_list.add(emailParam);
 
 
             try {
@@ -190,6 +197,7 @@ public class ClientRegister extends AppCompatActivity {
                 else{
                     toastMessage(s);
                 }
+                toastMessage(s);
             } catch (Exception e) {
                 e.printStackTrace();
             }

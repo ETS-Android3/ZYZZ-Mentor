@@ -19,7 +19,7 @@
         app:srcCompat="@drawable/trainer_login_background_image" />
 
     <EditText
-        android:id="@+id/usernameInput"
+        android:id="@+id/usernameInputTrainer"
         style="@style/Widget.AppCompat.EditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
         app:layout_constraintVertical_bias="0.389" />
 
     <EditText
-        android:id="@+id/passwordInput"
+        android:id="@+id/passwordInputTrainer"
         style="@style/Widget.AppCompat.EditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -92,27 +92,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:text="Login"
-        android:height="45dp"
         android:width="151dp"
-        android:textColor="#000000"
-
+        android:height="45dp"
         android:backgroundTint="@color/yellow"
-        app:cornerRadius="10dp"
+        android:onClick="loginTrainer"
+
+        android:text="Login"
+        android:textColor="#000000"
         android:textStyle="bold"
+        app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
 
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.707" />
 
     <Button
-        android:id="@+id/registerButton"
+        android:id="@+id/createAccountClient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
-        android:onClick="createAccount"
+        android:onClick="createAccountTrainer"
         android:text="create account"
 
         android:textColor="#C4C4C4"

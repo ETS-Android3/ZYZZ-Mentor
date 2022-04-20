@@ -5,34 +5,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent"
 
-    tools:context=".ClientRegister">
+
+    tools:context=".MyInfoClient">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/client_register_background">
+       >
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:layout_marginBottom="27dp"
+            android:id="@+id/imageView"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
             android:background="@color/transparent"
-            android:src="@drawable/zyzz_logo_client"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.492" />
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/my_info_banner" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="27dp"
-            android:layout_marginTop="204dp"
+            android:layout_marginTop="124dp"
             android:layout_marginEnd="27dp"
             android:background="@color/transparent"
             android:orientation="vertical"
@@ -45,24 +45,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/transparent"
-                android:text="Full Name"
+                android:text="Age"
                 android:textColor="@color/yellow"
                 android:textSize="24sp"
-
+                android:paddingBottom="5dp"
                 />
 
-            <EditText
-                android:id="@+id/fullNameInputClient"
-                style="@style/Widget.AppCompat.EditText"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/AgeInput"
+                android:background="@drawable/small_input_text_design"
                 android:layout_height="wrap_content"
-                android:background="@drawable/long_input_text_design"
-                android:clickable="false"
-                android:ems="10"
-                android:importantForAutofill="no"
-                android:inputType="textPersonName"
+                android:layout_width="wrap_content"
                 android:paddingLeft="10dp"
-                android:textSize="20sp"
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
@@ -71,67 +65,65 @@
                 android:background="@color/transparent"
                 android:paddingTop="10dp"
                 android:paddingBottom="5dp"
-                android:text="Date of Birth"
+                android:text="Height"
                 android:textColor="@color/yellow"
                 android:textSize="24sp" />
+
 
             <EditText
-
-                android:id="@+id/DOBInputClient"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/small_input_text_design"
-                android:drawableEnd="@drawable/ic_calendar"
-                android:drawablePadding="10dp"
-                android:editable="false"
-                android:ems="10"
-                android:paddingLeft="10dp"
-                android:paddingEnd="10dp"
-                android:textSize="24sp"
-                tools:ignore="Deprecated" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/transparent"
-                android:paddingTop="10dp"
-                android:paddingBottom="5dp"
-                android:text="Gender"
-                android:textColor="@color/yellow"
-                android:textSize="24sp" />
-
-            <Spinner
-
-                android:id="@+id/genderInputClient"
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-
-                android:background="@drawable/small_input_text_design"
-
-                android:ems="10"
-
-
-                android:paddingLeft="10dp"
-                android:textSize="20sp" />
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/transparent"
-                android:paddingTop="10dp"
-                android:paddingBottom="5dp"
-                android:text="Email"
-                android:textColor="@color/yellow"
-                android:textSize="24sp" />
-
-            <EditText
-
-                android:id="@+id/emailInputClient"
+                android:id="@+id/heightInput"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/long_input_text_design"
+                android:background="@drawable/small_input_text_design"
+                android:clickable="false"
+                android:drawableEnd="@drawable/meter_icon"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:paddingLeft="10dp"
+                android:paddingEnd="7dp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:paddingTop="10dp"
+                android:paddingBottom="5dp"
+                android:text="Weight"
+                android:textColor="@color/yellow"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/WeightInput"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/small_input_text_design"
+                android:drawableEnd="@drawable/kg_icon"
+                android:paddingEnd="5dp"
+                android:inputType="number"
+                android:paddingLeft="10dp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:paddingTop="10dp"
+                android:paddingBottom="5dp"
+                android:text="Past Injuries"
+                android:textColor="@color/yellow"
+                android:textSize="24sp" />
+
+            <EditText
+
+                android:id="@+id/pastInjuriesInput"
+                style="@style/Widget.AppCompat.EditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/large_input_text_design"
                 android:ems="10"
                 android:inputType="textWebEmailAddress"
                 android:paddingLeft="10dp"
@@ -144,67 +136,112 @@
                 android:background="@color/transparent"
                 android:paddingTop="10dp"
                 android:paddingBottom="5dp"
-                android:text="Username"
+                android:text="Health Issues"
                 android:textColor="@color/yellow"
                 android:textSize="24sp" />
 
             <EditText
 
-                android:id="@+id/usernameInputClient"
+                android:id="@+id/healthIssuesInput"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/long_input_text_design"
+                android:background="@drawable/large_input_text_design"
                 android:ems="10"
-                android:inputType="text"
+                android:inputType="textWebEmailAddress"
                 android:paddingLeft="10dp"
                 android:textSize="20sp" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@color/transparent"
                 android:paddingTop="10dp"
                 android:paddingBottom="5dp"
-                android:text="Password"
+                android:text="Days/week "
                 android:textColor="@color/yellow"
                 android:textSize="24sp" />
 
-            <EditText
 
-                android:id="@+id/passwordInputClient"
+            <EditText
+                android:id="@+id/dayPerWeekInput"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/long_input_text_design"
-                android:ems="10"
-                android:inputType="textPassword"
+                android:background="@drawable/small_input_text_design"
+                android:clickable="false"
+                android:importantForAutofill="no"
+                android:inputType="number"
                 android:paddingLeft="10dp"
-                android:textSize="20sp" />
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@color/transparent"
                 android:paddingTop="10dp"
                 android:paddingBottom="5dp"
-                android:text="Confirm Password"
+                android:text="Hours/day "
                 android:textColor="@color/yellow"
                 android:textSize="24sp" />
 
-            <EditText
 
-                android:id="@+id/confirmPasswordInputClient"
+            <EditText
+                android:id="@+id/hoursPerDayInput"
+                style="@style/Widget.AppCompat.EditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/small_input_text_design"
+                android:clickable="false"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:paddingLeft="10dp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:paddingTop="10dp"
+                android:paddingBottom="5dp"
+                android:text="Training Preferences "
+                android:textColor="@color/yellow"
+                android:textSize="24sp" />
+
+
+            <EditText
+                android:id="@+id/trainingPreferencesInput"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/long_input_text_design"
-                android:ems="10"
-                android:inputType="textPassword"
+                android:clickable="false"
+                android:importantForAutofill="no"
+                android:inputType="number"
                 android:paddingLeft="10dp"
-                android:textSize="20sp" />
+                tools:ignore="SpeakableTextPresentCheck" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:paddingTop="10dp"
+                android:paddingBottom="5dp"
+                android:text="Objectives"
+                android:textColor="@color/yellow"
+                android:textSize="24sp" />
 
 
+            <EditText
+                android:id="@+id/objectiveInput"
+                style="@style/Widget.AppCompat.EditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/large_input_text_design"
+                android:clickable="false"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:paddingLeft="10dp"
+                tools:ignore="SpeakableTextPresentCheck" />
             <Button
                 android:id="@+id/createAccountClient"
                 android:layout_width="wrap_content"
@@ -215,8 +252,9 @@
                 android:width="155dp"
                 android:height="53dp"
                 android:backgroundTint="@color/yellow"
-                android:onClick="registerClient"
-                android:text="Register"
+                android:onClick="updateMyInfo"
+                android:textAllCaps="false"
+                android:text="Update My Info"
                 android:textColor="@color/black"
                 app:cornerRadius="10dp" />
 

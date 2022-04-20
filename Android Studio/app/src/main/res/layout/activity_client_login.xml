@@ -11,7 +11,7 @@
 
 
     <EditText
-        android:id="@+id/usernameInput"
+        android:id="@+id/usernameInputClient"
         style="@style/Widget.AppCompat.EditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
         app:layout_constraintVertical_bias="0.389" />
 
     <EditText
-        android:id="@+id/passwordInput"
+        android:id="@+id/passwordInputClient"
         style="@style/Widget.AppCompat.EditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
         android:height="45dp"
         android:width="151dp"
         android:textColor="#000000"
-
+        android:onClick="loginClient"
         android:backgroundTint="@color/yellow"
         app:cornerRadius="10dp"
         android:textStyle="bold"
@@ -100,13 +100,13 @@
         app:layout_constraintVertical_bias="0.707" />
 
     <Button
-        android:id="@+id/registerButton"
+        android:id="@+id/createAccountClient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
-        android:textAllCaps="false"
-        android:onClick="createAccount"
+        android:onClick="createAccountClient"
         android:text="Create Account"
+        android:textAllCaps="false"
 
         android:textColor="#C4C4C4"
         app:layout_constraintBottom_toBottomOf="parent"

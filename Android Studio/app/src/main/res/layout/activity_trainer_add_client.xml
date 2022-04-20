@@ -21,7 +21,7 @@
         app:srcCompat="@drawable/add_client_banner" />
 
     <EditText
-        android:id="@+id/usernameInput"
+        android:id="@+id/usernameInputClient"
         style="@style/Widget.AppCompat.EditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

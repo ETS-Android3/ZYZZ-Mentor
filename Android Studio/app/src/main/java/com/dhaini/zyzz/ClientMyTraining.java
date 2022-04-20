@@ -36,13 +36,13 @@ public class ClientMyTraining extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(adapterView.getItemAtPosition(i).equals("My Info")){
-                    Intent intentAddClient = new Intent(ClientMyTraining.this,TrainerAddClient.class);
+                    Intent intentAddClient = new Intent(ClientMyTraining.this,MyInfoClient.class);
                     optionsSpinner.setSelection(0);
                     startActivity(intentAddClient);
 
                 }
                 if(adapterView.getItemAtPosition(i).equals("Login with Trainer")){
-                    Intent intentAddClient = new Intent(ClientMyTraining.this,TrainerAddClient.class);
+                    Intent intentAddClient = new Intent(ClientMyTraining.this,LoginWithTrainer.class);
                     optionsSpinner.setSelection(0);
                     startActivity(intentAddClient);
 

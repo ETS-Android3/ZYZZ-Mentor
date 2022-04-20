@@ -40,7 +40,7 @@ public class TrainerRegister extends AppCompatActivity{
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        dobEditText = findViewById(R.id.DOBInput);
+        dobEditText = findViewById(R.id.DOBInputClient);
         dobEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,7 +63,7 @@ public class TrainerRegister extends AppCompatActivity{
 
         //Spinner Initialization
         List<String> genders = Arrays.asList("Male","Female");
-        Spinner genderSpinner = findViewById(R.id.genderInput);
+        Spinner genderSpinner = findViewById(R.id.genderInputClient);
 
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.selected_item_spinner,genders);
         adapter.setDropDownViewResource(R.layout.drop_down_spinner);

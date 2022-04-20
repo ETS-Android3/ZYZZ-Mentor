@@ -54,7 +54,7 @@
                 />
 
             <EditText
-                android:id="@+id/fullNameInput"
+                android:id="@+id/fullNameInputClient"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
 
             <EditText
 
-                android:id="@+id/DOBInput"
+                android:id="@+id/DOBInputClient"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
@@ -104,7 +104,7 @@
 
             <Spinner
 
-                android:id="@+id/genderInput"
+                android:id="@+id/genderInputClient"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
 
@@ -128,7 +128,7 @@
 
             <EditText
 
-                android:id="@+id/emailInput"
+                android:id="@+id/emailInputClient"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
 
             <EditText
 
-                android:id="@+id/usernameInput"
+                android:id="@+id/usernameInputClient"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -172,7 +172,7 @@
 
             <EditText
 
-                android:id="@+id/passwordInput"
+                android:id="@+id/passwordInputClient"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -194,7 +194,7 @@
 
             <EditText
 
-                android:id="@+id/confirmPasswordInput"
+                android:id="@+id/confirmPasswordInputClient"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -206,7 +206,7 @@
 
 
             <Button
-                android:id="@+id/registerButton"
+                android:id="@+id/createAccountClient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="100dp"

@@ -1,16 +1,16 @@
 <?php 
 include('db_info.php');
 
-$username = $_POST['username'];
-$password = $_POST['password'];
-
+$username = $_POST['Username'];
+$password = $_POST['Password'];
+$name="";
 $usernameQuery = $mysqli->query("SELECT username from client where username='$username'");
 
 // Check if the username exist
 if($usernameQuery->num_rows==0){
-    exit('username does not exists');
+    $result = "user does not exist!"; 
 }
-
+else{
 // Get the hashed password of the account from the database
 $passwordQuery = $mysqli->query("SELECT password from client where username='$username'");
 $fetchHashedPassword = mysqli_fetch_assoc($passwordQuery);
@@ -27,8 +27,11 @@ if($verifyPassword){
     $splitFullName = explode(" ", $fullName);
     $name = $splitFullName[0];
 
-    echo "Hello ".$name;
+    $result= "accepted";
 }
 else{
-    exit ("Wrong password");
+    $result  = "Wrong password!";
 }
+}
+$response= array("status" =>$result,"Name"=> $name);
+echo json_encode($response);

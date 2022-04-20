@@ -5,7 +5,7 @@ include("db_info.php");
 $email = $_POST['email'];
 $username = $_POST['username'];
 $fullName = $_POST['fullName'];
-$phoneNumber = $_POST['phoneNumber'];
+$gender = $_POST['gender'];
 $dob = $_POST['dob'];
 $password = $_POST['password'];
 
@@ -17,7 +17,6 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 // Check if username or phone number or email address are already used
 $usernameQuery = $mysqli->query("SELECT username from trainer where username='$username'");
 $emailQuery = $mysqli->query("SELECT username from trainer where email='$email'");
-$phoneNumberQuery = $mysqli->query("SELECT username from trainer where phone_number='$phoneNumber'");
 
 
 if($usernameQuery->num_rows>0){
@@ -25,9 +24,6 @@ if($usernameQuery->num_rows>0){
 }
 if($emailQuery->num_rows>0){
     exit('email already exists, please enter another');
-}
-if($phoneNumberQuery->num_rows>0){
-    exit('phone number already exists, please enter another');
 }
 
 // Get date and time for each conversion
@@ -38,6 +34,10 @@ $date = date('Y-m-d H:i:s');
 $hashedPassword =password_hash($password,PASSWORD_BCRYPT);
 
 // Register the trainer to the Database
-$registerTrainer = $mysqli->query("INSERT INTO trainer (username,full_name,password,dob,email,phone_number,register_date) VALUES('$username','$fullName',
-'$hashedPassword','$dob','$email','$phoneNumber','$date')"); 
+$registerTrainer = $mysqli->query("INSERT INTO trainer (username,full_name,password,dob,email,gender,register_date) VALUES('$username','$fullName',
+'$hashedPassword','$dob','$email','$gender','$date')"); 
+
+if($registerTrainer){
+    echo "Trainer registered";
+}
 ?>

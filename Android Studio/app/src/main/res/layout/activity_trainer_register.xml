@@ -54,7 +54,7 @@
                 />
 
             <EditText
-                android:id="@+id/fullNameInputClient"
+                android:id="@+id/fullNameInputTrainer"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
 
             <EditText
 
-                android:id="@+id/DOBInputClient"
+                android:id="@+id/DOBInputTrainer"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
@@ -104,7 +104,7 @@
 
             <Spinner
 
-                android:id="@+id/genderInputClient"
+                android:id="@+id/genderInputTrainer"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
 
@@ -128,7 +128,7 @@
 
             <EditText
 
-                android:id="@+id/emailInputClient"
+                android:id="@+id/emailInputTrainer"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
 
             <EditText
 
-                android:id="@+id/usernameInputClient"
+                android:id="@+id/usernameInputTrainer"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -172,7 +172,7 @@
 
             <EditText
 
-                android:id="@+id/passwordInputClient"
+                android:id="@+id/passwordInputTrainer"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -194,7 +194,7 @@
 
             <EditText
 
-                android:id="@+id/confirmPasswordInputClient"
+                android:id="@+id/confirmPasswordInputTrainer"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -206,7 +206,7 @@
 
 
             <Button
-                android:id="@+id/createAccountClient"
+                android:id="@+id/registerTrainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="100dp"
@@ -215,7 +215,7 @@
                 android:width="155dp"
                 android:height="53dp"
                 android:backgroundTint="@color/yellow"
-                android:onClick="register"
+                android:onClick="createTrainerAccount"
                 android:text="Register"
                 android:textColor="@color/black"
                 app:cornerRadius="10dp" />

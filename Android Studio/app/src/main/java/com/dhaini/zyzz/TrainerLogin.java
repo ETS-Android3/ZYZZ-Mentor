@@ -121,8 +121,9 @@ public class TrainerLogin extends AppCompatActivity {
                 if (status.equalsIgnoreCase("accepted")) {
                     String name = json.getString("Name");
                     toastMessage("Welcome "+ name).show();
-                    Intent popupmenu = new Intent(TrainerLogin.this, TrainerMyClients.class);
-                    startActivity(popupmenu);
+                    Intent intent = new Intent(TrainerLogin.this, TrainerMyClients.class);
+                    intent.putExtra("trainerUsername",username.getText().toString());
+                    startActivity(intent);
                 } else {
                     // If the status was 404, the user is notified that something wrong happened
                     toastMessage(status).show();

@@ -107,7 +107,7 @@ public class TrainerRegister extends AppCompatActivity {
     public void createTrainerAccount(View view) {
 
         username = usernameEditText.getText().toString();
-        fullName = usernameEditText.getText().toString();
+        fullName = fullNameEditText.getText().toString();
         email = emailEditText.getText().toString();
         dob = dobEditText.getText().toString();
         gender = genderSpinner.getSelectedItem().toString();

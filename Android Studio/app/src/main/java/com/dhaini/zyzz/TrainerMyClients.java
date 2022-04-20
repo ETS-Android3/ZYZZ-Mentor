@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -15,15 +16,17 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TrainerMyClients extends AppCompatActivity {
-
+    String trainerUsername;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         requestWindowFeature(Window.FEATURE_NO_TITLE); //hide the actionbar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
+
+
+        trainerUsername = getIntent().getStringExtra("trainerUsername");
 
         // Initializing Options Button
         setContentView(R.layout.activity_trainer_my_clients);
@@ -41,6 +44,7 @@ public class TrainerMyClients extends AppCompatActivity {
                 if(adapterView.getItemAtPosition(i).equals("Add Client")){
                     Intent intentAddClient = new Intent(TrainerMyClients.this,TrainerAddClient.class);
                     optionsSpinner.setSelection(0);
+                    intentAddClient.putExtra("TrainerUsername",trainerUsername);
                     startActivity(intentAddClient);
 
                 }

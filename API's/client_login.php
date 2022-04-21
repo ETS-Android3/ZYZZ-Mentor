@@ -21,17 +21,18 @@ $verifyPassword = password_verify($password,$hashedPassword);
 
 if($verifyPassword){
     // Get the name of the user to welcome him
-    $fullNameQuery = $mysqli->query("SELECT full_name from client where username='$username'");
+    $fullNameQuery = $mysqli->query("SELECT full_name, clientID from client where username='$username'");
     $fetchFullName = mysqli_fetch_assoc($fullNameQuery);
     $fullName = $fetchFullName['full_name'];
     $splitFullName = explode(" ", $fullName);
     $name = $splitFullName[0];
-
+    
+    $clientID = $fetchFullName['client_id'];
     $result= "accepted";
 }
 else{
     $result  = "Wrong password!";
 }
 }
-$response= array("status" =>$result,"Name"=> $name);
+$response= array("status" =>$result,"Name"=> $name,"clientID"=>$clientID);
 echo json_encode($response);

@@ -154,17 +154,18 @@
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
 
         android:width="151dp"
         android:height="55dp"
         android:backgroundTint="@color/yellow"
-        android:text="Add Client"
-
+        android:text="Request Trainer"
+        android:textAlignment="center"
         android:textColor="#000000"
         android:textStyle="bold"
         app:cornerRadius="10dp"
+        android:onClick="requestTrainer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.134"

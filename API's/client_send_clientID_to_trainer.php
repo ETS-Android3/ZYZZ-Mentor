@@ -37,7 +37,9 @@ $message .= '<p style="color:#000000;font-size:15px;"><b> Please do not share it
 $message .= '</body></html>';
  
 // Send the email to the trainer
-mail("mohamad.dhaini02@lau.edu",'Client Registration',$message,$headers);
+if(mail($trainerEmail,'Client Registration',$message,$headers)){
+echo "Request sent to ".$trainerFullName;
+}
  
 ?>
 

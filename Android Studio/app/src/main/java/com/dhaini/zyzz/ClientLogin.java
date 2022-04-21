@@ -117,10 +117,11 @@ public class ClientLogin extends AppCompatActivity {
 
                 if (status.equalsIgnoreCase("accepted")) {
                     String name = json.getString("Name");
+                    String clientID = json.getString("clientID");
                     toastMessage("Welcome "+ name).show();
                     Intent intent = new Intent(ClientLogin.this, ClientMyTraining.class);
                     intent.putExtra("ClientUsername",username.getText().toString());
-
+                    intent.putExtra("ClientID",clientID);
                     startActivity(intent);
                 } else {
                     // If the status != accepted, the user is notified that something wrong happened

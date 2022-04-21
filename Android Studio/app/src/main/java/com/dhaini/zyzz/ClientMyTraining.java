@@ -16,6 +16,7 @@ import java.util.List;
 
 public class ClientMyTraining extends AppCompatActivity {
     String clientUsername;
+    String clientID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +26,7 @@ public class ClientMyTraining extends AppCompatActivity {
         setContentView(R.layout.activity_client_my_training);
 
         clientUsername = getIntent().getStringExtra("ClientUsername");
+        clientID = getIntent().getStringExtra("ClientID");
         List<String> genders = Arrays.asList("","My Info","Login with Trainer","Logout");
         Spinner optionsSpinner = findViewById(R.id.spinnerOptionClient);
 
@@ -44,9 +46,11 @@ public class ClientMyTraining extends AppCompatActivity {
 
                 }
                 if(adapterView.getItemAtPosition(i).equals("Login with Trainer")){
-                    Intent intentAddClient = new Intent(ClientMyTraining.this,LoginWithTrainer.class);
+                    Intent intentClientInfo = new Intent(ClientMyTraining.this,LoginWithTrainer.class);
                     optionsSpinner.setSelection(0);
-                    startActivity(intentAddClient);
+                    intentClientInfo.putExtra("ClientUsername",clientUsername);
+
+                    startActivity(intentClientInfo);
 
                 }
                 if(adapterView.getItemAtPosition(i).equals("Logout")){

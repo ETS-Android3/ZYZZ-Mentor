@@ -20,7 +20,7 @@
         app:srcCompat="@drawable/my_training_client_banner" />
 
     <Spinner
-        android:id="@+id/spinnerOption"
+        android:id="@+id/spinnerOptionClient"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:background="@drawable/option_button"

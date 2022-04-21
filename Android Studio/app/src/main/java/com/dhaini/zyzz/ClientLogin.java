@@ -73,7 +73,7 @@ public class ClientLogin extends AppCompatActivity {
             String usernameInput, passwordInput;
             usernameInput = username.getText().toString() ;
             passwordInput = password.getText().toString();
-            Log.i("REsulat",passwordInput);
+
             BasicNameValuePair usernameParam = new BasicNameValuePair("Username", usernameInput);
             BasicNameValuePair passwordParam = new BasicNameValuePair("Password", passwordInput);
 
@@ -114,14 +114,16 @@ public class ClientLogin extends AppCompatActivity {
                 // Getting the status that was returned in the json response from the post api
                 String status = json.getString("status");
 
-                // 200: OK status means the operation was successful
+
                 if (status.equalsIgnoreCase("accepted")) {
                     String name = json.getString("Name");
                     toastMessage("Welcome "+ name).show();
-                    Intent popupmenu = new Intent(ClientLogin.this, ClientMyTraining.class);
-                    startActivity(popupmenu);
+                    Intent intent = new Intent(ClientLogin.this, ClientMyTraining.class);
+                    intent.putExtra("ClientUsername",username.getText().toString());
+
+                    startActivity(intent);
                 } else {
-                    // If the status was 404, the user is notified that something wrong happened
+                    // If the status != accepted, the user is notified that something wrong happened
                     toastMessage(status).show();
                 }
             } catch (Exception e) {

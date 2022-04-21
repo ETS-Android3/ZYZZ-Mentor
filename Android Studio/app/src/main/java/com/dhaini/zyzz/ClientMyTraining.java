@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ClientMyTraining extends AppCompatActivity {
-
+    String clientUsername;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,8 +24,9 @@ public class ClientMyTraining extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_client_my_training);
 
+        clientUsername = getIntent().getStringExtra("ClientUsername");
         List<String> genders = Arrays.asList("","My Info","Login with Trainer","Logout");
-        Spinner optionsSpinner = findViewById(R.id.spinnerOption);
+        Spinner optionsSpinner = findViewById(R.id.spinnerOptionClient);
 
 
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.spinner_options_trainer,genders);
@@ -36,9 +37,10 @@ public class ClientMyTraining extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(adapterView.getItemAtPosition(i).equals("My Info")){
-                    Intent intentAddClient = new Intent(ClientMyTraining.this,MyInfoClient.class);
+                    Intent intentClientInfo = new Intent(ClientMyTraining.this,MyInfoClient.class);
                     optionsSpinner.setSelection(0);
-                    startActivity(intentAddClient);
+                    intentClientInfo.putExtra("ClientUsername",clientUsername);
+                    startActivity(intentClientInfo);
 
                 }
                 if(adapterView.getItemAtPosition(i).equals("Login with Trainer")){

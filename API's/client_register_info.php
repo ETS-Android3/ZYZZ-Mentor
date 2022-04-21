@@ -17,7 +17,7 @@ $userDOBQuery = $mysqli->query("SELECT dob from client where username='$username
 $fetchDOB = mysqli_fetch_assoc($userDOBQuery);
 $DOB = $fetchDOB['dob'];
 $splitDOB = explode("-", $DOB);
-$yearBorn = $splitDOB[0];
+$yearBorn = $splitDOB[2];
 $age = date("Y")- $yearBorn;
 
 // Check if the user already registered his personal info

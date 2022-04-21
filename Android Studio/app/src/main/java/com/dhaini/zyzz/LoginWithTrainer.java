@@ -48,8 +48,8 @@ public class LoginWithTrainer extends AppCompatActivity {
     String clientUsername;
     String clientID;
     sendEmailToTrainerAPI sendEmailAPI;
-    String myTrainer;
     TextView myTrainerTextView;
+    myTrainerAPI getMyTrainerAPI;
 
 
     @Override
@@ -66,6 +66,9 @@ public class LoginWithTrainer extends AppCompatActivity {
         searchTrainerAutoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.searchTrainerInput);
         trainerNameTextView = (TextView) findViewById(R.id.trainerNameInput);
         myTrainerTextView = (TextView) findViewById(R.id.MyTrainerInput);
+
+        getMyTrainerAPI = new myTrainerAPI();
+        getMyTrainerAPI.execute(post_url);
 
         APITrainerList = new getTrainerListAPI();
         APITrainerList.execute(post_url);
@@ -125,8 +128,15 @@ public class LoginWithTrainer extends AppCompatActivity {
     }
 
     public void requestTrainer(View view) {
-        if(!isValidTrainerUsername){
-            toastMessage("Trainer username does not exist please enter another");
+        if(!myTrainerTextView.getText().toString().equalsIgnoreCase("")){
+            toastMessage("You already have a trainer!");
+        }
+        else if(!isValidTrainerUsername){
+            toastMessage("Trainer name not shown exist please enter another");
+        }
+        else{
+            sendEmailAPI = new sendEmailToTrainerAPI();
+            sendEmailAPI.execute();
         }
 
     }
@@ -233,6 +243,63 @@ public class LoginWithTrainer extends AppCompatActivity {
             super.onPostExecute(s);
             try {
                 toastMessage(s);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    class myTrainerAPI extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            HttpClient http_client = new DefaultHttpClient();
+            HttpPost http_post = new HttpPost(post_url);
+
+
+
+            BasicNameValuePair clientIParam = new BasicNameValuePair("clientID", clientID);
+
+            ArrayList<NameValuePair> name_value_pair_list = new ArrayList<>();
+            name_value_pair_list.add(clientIParam);
+
+
+            try {
+                // This is used to send the list with the api in an encoded form entity
+                UrlEncodedFormEntity url_encoded_form_entity = new UrlEncodedFormEntity(name_value_pair_list);
+
+                // This sets the entity (which holds the list of values) in the http_post object
+                http_post.setEntity(url_encoded_form_entity);
+
+                // This gets the response from the post api and returns a string of the response.
+                HttpResponse http_response = http_client.execute(http_post);
+                InputStream input_stream = http_response.getEntity().getContent();
+                InputStreamReader input_stream_reader = new InputStreamReader(input_stream);
+                BufferedReader buffered_reader = new BufferedReader(input_stream_reader);
+                StringBuilder string_builder = new StringBuilder();
+                String buffered_str_chunk = null;
+                while ((buffered_str_chunk = buffered_reader.readLine()) != null) {
+                    string_builder.append(buffered_str_chunk);
+                }
+                Log.i("result",string_builder.toString());
+                return string_builder.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+               if(s.equalsIgnoreCase("No trainer")){
+                   toastMessage("Search for a trainer");
+               }
+               else{
+                   myTrainerTextView.setText(s);
+               }
             } catch (Exception e) {
                 e.printStackTrace();
             }

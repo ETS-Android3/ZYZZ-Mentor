@@ -21,7 +21,7 @@
         app:srcCompat="@drawable/add_client_banner" />
 
     <EditText
-        android:id="@+id/usernameInputClient"
+        android:id="@+id/clientIDinputTrainer"
         style="@style/Widget.AppCompat.EditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
         app:layout_constraintVertical_bias="0.206" />
 
     <EditText
-        android:id="@+id/objective_input"
+        android:id="@+id/trainerObjectives"
         style="@style/Widget.AppCompat.EditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
         app:layout_constraintVertical_bias="0.356" />
 
     <EditText
-        android:id="@+id/dayPerWeekInput"
+        android:id="@+id/dayPerWeekInputTrainer"
         style="@style/Widget.AppCompat.EditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -137,7 +137,7 @@
         android:height="55dp"
         android:backgroundTint="@color/yellow"
         android:text="Add Client"
-
+        android:onClick="trainerRegisterClient"
         android:textColor="#000000"
         app:cornerRadius="10dp"
         android:textStyle="bold"

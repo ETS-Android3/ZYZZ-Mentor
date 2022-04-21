@@ -77,6 +77,14 @@ public class LoginWithTrainer extends AppCompatActivity {
         APITrainerList = new getTrainerListAPI();
         APITrainerList.execute(listTrainer_url);
 
+        searchTrainerAutoCompleteTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                trainerNameTextView.setText("");
+            }
+
+        });
+
 
         List<String> confirmation = Arrays.asList("", "Yes", "No");
         Spinner confirmationSpinner = findViewById(R.id.dumpTrainerSpinner);
@@ -93,6 +101,7 @@ public class LoginWithTrainer extends AppCompatActivity {
                 confirmation.set(0, "Are you sure ?");
                 if (adapterView.getItemAtPosition(i).equals("Yes")) {
                     confirmation.set(0, "");
+                    myTrainerTextView.setText("");
                     dumpTrainer_api = new dumpTrainerAPI();
                     dumpTrainer_api.execute();
                     confirmationSpinner.setSelection(0);
@@ -138,6 +147,8 @@ public class LoginWithTrainer extends AppCompatActivity {
     public void requestTrainer(View view) {
         if(!myTrainerTextView.getText().toString().equalsIgnoreCase("")){
             toastMessage("You already have a trainer!").show();
+            searchTrainerAutoCompleteTextView.setText("");
+            trainerNameTextView.setText("");
         }
         else if(!isValidTrainerUsername){
             toastMessage("Trainer name not shown exist please enter another").show();

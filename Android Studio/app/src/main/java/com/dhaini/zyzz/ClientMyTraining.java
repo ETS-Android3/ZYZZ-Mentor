@@ -48,7 +48,7 @@ public class ClientMyTraining extends AppCompatActivity {
                 if(adapterView.getItemAtPosition(i).equals("Login with Trainer")){
                     Intent intentClientInfo = new Intent(ClientMyTraining.this,LoginWithTrainer.class);
                     optionsSpinner.setSelection(0);
-                    intentClientInfo.putExtra("ClientUsername",clientUsername);
+                    intentClientInfo.putExtra("ClientID",clientID);
 
                     startActivity(intentClientInfo);
 

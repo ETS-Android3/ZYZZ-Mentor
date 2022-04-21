@@ -9,7 +9,7 @@ $clientID = $_POST['clientID'];
 $planIDQuery = $mysqli->query("SELECT plan_id from login_trainer_client where client_id='$clientID'");
 
 if($planIDQuery->num_rows==0){
-    exit("No trainer");
+    exit("You are not subscribed with any trainer");
 }
 
 $fetchPlanID = mysqli_fetch_assoc($planIDQuery);
@@ -36,7 +36,7 @@ while($row =mysqli_fetch_assoc($workoutIDQuery))
 
 $trainerUserNameQuery = $mysqli->query("DELETE from login_trainer_client where client_id='$clientID'");
 
-echo "trainer Dumped";
+echo "Subscription with trainer ended! \n search for another";
 
 
 

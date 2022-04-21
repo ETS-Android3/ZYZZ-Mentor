@@ -4,6 +4,7 @@ include('db_info.php');
 $username = $_POST['Username'];
 $password = $_POST['Password'];
 $name="";
+$clientID="";
 $usernameQuery = $mysqli->query("SELECT username from client where username='$username'");
 
 // Check if the username exist
@@ -21,7 +22,7 @@ $verifyPassword = password_verify($password,$hashedPassword);
 
 if($verifyPassword){
     // Get the name of the user to welcome him
-    $fullNameQuery = $mysqli->query("SELECT full_name, clientID from client where username='$username'");
+    $fullNameQuery = $mysqli->query("SELECT full_name, client_id from client where username='$username'");
     $fetchFullName = mysqli_fetch_assoc($fullNameQuery);
     $fullName = $fetchFullName['full_name'];
     $splitFullName = explode(" ", $fullName);

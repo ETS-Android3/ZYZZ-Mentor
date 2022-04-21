@@ -1,6 +1,7 @@
 package com.dhaini.zyzz;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import java.util.List;
 
 public class TrainerMyClients extends AppCompatActivity {
     String trainerUsername;
+    private RecyclerView myClientListRecylerView;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

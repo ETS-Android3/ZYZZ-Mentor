@@ -12,6 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@drawable/client_info_background"
        >
 
         <ImageView
@@ -32,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="27dp"
-            android:layout_marginTop="124dp"
+            android:layout_marginTop="128dp"
             android:layout_marginEnd="27dp"
             android:background="@color/transparent"
             android:orientation="vertical"
@@ -45,17 +46,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/transparent"
+                android:paddingBottom="5dp"
                 android:text="Age"
                 android:textColor="@color/yellow"
-                android:textSize="24sp"
-                android:paddingBottom="5dp"
-                />
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/AgeInput"
-                android:background="@drawable/small_input_text_design"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/small_input_text_design"
                 android:paddingLeft="10dp"
                 android:textSize="20sp"
                 tools:ignore="SpeakableTextPresentCheck" />
@@ -102,9 +102,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/small_input_text_design"
                 android:drawableEnd="@drawable/kg_icon"
-                android:paddingEnd="5dp"
                 android:inputType="number"
                 android:paddingLeft="10dp"
+                android:paddingEnd="5dp"
                 tools:ignore="SpeakableTextPresentCheck" />
 
 
@@ -126,7 +126,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/large_input_text_design"
                 android:ems="10"
-                android:inputType="textWebEmailAddress"
+
+                android:inputType="textWebEmailAddress|textMultiLine"
                 android:paddingLeft="10dp"
                 android:textSize="20sp" />
 
@@ -221,6 +222,7 @@
                 android:inputType="number"
                 android:paddingLeft="10dp"
                 tools:ignore="SpeakableTextPresentCheck" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -243,6 +245,7 @@
                 android:inputType="number"
                 android:paddingLeft="10dp"
                 tools:ignore="SpeakableTextPresentCheck" />
+
             <Button
                 android:id="@+id/registerClient"
                 android:layout_width="wrap_content"
@@ -254,8 +257,8 @@
                 android:height="53dp"
                 android:backgroundTint="@color/yellow"
                 android:onClick="updateMyInfo"
-                android:textAllCaps="false"
                 android:text="Update My Info"
+                android:textAllCaps="false"
                 android:textColor="@color/black"
                 app:cornerRadius="10dp" />
 

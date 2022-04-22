@@ -24,7 +24,8 @@
             android:layout_height="78dp"
             android:layout_alignParentBottom="true"
             android:background="@color/transparent"
-            android:src="@drawable/card_image_3" />
+            android:src="@drawable/card_image_3"
+            />
 
         <TextView
             android:id="@+id/workoutNameTextView"

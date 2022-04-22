@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class MyClientsAdapter extends RecyclerView.Adapter<MyClientsAdapter.myClientsViewHolder> {
-    private ArrayList<String> myClientsList;
+    private ArrayList<TrainerClients> myClientsList;
     private OnItemClickListener mListener;
 
 
@@ -44,7 +44,7 @@ public class MyClientsAdapter extends RecyclerView.Adapter<MyClientsAdapter.myCl
             });
         }
     }
-    public MyClientsAdapter(ArrayList<String> myClientsList){
+    public MyClientsAdapter(ArrayList<TrainerClients> myClientsList){
         this.myClientsList = myClientsList;
     }
     @NonNull
@@ -57,7 +57,7 @@ public class MyClientsAdapter extends RecyclerView.Adapter<MyClientsAdapter.myCl
 
     @Override
     public void onBindViewHolder(@NonNull myClientsViewHolder holder, int position) {
-        String currentClient = myClientsList.get(position);
+        String currentClient = myClientsList.get(position).getClientFullName();
         holder.myClientTextView.setText(currentClient);
 
     }

@@ -153,6 +153,10 @@ public class LoginWithTrainer extends AppCompatActivity {
         else if(!isValidTrainerUsername){
             toastMessage("Trainer name not shown exist please enter another").show();
         }
+
+        else if(clientID == null){
+            toastMessage("Please add your info in My Info").show();
+        }
         else{
             sendEmailAPI = new sendEmailToTrainerAPI();
             sendEmailAPI.execute();

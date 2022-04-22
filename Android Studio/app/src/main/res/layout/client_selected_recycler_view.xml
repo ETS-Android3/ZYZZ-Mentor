@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="358dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:layout_height="138dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    android:backgroundTint="@color/greyInput"
+    android:outlineAmbientShadowColor="@color/grey"
+    android:outlineSpotShadowColor="@color/yellow"
+
+
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey"
+        >
+
+        <ImageView
+            android:id="@+id/cardImage"
+            android:layout_width="match_parent"
+            android:layout_height="78dp"
+            android:layout_alignParentBottom="true"
+
+            android:layout_marginBottom="1dp"
+
+            android:background="@color/transparent"
+
+            android:src="@drawable/card_image_3" />
+
+        <TextView
+            android:id="@+id/clientName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5dp"
+            android:background="@color/transparent"
+
+            android:text="Day 1"
+
+            android:textColor="@color/yellow"
+            android:textSize="32sp" />
+    </RelativeLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/mini_input_text_design"
+        android:alpha="0.17"
+        ></ImageView>
+
+</androidx.cardview.widget.CardView>

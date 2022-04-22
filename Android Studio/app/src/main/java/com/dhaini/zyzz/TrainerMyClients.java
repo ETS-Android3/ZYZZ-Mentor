@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,7 +15,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Array;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +33,7 @@ public class TrainerMyClients extends AppCompatActivity {
     private RecyclerView myClientsListRecyclerView;
     private MyClientsAdapter myClientsAdapter;
     private RecyclerView.LayoutManager myClientsLayoutManager;
-
+    GetMyClientsAPI getMyClientsAPI;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,27 +42,15 @@ public class TrainerMyClients extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_trainer_my_clients);
-
-        ArrayList<String> myClientsList = new ArrayList<>();
-
-        myClientsList.add("Mohamad Dhaini");
-        myClientsList.add("Ali Chehade");
-        myClientsList.add("Fadi Amad");
-        myClientsListRecyclerView = findViewById(R.id.myClientRecyclerView);
-
-
-        myClientsLayoutManager = new LinearLayoutManager(TrainerMyClients.this);
-        myClientsAdapter = new MyClientsAdapter(myClientsList);
-
-        myClientsListRecyclerView.setLayoutManager(myClientsLayoutManager);
-        myClientsListRecyclerView.setAdapter(myClientsAdapter);
-
-
-
+        //Get username from Login activity
         trainerUsername = getIntent().getStringExtra("trainerUsername");
 
-        // Initializing Options Button
+        // Initializing API URL
+        String getMyClient_url = "http://10.0.2.2/ZYZZ/get_my_clients_list.php?username=" + trainerUsername;
+        getMyClientsAPI = new GetMyClientsAPI();
+        getMyClientsAPI.execute(getMyClient_url);
 
+        // Initializing Options Button
         List<String> genders = Arrays.asList("","Add Client","Logout");
         Spinner optionsSpinner = findViewById(R.id.spinnerOption);
 
@@ -87,7 +84,77 @@ public class TrainerMyClients extends AppCompatActivity {
             }
         });
 
+    }
+
+    public class GetMyClientsAPI extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... urls) {
+            // URL and HTTP initialization to connect to API 2
+            URL url;
+            HttpURLConnection http;
+
+            try {
+                // Connect to API 2
+                url = new URL(urls[0]);
+                http = (HttpURLConnection) url.openConnection();
+
+                // Retrieve API 2 content
+                InputStream in = http.getInputStream();
+                InputStreamReader reader = new InputStreamReader(in);
+
+                // Read API 2 content line by line
+                BufferedReader br = new BufferedReader(reader);
+                StringBuilder sb = new StringBuilder();
+
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+
+                br.close();
+                // Return content from API 2
+                return sb.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        protected void onPostExecute(String values) {
+            super.onPostExecute(values);
+            try {
+                Log.i("Message",values);
+                // Getting all the info for each client from the database
+                JSONArray myClientJson = new JSONArray(values);
 
 
+                ArrayList<TrainerClients> trainerClientList = new ArrayList<>();
+
+                for(int i=0;i<myClientJson.length();i++) {
+                    JSONObject jsonObject = myClientJson.getJSONObject(i);
+                    // Putting all the info of each client in TrainerClients class object and adding it to the myClientList
+                    TrainerClients client = new TrainerClients(jsonObject.getString("client_fullname"),jsonObject.getString("client_id"),
+                            jsonObject.getString("plan_id"), jsonObject.getString("day_per_week"),jsonObject.getString("day_per_week"),
+                            jsonObject.getString("objective"));
+                    trainerClientList.add(client);
+
+                }
+
+                // Initializing the recyclerView to display the card of each client
+                myClientsListRecyclerView = findViewById(R.id.myClientRecyclerView);
+                myClientsLayoutManager = new LinearLayoutManager(TrainerMyClients.this);
+                myClientsAdapter = new MyClientsAdapter(trainerClientList);
+                myClientsListRecyclerView.setLayoutManager(myClientsLayoutManager);
+                myClientsListRecyclerView.setAdapter(myClientsAdapter);
+
+
+
+                // Getting the buy and sell results rates returned from API 2. Using BigDecimal class in case were dealing with huge numbers.
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+        }
     }
 }

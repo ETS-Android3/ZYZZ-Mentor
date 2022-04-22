@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -33,7 +34,11 @@ public class TrainerMyClients extends AppCompatActivity {
     private RecyclerView myClientsListRecyclerView;
     private MyClientsAdapter myClientsAdapter;
     private RecyclerView.LayoutManager myClientsLayoutManager;
+
     GetMyClientsAPI getMyClientsAPI;
+    ArrayList<TrainerClients> trainerClientList;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,24 +132,24 @@ public class TrainerMyClients extends AppCompatActivity {
                 JSONArray myClientJson = new JSONArray(values);
 
 
-                ArrayList<TrainerClients> trainerClientList = new ArrayList<>();
-
-                for(int i=0;i<myClientJson.length();i++) {
-                    JSONObject jsonObject = myClientJson.getJSONObject(i);
-                    // Putting all the info of each client in TrainerClients class object and adding it to the myClientList
-                    TrainerClients client = new TrainerClients(jsonObject.getString("client_fullname"),jsonObject.getString("client_id"),
-                            jsonObject.getString("plan_id"), jsonObject.getString("day_per_week"),jsonObject.getString("day_per_week"),
-                            jsonObject.getString("objective"));
-                    trainerClientList.add(client);
+                trainerClientList = new ArrayList<>();
+                if(myClientJson.length()==0){
 
                 }
+                else{
+                    for(int i=0;i<myClientJson.length();i++) {
+                        JSONObject jsonObject = myClientJson.getJSONObject(i);
+                        // Putting all the info of each client in TrainerClients class object and adding it to the myClientList
+                        TrainerClients client = new TrainerClients(jsonObject.getString("client_fullname"),jsonObject.getString("client_id"),
+                                jsonObject.getString("plan_id"),jsonObject.getString("day_per_week"),
+                                jsonObject.getString("objective"));
+                        trainerClientList.add(client);
 
-                // Initializing the recyclerView to display the card of each client
-                myClientsListRecyclerView = findViewById(R.id.myClientRecyclerView);
-                myClientsLayoutManager = new LinearLayoutManager(TrainerMyClients.this);
-                myClientsAdapter = new MyClientsAdapter(trainerClientList);
-                myClientsListRecyclerView.setLayoutManager(myClientsLayoutManager);
-                myClientsListRecyclerView.setAdapter(myClientsAdapter);
+                    }
+                    buildRecyclerView();
+                }
+
+
 
 
 
@@ -156,5 +161,26 @@ public class TrainerMyClients extends AppCompatActivity {
 
             }
         }
+    }
+    public Toast toastMessage(String message){
+        Toast toast= Toast.makeText(getApplicationContext(),message,Toast. LENGTH_SHORT);
+        return toast;
+    }
+    public void buildRecyclerView(){
+        // Initializing the recyclerView to display the card of each client
+        myClientsListRecyclerView = findViewById(R.id.myClientRecyclerView);
+        myClientsLayoutManager = new LinearLayoutManager(TrainerMyClients.this);
+        myClientsAdapter = new MyClientsAdapter(trainerClientList);
+        myClientsListRecyclerView.setLayoutManager(myClientsLayoutManager);
+        myClientsListRecyclerView.setAdapter(myClientsAdapter);
+
+        myClientsAdapter.setOnItemClickListener(new MyClientsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent trainerSelectedClientIntent = new Intent(TrainerMyClients.this, TrainerSelectClient.class);
+                Intent intent = trainerSelectedClientIntent.putExtra("Client", trainerClientList.get(position));
+                startActivity(trainerSelectedClientIntent);
+            }
+        });
     }
 }

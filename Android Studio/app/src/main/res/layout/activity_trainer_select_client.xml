@@ -23,24 +23,28 @@
         app:srcCompat="@drawable/banner_image" />
 
 
-    <EditText
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_centerInParent="true"
+    <TextView
+        android:id="@+id/clientNameBanner"
+        android:layout_width="260dp"
+
+
+        android:layout_height="50dp"
         android:layout_marginTop="21dp"
         android:layout_marginEnd="156dp"
         android:background="@color/transparent"
         android:fontFamily="@font/poppins_semibold"
+        android:lines="1"
+        android:paddingLeft="5dp"
         android:text="Mohamad Dhaini"
+        android:textAlignment="textStart"
         android:textColor="@color/grey"
-        android:textSize="28sp" />
+        android:textSize="@dimen/fab_margin"
+        app:autoSizeTextType="uniform" />
 
     <Spinner
         android:id="@+id/spinnerOptionsSelectClient"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
 
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -60,8 +64,8 @@
         android:layout_width="340dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/bannerClientName"
-        android:layout_centerInParent="true"
 
+        android:layout_centerInParent="true"
         android:layout_marginTop="70dp"
         android:background="@color/transparent"
         android:scrollbars="vertical" />

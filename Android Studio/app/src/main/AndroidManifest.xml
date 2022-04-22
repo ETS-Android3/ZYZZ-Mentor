@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Zyzz">
         <activity
+            android:name=".AddWorkoutAndExercises"
+            android:exported="false" />
+        <activity
             android:name=".TrainerSelectClient"
             android:exported="false" />
         <activity

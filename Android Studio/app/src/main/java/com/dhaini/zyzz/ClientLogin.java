@@ -72,7 +72,6 @@ public class ClientLogin extends AppCompatActivity {
             HttpClient http_client = new DefaultHttpClient();
             HttpPost http_post = new HttpPost(post_url);
 
-
             clientUsername = usernameInputEditText.getText().toString() ;
             clientPassword = passwordInputEditText.getText().toString();
 

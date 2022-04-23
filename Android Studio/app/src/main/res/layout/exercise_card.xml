@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="377dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:backgroundTint="@color/transparent"
+    android:outlineAmbientShadowColor="@color/grey"
+    android:outlineSpotShadowColor="@color/yellow"
+    app:cardCornerRadius="10dp"
+
+
+
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+
+        >
+
+        <TextView
+            android:id="@+id/workoutNameTextView"
+            android:layout_width="358dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5dp"
+            android:background="@color/transparent"
+            android:fontFamily="@font/bebas_neue"
+            android:paddingLeft="10dp"
+            android:textAlignment="center"
+            android:paddingBottom="5dp"
+
+            android:text="Bench Press"
+            android:textColor="@color/yellow"
+
+            android:textSize="33sp"
+            app:autoSizeTextType="uniform" />
+
+
+
+        <TableRow
+            android:id="@+id/setRepsWeightTable"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_below="@id/workoutNameTextView"
+            android:background="@color/greyInput"
+            >
+            <TextView
+                android:text="Set:"
+                android:paddingLeft="3dp"
+                android:layout_height="wrap_content"
+                android:layout_width="125dp"
+                android:textSize="25sp"
+                android:background="@color/transparent"
+                />
+            <TextView
+                android:text="Reps:"
+                android:paddingLeft="3dp"
+                android:layout_height="wrap_content"
+                android:layout_width="125dp"
+                android:textSize="25sp"
+                android:background="@color/transparent"
+                />
+            <TextView
+                android:text="Weight:"
+                android:paddingLeft="3dp"
+                android:layout_height="wrap_content"
+                android:layout_width="125dp"
+                android:textSize="25sp"
+                android:background="@color/transparent"
+                />
+        </TableRow>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/setRepsWeightTable"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.10"
+        android:src="@drawable/mini_input_text_design"></ImageView>
+
+</androidx.cardview.widget.CardView>

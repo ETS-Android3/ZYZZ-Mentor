@@ -63,8 +63,9 @@ public class LoginWithTrainer extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_login_with_trainer);
 
-        clientUsername = getIntent().getStringExtra("ClientUsername");
-        clientID = getIntent().getStringExtra("ClientID");
+        Client client = getIntent().getParcelableExtra("Client");
+        clientUsername = client.getClientUsername();
+        clientID = client.getClientID();
 
 
         searchTrainerAutoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.searchTrainerInput);
@@ -151,7 +152,7 @@ public class LoginWithTrainer extends AppCompatActivity {
             trainerNameTextView.setText("");
         }
         else if(!isValidTrainerUsername){
-            toastMessage("Trainer name not shown exist please enter another").show();
+            toastMessage("Trainer name not shown!").show();
         }
 
         else if(clientID == null){

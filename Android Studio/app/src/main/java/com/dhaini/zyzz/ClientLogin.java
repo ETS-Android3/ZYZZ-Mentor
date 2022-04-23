@@ -27,8 +27,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class ClientLogin extends AppCompatActivity {
-    EditText username;
-    EditText password;
+    EditText usernameInputEditText;
+    EditText passwordInputEditText;
+    String clientUsername;
+    String clientPassword;
     clientAuthenticationAPI  API;
     String post_url = "http://10.0.2.2/"+"ZYZZ/client_login.php";
 
@@ -39,8 +41,8 @@ public class ClientLogin extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_client_login);
-        username = (EditText) findViewById(R.id.usernameInputClient);
-        password = (EditText) findViewById(R.id.passwordInputClient);
+        usernameInputEditText = (EditText) findViewById(R.id.usernameInputClient);
+        passwordInputEditText = (EditText) findViewById(R.id.passwordInputClient);
     }
 
 
@@ -70,12 +72,12 @@ public class ClientLogin extends AppCompatActivity {
             HttpClient http_client = new DefaultHttpClient();
             HttpPost http_post = new HttpPost(post_url);
 
-            String usernameInput, passwordInput;
-            usernameInput = username.getText().toString() ;
-            passwordInput = password.getText().toString();
 
-            BasicNameValuePair usernameParam = new BasicNameValuePair("Username", usernameInput);
-            BasicNameValuePair passwordParam = new BasicNameValuePair("Password", passwordInput);
+            clientUsername = usernameInputEditText.getText().toString() ;
+            clientPassword = passwordInputEditText.getText().toString();
+
+            BasicNameValuePair usernameParam = new BasicNameValuePair("Username", clientUsername);
+            BasicNameValuePair passwordParam = new BasicNameValuePair("Password", clientPassword);
 
             ArrayList<NameValuePair> name_value_pair_list = new ArrayList<>();
             name_value_pair_list.add(usernameParam);
@@ -118,10 +120,13 @@ public class ClientLogin extends AppCompatActivity {
                 if (status.equalsIgnoreCase("accepted")) {
                     String name = json.getString("Name");
                     String clientID = json.getString("clientID");
+                    String clientPlanID = json.getString("planID");
                     toastMessage("Welcome "+ name).show();
+
+                    Client client = new Client(clientUsername,clientID,clientPlanID);
+
                     Intent intent = new Intent(ClientLogin.this, ClientMyTraining.class);
-                    intent.putExtra("ClientUsername",username.getText().toString());
-                    intent.putExtra("ClientID",clientID);
+                    intent.putExtra("Client",client);
                     startActivity(intent);
                 } else {
                     // If the status != accepted, the user is notified that something wrong happened

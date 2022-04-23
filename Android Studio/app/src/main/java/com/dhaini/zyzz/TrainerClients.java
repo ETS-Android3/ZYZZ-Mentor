@@ -3,7 +3,7 @@ package com.dhaini.zyzz;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class TrainerClients implements Parcelable {
+public class TrainerClients implements Parcelable{
     private String clientFullName;
     private String clientID;
     private String clientPlanID;
@@ -11,13 +11,12 @@ public class TrainerClients implements Parcelable {
     private String trainerObjectives;
 
 
-    public TrainerClients(String client_fullname, String clientID, String clientPlanID, String dayPerWeek, String trainerObjectives) {
-        this.clientFullName = client_fullname;
+    public TrainerClients(String clientFullName, String clientID, String clientPlanID, String dayPerWeek, String trainerObjectives) {
+        this.clientFullName = clientFullName;
         this.clientID = clientID;
         this.clientPlanID = clientPlanID;
         this.dayPerWeek = dayPerWeek;
         this.trainerObjectives = trainerObjectives;
-
     }
 
     protected TrainerClients(Parcel in) {

@@ -60,6 +60,7 @@ public class MyInfoClient extends AppCompatActivity {
         setContentView(R.layout.activity_my_info_client);
 
         clientUsername = getIntent().getStringExtra("ClientUsername");
+        Log.i("Message info",clientUsername);
 
         ageTextView =(TextView) findViewById(R.id.AgeInput);
         heightEditText = (EditText) findViewById(R.id.heightInput);

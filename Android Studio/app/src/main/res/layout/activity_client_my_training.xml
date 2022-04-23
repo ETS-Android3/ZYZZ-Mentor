@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,7 +7,7 @@
     tools:context=".ClientMyTraining">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/myTrainingClientBanner"
         android:layout_width="275dp"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
@@ -21,17 +21,32 @@
 
     <Spinner
         android:id="@+id/spinnerOptionClient"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+
+        android:layout_marginEnd="18dp"
         android:background="@drawable/option_button"
 
         android:spinnerMode="dialog"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+
         app:layout_constraintVertical_bias="0.0">
 
     </Spinner>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+
+        android:id="@+id/ClientMyTrainingRecyclerView"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/myTrainingClientBanner"
+
+        android:layout_centerInParent="true"
+        android:layout_marginTop="70dp"
+        android:background="@color/transparent"
+        android:scrollbars="vertical" />
+
+</RelativeLayout>

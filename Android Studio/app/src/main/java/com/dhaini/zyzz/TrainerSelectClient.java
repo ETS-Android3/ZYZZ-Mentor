@@ -33,6 +33,7 @@ import java.util.Random;
 public class TrainerSelectClient extends AppCompatActivity {
     GetClientWorkoutAPI getClientWorkoutAPI;
     TextView clientNameBanner;
+
     int imageCardArray[] = {R.drawable.card_image_1,R.drawable.card_image_2,R.drawable.card_image_3,R.drawable.card_image_4};
     private RecyclerView clientSelectedRecyclerView;
     private WorkoutAdapter workoutAdapter;
@@ -128,7 +129,7 @@ public class TrainerSelectClient extends AppCompatActivity {
         protected void onPostExecute(String values) {
             super.onPostExecute(values);
             try {
-
+                Log.i("message",values);
                 // Getting all the info for each client from the database
                 JSONArray clientWorkoutJson = new JSONArray(values);
 

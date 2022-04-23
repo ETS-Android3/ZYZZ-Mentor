@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+
+    tools:context=".TrainerViewClientInfo">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/client_info_background"
+        >
+
+        <ImageView
+            android:id="@+id/imageViewTrainerClientMyInfo"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/view_my_client_info_banner" />
+
+        <LinearLayout
+            android:id="@+id/linearLayoutTrainerClientMyInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="27dp"
+            android:layout_marginTop="128dp"
+            android:layout_marginEnd="27dp"
+            android:background="@color/transparent"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:paddingBottom="5dp"
+                android:text="Age"
+                android:textColor="@color/yellow"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/AgeInputTrainerClientMyInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/small_input_text_design"
+                android:paddingLeft="10dp"
+                android:textSize="25sp"
+                android:textAlignment="center"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:paddingTop="10dp"
+                android:paddingBottom="5dp"
+                android:text="Height"
+                android:textColor="@color/yellow"
+                android:textSize="24sp" />
+
+
+            <TextView
+                android:id="@+id/heightInputTrainerClientMyInfo"
+                style="@style/Widget.AppCompat.EditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/small_input_text_design"
+                android:clickable="false"
+                android:drawableEnd="@drawable/meter_icon"
+                android:importantForAutofill="no"
+
+                android:paddingLeft="10dp"
+                android:paddingEnd="7dp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:paddingTop="10dp"
+                android:paddingBottom="5dp"
+                android:text="Weight"
+                android:textColor="@color/yellow"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/WeightInputTrainerClientMyInfo"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/small_input_text_design"
+                android:drawableEnd="@drawable/kg_icon"
+                android:paddingLeft="10dp"
+                android:paddingEnd="5dp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:paddingTop="10dp"
+                android:paddingBottom="5dp"
+                android:text="Past Injuries"
+                android:textColor="@color/yellow"
+                android:textSize="24sp" />
+
+            <TextView
+
+                android:id="@+id/pastInjuriesInputTrainerClientMyInfo"
+                style="@style/Widget.AppCompat.EditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/large_input_text_design"
+                android:ems="10"
+
+
+                android:paddingLeft="10dp"
+                android:textSize="20sp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:paddingTop="10dp"
+                android:paddingBottom="5dp"
+                android:text="Health Issues"
+                android:textColor="@color/yellow"
+                android:textSize="24sp" />
+
+            <TextView
+
+                android:id="@+id/healthIssuesInputTrainerClientMyInfo"
+                style="@style/Widget.AppCompat.EditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/large_input_text_design"
+                android:ems="10"
+                android:paddingLeft="10dp"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:paddingTop="10dp"
+                android:paddingBottom="5dp"
+                android:text="Days/week "
+                android:textColor="@color/yellow"
+                android:textSize="24sp" />
+
+
+            <TextView
+                android:id="@+id/dayPerWeekInputTrainerClientMyInfo"
+                style="@style/Widget.AppCompat.EditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/small_input_text_design"
+                android:clickable="false"
+                android:importantForAutofill="no"
+
+                android:paddingLeft="10dp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:paddingTop="10dp"
+                android:paddingBottom="5dp"
+                android:text="Hours/day "
+                android:textColor="@color/yellow"
+                android:textSize="24sp" />
+
+
+            <TextView
+                android:id="@+id/hoursPerDayInputTrainerClientMyInfo"
+                style="@style/Widget.AppCompat.EditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/small_input_text_design"
+                android:clickable="false"
+                android:importantForAutofill="no"
+
+                android:paddingLeft="10dp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:paddingTop="10dp"
+                android:paddingBottom="5dp"
+                android:text="Training Preferences "
+                android:textColor="@color/yellow"
+                android:textSize="24sp" />
+
+
+            <TextView
+                android:id="@+id/trainingPreferencesInputTrainerClientMyInfo"
+                style="@style/Widget.AppCompat.EditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/long_input_text_design"
+
+                android:importantForAutofill="no"
+
+                android:paddingLeft="10dp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:paddingTop="10dp"
+                android:paddingBottom="5dp"
+                android:text="Objectives"
+                android:textColor="@color/yellow"
+                android:textSize="24sp" />
+
+
+            <TextView
+                android:id="@+id/objectiveInputTrainerClientMyInfo"
+                style="@style/Widget.AppCompat.EditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/large_input_text_design"
+                android:clickable="false"
+                android:importantForAutofill="no"
+
+                android:paddingLeft="10dp"
+                tools:ignore="SpeakableTextPresentCheck"
+                android:layout_marginBottom="50dp"/>
+
+
+
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

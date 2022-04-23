@@ -39,7 +39,7 @@ public class TrainerSelectClient extends AppCompatActivity {
     private RecyclerView.LayoutManager workoutLayoutManager;
 
     ArrayList<ClientWorkout> clientWorkoutsList;
-
+    TrainerClients client;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +49,7 @@ public class TrainerSelectClient extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_trainer_select_client);
 
-        TrainerClients client = getIntent().getParcelableExtra("Client");
+        client = getIntent().getParcelableExtra("Client");
         clientNameBanner = (TextView) findViewById(R.id.clientNameBanner);
         clientNameBanner.setText(client.getClientFullName());
 
@@ -76,11 +76,11 @@ public class TrainerSelectClient extends AppCompatActivity {
                     startActivity(intentAddClient);
 
                 }
-                if (adapterView.getItemAtPosition(i).equals("Logout")) {
-                    Intent intentLogout = new Intent(TrainerSelectClient.this, MainActivity.class);
-                    // End all previous activities and go back to main page
-                    intentLogout.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intentLogout);
+                if (adapterView.getItemAtPosition(i).equals("View Client Info")) {
+                    Intent intentViewClientInfo = new Intent(TrainerSelectClient.this, TrainerViewClientInfo.class);
+                    intentViewClientInfo.putExtra("Client",client);
+                    optionsSpinner.setSelection(0);
+                    startActivity(intentViewClientInfo);
 
                 }
             }
@@ -128,7 +128,7 @@ public class TrainerSelectClient extends AppCompatActivity {
         protected void onPostExecute(String values) {
             super.onPostExecute(values);
             try {
-                Log.i("Message", values);
+
                 // Getting all the info for each client from the database
                 JSONArray clientWorkoutJson = new JSONArray(values);
 

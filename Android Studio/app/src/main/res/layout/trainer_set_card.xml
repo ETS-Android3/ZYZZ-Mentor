@@ -18,6 +18,7 @@
 
         >
         <TextView
+            android:id="@+id/setNameInput"
             android:text="Top set"
             android:paddingLeft="3dp"
             android:layout_height="wrap_content"
@@ -29,21 +30,23 @@
             android:textAlignment="center"
             />
         <TextView
+            android:id="@+id/repsInput"
             android:textAlignment="center"
             android:text="5-9"
             android:paddingLeft="3dp"
             android:layout_height="wrap_content"
-            android:layout_width="95dp"
+            android:layout_width="125dp"
             android:textSize="25sp"
             android:background="@color/transparent"
             android:paddingBottom="5dp"
             android:textColor="@color/black"
             />
         <TextView
+            android:id="@+id/weightInput"
             android:text="123 Kg"
             android:paddingLeft="3dp"
             android:layout_height="wrap_content"
-            android:layout_width="95dp"
+            android:layout_width="125dp"
             android:textSize="25sp"
             android:textAlignment="center"
             android:background="@color/transparent"
@@ -51,15 +54,7 @@
             android:textColor="@color/black"
             />
 
-        <CheckBox
 
-            android:layout_marginLeft="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:buttonTint="@color/grey"
-            android:checked="true"
-
-            />
     </TableRow>
 
 </androidx.cardview.widget.CardView>

@@ -39,6 +39,7 @@ public class TrainerSelectClient extends AppCompatActivity {
     private RecyclerView clientSelectedRecyclerView;
     private WorkoutAdapter workoutAdapter;
     private RecyclerView.LayoutManager workoutLayoutManager;
+
     GetClientWorkoutAPI getClientWorkoutAPI;
     ArrayList<Workout> workoutsList;
     TrainerClients client;
@@ -173,7 +174,11 @@ public class TrainerSelectClient extends AppCompatActivity {
         workoutAdapter.setOnItemClickListener(new WorkoutAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                toastMessage("Clicked").show();
+
+                Intent intent = new Intent(TrainerSelectClient.this, TrainerSelectWorkout.class);
+
+                intent.putExtra("Workout", workoutsList.get(position));
+                startActivity(intent);
             }
         });
     }

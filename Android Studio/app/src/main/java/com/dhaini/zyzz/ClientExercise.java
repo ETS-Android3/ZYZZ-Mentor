@@ -1,13 +1,13 @@
 package com.dhaini.zyzz;
 
-public class Exercise {
+public class ClientExercise {
     private String exerciseID;
     private String exerciseName;
     private String comments;
     private String feedbacks;
     private String workoutID;
 
-    public Exercise(String exerciseID, String exerciseName, String comments, String feedbacks, String workoutID) {
+    public ClientExercise(String exerciseID, String exerciseName, String comments, String feedbacks, String workoutID) {
         this.exerciseID = exerciseID;
         this.exerciseName = exerciseName;
         this.comments = comments;

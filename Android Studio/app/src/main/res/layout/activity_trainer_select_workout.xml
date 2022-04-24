@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/workout_selected_background"
-    tools:context=".SelectedWorkout">
+    tools:context=".TrainerSelectWorkout">
 
     <ImageView
         android:id="@+id/bannerBackgroundWorkoutName"
@@ -60,8 +60,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
 
-        android:id="@+id/ClientSelectedWorkoutSelected"
-        android:layout_width="340dp"
+        android:id="@+id/WorkoutSelectedRecyclerView"
+        android:layout_width="377dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/bannerBackgroundWorkoutName"
 

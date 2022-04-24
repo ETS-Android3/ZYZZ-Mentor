@@ -5,13 +5,11 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
+    android:background="@color/transparent"
     android:backgroundTint="@color/transparent"
     android:outlineAmbientShadowColor="@color/grey"
     android:outlineSpotShadowColor="@color/yellow"
     app:cardCornerRadius="10dp"
-    android:background="@color/transparent"
-
-
 
 
     >
@@ -24,8 +22,7 @@
         >
 
         <TextView
-            android:paddingTop="5dp"
-            android:id="@+id/workoutNameTextView"
+            android:id="@+id/ExerciseNameTextView"
             android:layout_width="358dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -33,128 +30,97 @@
             android:background="@color/transparent"
             android:fontFamily="@font/bebas_neue"
             android:paddingLeft="10dp"
-            android:textAlignment="center"
+            android:paddingTop="5dp"
             android:paddingBottom="10dp"
-
             android:text="Bench Press"
+
+            android:textAlignment="center"
             android:textColor="@color/yellow"
 
             android:textSize="33sp"
             app:autoSizeTextType="uniform" />
 
 
-
         <TableRow
             android:id="@+id/setRepsWeightTable"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_below="@id/workoutNameTextView"
-            android:background="@color/greyInput"
-            >
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ExerciseNameTextView"
+            android:background="@color/greyInput">
+
             <TextView
-                android:text="Set:"
-                android:paddingLeft="3dp"
-                android:layout_height="wrap_content"
                 android:layout_width="125dp"
-                android:textSize="25sp"
+                android:textAlignment="center"
+                android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                />
-            <TextView
+                android:paddingLeft="3dp"
+                android:text="Set:"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+            <TextView android:textAlignment="center"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:paddingLeft="3dp"
                 android:text="Reps:"
-                android:paddingLeft="3dp"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+            <TextView android:textAlignment="center"
+                android:layout_width="125dp"
                 android:layout_height="wrap_content"
-                android:layout_width="95dp"
-                android:textSize="25sp"
                 android:background="@color/transparent"
-                />
-            <TextView
+                android:paddingLeft="3dp"
                 android:text="Weight:"
-                android:paddingLeft="3dp"
-                android:layout_height="wrap_content"
-                android:layout_width="95dp"
-                android:textSize="25sp"
-                android:background="@color/transparent"
-                />
+                android:textColor="@color/black"
+                android:textSize="25sp" />
         </TableRow>
+
         <androidx.recyclerview.widget.RecyclerView
-            android:background="@color/greyInput"
             android:id="@+id/setRepsWeightInputRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/setRepsWeightTable"
-            android:layout_centerHorizontal="true"
-            android:paddingBottom="10dp"
+            android:layout_centerInParent="true"
+            android:background="@color/greyInput"
             android:paddingTop="7dp"
-            android:layout_centerVertical="true" />
+            android:paddingBottom="10dp" />
 
         <TableRow
 
             android:id="@+id/commentsTable"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@id/setRepsWeightInputRecyclerView"
-            android:background="@color/grey"
-
-            android:paddingBottom="10dp"
-            >
-        <TextView
-            android:paddingTop="10dp"
-            android:text="Comments:"
-            android:paddingLeft="3dp"
-            android:layout_height="wrap_content"
-            android:layout_width="125dp"
-            android:textSize="20sp"
-            android:textColor="@color/yellow"
             android:background="@color/transparent"
-            />
-        <EditText
-            android:id="@+id/commentsEditText"
-            android:paddingEnd="3dp"
-            android:text=""
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textSize="20sp"
-            android:background="@color/transparent"
-            android:paddingBottom="10dp"
-            android:textColor="@color/white"
 
-            />
-        </TableRow>
+            android:paddingBottom="10dp">
 
-        <TableRow
-
-            android:id="@+id/feedbackTable"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_below="@id/commentsTable"
-            android:background="@color/grey"
-
-            android:paddingBottom="10dp"
-            >
             <TextView
-                android:paddingTop="10dp"
-                android:text="Feedback:"
-                android:paddingLeft="5dp"
-                android:layout_height="wrap_content"
                 android:layout_width="125dp"
-                android:textSize="20sp"
-                android:textColor="@color/yellow"
-                android:background="@color/transparent"
-
-                />
-            <EditText
-                android:id="@+id/feedbackEditText"
-                android:paddingEnd="3dp"
-                android:text=""
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textSize="20sp"
                 android:background="@color/transparent"
+                android:paddingLeft="3dp"
+                android:paddingTop="10dp"
+                android:text="Comments:"
+                android:textColor="@color/yellow"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/commentsEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:paddingEnd="3dp"
                 android:paddingBottom="10dp"
+                android:text=""
                 android:textColor="@color/white"
+                android:textSize="20sp"
 
                 />
         </TableRow>
+
 
     </RelativeLayout>
 

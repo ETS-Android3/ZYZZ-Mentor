@@ -1,6 +1,9 @@
 package com.dhaini.zyzz;
 
-public class Workout {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Workout implements Parcelable {
     private String workoutName;
     private String workoutID;
     private String planID;
@@ -13,6 +16,25 @@ public class Workout {
         this.planID = planID;
         this.background_Image = background_Image;
     }
+
+    protected Workout(Parcel in) {
+        workoutName = in.readString();
+        workoutID = in.readString();
+        planID = in.readString();
+        background_Image = in.readInt();
+    }
+
+    public static final Creator<Workout> CREATOR = new Creator<Workout>() {
+        @Override
+        public Workout createFromParcel(Parcel in) {
+            return new Workout(in);
+        }
+
+        @Override
+        public Workout[] newArray(int size) {
+            return new Workout[size];
+        }
+    };
 
     public String getWorkoutName() {
         return workoutName;
@@ -44,5 +66,18 @@ public class Workout {
 
     public int getBackground_Image() {
         return background_Image;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(workoutName);
+        parcel.writeString(workoutID);
+        parcel.writeString(planID);
+        parcel.writeInt(background_Image);
     }
 }

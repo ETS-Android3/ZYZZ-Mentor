@@ -18,7 +18,7 @@ while($row =mysqli_fetch_assoc($workoutsQuery))
     
     // If there is no sets assigned
     if($setsQuery->num_rows==0){
-        $sets = array("set_name"=>null);
+        $sets[] = array("set_name"=>null);
         array_push($row,$sets);
         $emparray[] = $row; 
     }

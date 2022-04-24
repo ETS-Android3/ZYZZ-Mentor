@@ -1,15 +1,13 @@
 package com.dhaini.zyzz;
 
-public class ClientWorkout {
+public class Workout {
     private String workoutName;
     private String workoutID;
     private String planID;
     private int background_Image;
 
 
-
-
-    public ClientWorkout(String workoutName, String workoutID, String planID,int background_Image) {
+    public Workout(String workoutName, String workoutID, String planID, int background_Image) {
         this.workoutName = workoutName;
         this.workoutID = workoutID;
         this.planID = planID;
@@ -39,9 +37,11 @@ public class ClientWorkout {
     public void setPlanID(String planID) {
         this.planID = planID;
     }
+
     public void setBackground_Image(int background_Image) {
         this.background_Image = background_Image;
     }
+
     public int getBackground_Image() {
         return background_Image;
     }

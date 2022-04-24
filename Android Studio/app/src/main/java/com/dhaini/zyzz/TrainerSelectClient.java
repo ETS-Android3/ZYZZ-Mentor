@@ -31,16 +31,18 @@ import java.util.List;
 import java.util.Random;
 
 public class TrainerSelectClient extends AppCompatActivity {
-    GetClientWorkoutAPI getClientWorkoutAPI;
+
     TextView clientNameBanner;
 
-    int imageCardArray[] = {R.drawable.card_image_1,R.drawable.card_image_2,R.drawable.card_image_3,R.drawable.card_image_4};
+    int imageCardArray[] = {R.drawable.card_image_1, R.drawable.card_image_2, R.drawable.card_image_3, R.drawable.card_image_4};
+
     private RecyclerView clientSelectedRecyclerView;
     private WorkoutAdapter workoutAdapter;
     private RecyclerView.LayoutManager workoutLayoutManager;
-
-    ArrayList<ClientWorkout> clientWorkoutsList;
+    GetClientWorkoutAPI getClientWorkoutAPI;
+    ArrayList<Workout> workoutsList;
     TrainerClients client;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +55,6 @@ public class TrainerSelectClient extends AppCompatActivity {
         client = getIntent().getParcelableExtra("Client");
         clientNameBanner = (TextView) findViewById(R.id.clientNameBanner);
         clientNameBanner.setText(client.getClientFullName());
-
         // Initializing API URL
         String getMyClient_url = "http://10.0.2.2/ZYZZ/get_trainer_client_workouts.php?planID=" + client.getClientPlanID();
         getClientWorkoutAPI = new GetClientWorkoutAPI();
@@ -79,7 +80,7 @@ public class TrainerSelectClient extends AppCompatActivity {
                 }
                 if (adapterView.getItemAtPosition(i).equals("View Client Info")) {
                     Intent intentViewClientInfo = new Intent(TrainerSelectClient.this, TrainerViewClientInfo.class);
-                    intentViewClientInfo.putExtra("Client",client);
+                    intentViewClientInfo.putExtra("Client", client);
                     optionsSpinner.setSelection(0);
                     startActivity(intentViewClientInfo);
 
@@ -129,7 +130,7 @@ public class TrainerSelectClient extends AppCompatActivity {
         protected void onPostExecute(String values) {
             super.onPostExecute(values);
             try {
-                Log.i("message",values);
+                Log.i("message", values);
                 // Getting all the info for each client from the database
                 JSONArray clientWorkoutJson = new JSONArray(values);
 
@@ -137,7 +138,7 @@ public class TrainerSelectClient extends AppCompatActivity {
 
                 } else {
 
-                    clientWorkoutsList = new ArrayList<>();
+                    workoutsList = new ArrayList<>();
 
                     for (int i = 0; i < clientWorkoutJson.length(); i++) {
                         // Set a random Image that are in the array to card Image
@@ -145,12 +146,12 @@ public class TrainerSelectClient extends AppCompatActivity {
                         int chosenImageIndex = r.nextInt((3 - 0) + 1) + 0;
                         int chosenImage = imageCardArray[chosenImageIndex];
                         JSONObject jsonObject = clientWorkoutJson.getJSONObject(i);
-                        ClientWorkout clientWorkout = new ClientWorkout(jsonObject.get("workout_name").toString(),jsonObject.get("workout_id").toString(),jsonObject.get("plan_id").toString(),chosenImage);
+                        Workout workout = new Workout(jsonObject.get("workout_name").toString(), jsonObject.get("workout_id").toString(), jsonObject.get("plan_id").toString(), chosenImage);
 
-                        clientWorkoutsList.add(clientWorkout);
+                        workoutsList.add(workout);
 
                     }
-                     buildRecyclerView();
+                    buildRecyclerView();
 
                 }
 
@@ -160,11 +161,12 @@ public class TrainerSelectClient extends AppCompatActivity {
             }
         }
     }
-    public void buildRecyclerView(){
+
+    public void buildRecyclerView() {
         // Initializing the recyclerView to display the card of each client
         clientSelectedRecyclerView = findViewById(R.id.ClientSelectedRecyclerView);
         workoutLayoutManager = new LinearLayoutManager(TrainerSelectClient.this);
-        workoutAdapter = new WorkoutAdapter(clientWorkoutsList);
+        workoutAdapter = new WorkoutAdapter(workoutsList);
         clientSelectedRecyclerView.setLayoutManager(workoutLayoutManager);
         clientSelectedRecyclerView.setAdapter(workoutAdapter);
 
@@ -175,8 +177,9 @@ public class TrainerSelectClient extends AppCompatActivity {
             }
         });
     }
-    public Toast toastMessage(String message){
-        Toast toast= Toast.makeText(getApplicationContext(),message,Toast. LENGTH_SHORT);
+
+    public Toast toastMessage(String message) {
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
         return toast;
     }
 

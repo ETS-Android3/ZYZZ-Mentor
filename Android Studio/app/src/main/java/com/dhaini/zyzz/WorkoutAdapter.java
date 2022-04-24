@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutViewHolder> {
-    private ArrayList<ClientWorkout> clientWorkoutsList;
+    private ArrayList<Workout> workoutsList;
     private OnItemClickListener mListener;
 
 
@@ -46,8 +46,8 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
             });
         }
     }
-    public WorkoutAdapter(ArrayList<ClientWorkout> clientWorkoutsList){
-        this.clientWorkoutsList = clientWorkoutsList;
+    public WorkoutAdapter(ArrayList<Workout> workoutsList){
+        this.workoutsList = workoutsList;
     }
     @NonNull
     @Override
@@ -61,7 +61,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
 
     @Override
     public void onBindViewHolder(@NonNull WorkoutViewHolder holder, int position) {
-        ClientWorkout currentWorkout = clientWorkoutsList.get(position);
+        Workout currentWorkout = workoutsList.get(position);
 
         holder.workoutNameTextView.setText(currentWorkout.getWorkoutName());
         holder.workoutCardImageBackground.setImageResource(currentWorkout.getBackground_Image());
@@ -69,6 +69,6 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
 
     @Override
     public int getItemCount() {
-        return clientWorkoutsList.size();
+        return workoutsList.size();
     }
 }

@@ -31,14 +31,14 @@ public class ClientLogin extends AppCompatActivity {
     EditText passwordInputEditText;
     String clientUsername;
     String clientPassword;
-    clientAuthenticationAPI  API;
-    String post_url = "http://10.0.2.2/"+"ZYZZ/client_login.php";
+    clientAuthenticationAPI API;
+    String post_url = "http://10.0.2.2/" + "ZYZZ/client_login.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE); //hide the actionbar
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_client_login);
         usernameInputEditText = (EditText) findViewById(R.id.usernameInputClient);
@@ -46,7 +46,7 @@ public class ClientLogin extends AppCompatActivity {
     }
 
 
-    public void createAccountClient(View view){ //Pop up window to show the PL logo and a small comment
+    public void createAccountClient(View view) { //Pop up window to show the PL logo and a small comment
         Intent popupmenu = new Intent(this, ClientRegister.class);
         startActivity(popupmenu);
 
@@ -58,8 +58,8 @@ public class ClientLogin extends AppCompatActivity {
     }
 
 
-    public Toast toastMessage(String message){
-        Toast toast= Toast.makeText(getApplicationContext(),message,Toast. LENGTH_SHORT);
+    public Toast toastMessage(String message) {
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
         return toast;
     }
 
@@ -72,7 +72,7 @@ public class ClientLogin extends AppCompatActivity {
             HttpClient http_client = new DefaultHttpClient();
             HttpPost http_post = new HttpPost(post_url);
 
-            clientUsername = usernameInputEditText.getText().toString() ;
+            clientUsername = usernameInputEditText.getText().toString();
             clientPassword = passwordInputEditText.getText().toString();
 
             BasicNameValuePair usernameParam = new BasicNameValuePair("Username", clientUsername);
@@ -99,7 +99,7 @@ public class ClientLogin extends AppCompatActivity {
                 while ((buffered_str_chunk = buffered_reader.readLine()) != null) {
                     string_builder.append(buffered_str_chunk);
                 }
-                Log.i("result",string_builder.toString());
+                Log.i("result", string_builder.toString());
                 return string_builder.toString();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -120,12 +120,12 @@ public class ClientLogin extends AppCompatActivity {
                     String name = json.getString("Name");
                     String clientID = json.getString("clientID");
                     String clientPlanID = json.getString("planID");
-                    toastMessage("Welcome "+ name).show();
+                    toastMessage("Welcome " + name).show();
 
-                    Client client = new Client(clientUsername,clientID,clientPlanID);
+                    Client client = new Client(clientUsername, clientID, clientPlanID);
 
                     Intent intent = new Intent(ClientLogin.this, ClientMyTraining.class);
-                    intent.putExtra("Client",client);
+                    intent.putExtra("Client", client);
                     startActivity(intent);
                 } else {
                     // If the status != accepted, the user is notified that something wrong happened

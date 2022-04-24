@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-
 import java.util.ArrayList;
 
 public class MyClientsAdapter extends RecyclerView.Adapter<MyClientsAdapter.myClientsViewHolder> {
@@ -17,16 +16,17 @@ public class MyClientsAdapter extends RecyclerView.Adapter<MyClientsAdapter.myCl
     private OnItemClickListener mListener;
 
 
-    public interface  OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClick(int position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener){
+    public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
 
-    public static class myClientsViewHolder extends RecyclerView.ViewHolder{
+    public static class myClientsViewHolder extends RecyclerView.ViewHolder {
         public TextView myClientTextView;
+
         public myClientsViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             myClientTextView = itemView.findViewById(R.id.clientName);
@@ -34,9 +34,9 @@ public class MyClientsAdapter extends RecyclerView.Adapter<MyClientsAdapter.myCl
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(listener!=null){
+                    if (listener != null) {
                         int position = getAdapterPosition();
-                        if(position!= RecyclerView.NO_POSITION){
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(position);
                         }
                     }
@@ -44,14 +44,16 @@ public class MyClientsAdapter extends RecyclerView.Adapter<MyClientsAdapter.myCl
             });
         }
     }
-    public MyClientsAdapter(ArrayList<TrainerClients> myClientsList){
+
+    public MyClientsAdapter(ArrayList<TrainerClients> myClientsList) {
         this.myClientsList = myClientsList;
     }
+
     @NonNull
     @Override
     public myClientsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_client_item_recycler_view,parent,false);
-        myClientsViewHolder mCVH = new myClientsViewHolder(v,mListener);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_client_item_recycler_view, parent, false);
+        myClientsViewHolder mCVH = new myClientsViewHolder(v, mListener);
         return mCVH;
     }
 

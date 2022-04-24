@@ -5,7 +5,7 @@ $username = $_POST['Username'];
 $password = $_POST['Password'];
 $name="";
 $clientID="";
-
+$planID = "";
 $usernameQuery = $mysqli->query("SELECT username from client where username='$username'");
 
 // Check if the username exist
@@ -24,17 +24,24 @@ $verifyPassword = password_verify($password,$hashedPassword);
 if($verifyPassword){
     // Get the name of the user to welcome him
     $fullNameQuery = $mysqli->query("SELECT full_name, client_id from client where username='$username'");
+
     $fetchFullName = mysqli_fetch_assoc($fullNameQuery);
     $fullName = $fetchFullName['full_name'];
+    $clientID = $fetchFullName['client_id'];
+
     $splitFullName = explode(" ", $fullName);
     $name = $splitFullName[0];
     
-    $clientID = $fetchFullName['client_id'];
+    $planIDQuery = $mysqli->query("SELECT plan_id from login_trainer_client where client_id='$clientID'");
+    $fetchPlanID = mysqli_fetch_assoc($planIDQuery);
+    $planID = $fetchPlanID["plan_id"];
     $result= "accepted";
 }
 else{
     $result  = "Wrong password!";
 }
+
 }
-$response= array("status" =>$result,"Name"=> $name,"clientID"=>$clientID);
-echo json_encode($response);
+
+$response= array("status" =>$result,"Name"=> $name,"clientID"=>$clientID,"planID"=>$planID);
+echo json_encode($response);    

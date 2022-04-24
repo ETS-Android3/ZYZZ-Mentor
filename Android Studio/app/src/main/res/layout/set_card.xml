@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="375dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    android:backgroundTint="@color/greyInput"
+    >
+    <TableRow
+        android:id="@+id/setRepsWeightTable"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@id/workoutNameTextView"
+        android:background="@color/greyInput"
+
+
+        >
+        <TextView
+            android:text="Top set"
+            android:paddingLeft="3dp"
+            android:layout_height="wrap_content"
+            android:layout_width="125dp"
+            android:textSize="25sp"
+            android:background="@color/transparent"
+            android:paddingBottom="5dp"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            />
+        <TextView
+            android:textAlignment="center"
+            android:text="5-9"
+            android:paddingLeft="3dp"
+            android:layout_height="wrap_content"
+            android:layout_width="95dp"
+            android:textSize="25sp"
+            android:background="@color/transparent"
+            android:paddingBottom="5dp"
+            android:textColor="@color/black"
+            />
+        <TextView
+            android:text="123 Kg"
+            android:paddingLeft="3dp"
+            android:layout_height="wrap_content"
+            android:layout_width="95dp"
+            android:textSize="25sp"
+            android:textAlignment="center"
+            android:background="@color/transparent"
+            android:paddingBottom="5dp"
+            android:textColor="@color/black"
+            />
+
+        <CheckBox
+
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/grey"
+            android:checked="true"
+
+            />
+    </TableRow>
+
+</androidx.cardview.widget.CardView>

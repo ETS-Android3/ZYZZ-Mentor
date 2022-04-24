@@ -36,7 +36,7 @@ public class ClientMyTraining extends AppCompatActivity {
     private WorkoutAdapter workoutAdapter;
     private RecyclerView.LayoutManager workoutLayoutManager;
 
-    ArrayList<ClientWorkout> clientWorkoutsList;
+    ArrayList<Workout> workoutsList;
 
     Client client;
     @Override
@@ -142,7 +142,7 @@ public class ClientMyTraining extends AppCompatActivity {
 
                 } else {
 
-                    clientWorkoutsList = new ArrayList<>();
+                    workoutsList = new ArrayList<>();
 
                     for (int i = 0; i < clientWorkoutJson.length(); i++) {
                         // Set a random Image that are in the array to card Image
@@ -150,9 +150,9 @@ public class ClientMyTraining extends AppCompatActivity {
                         int chosenImageIndex = r.nextInt((3 - 0) + 1) + 0;
                         int chosenImage = imageCardArray[chosenImageIndex];
                         JSONObject jsonObject = clientWorkoutJson.getJSONObject(i);
-                        ClientWorkout clientWorkout = new ClientWorkout(jsonObject.get("workout_name").toString(),jsonObject.get("workout_id").toString(),jsonObject.get("plan_id").toString(),chosenImage);
+                        Workout workout = new Workout(jsonObject.get("workout_name").toString(),jsonObject.get("workout_id").toString(),jsonObject.get("plan_id").toString(),chosenImage);
 
-                        clientWorkoutsList.add(clientWorkout);
+                        workoutsList.add(workout);
 
                     }
                     buildRecyclerView();
@@ -169,7 +169,7 @@ public class ClientMyTraining extends AppCompatActivity {
         // Initializing the recyclerView to display the card of each client
         clientMyTrainingRecyclerView = findViewById(R.id.ClientMyTrainingRecyclerView);
         workoutLayoutManager = new LinearLayoutManager(ClientMyTraining.this);
-        workoutAdapter = new WorkoutAdapter(clientWorkoutsList);
+        workoutAdapter = new WorkoutAdapter(workoutsList);
         clientMyTrainingRecyclerView.setLayoutManager(workoutLayoutManager);
         clientMyTrainingRecyclerView.setAdapter(workoutAdapter);
 

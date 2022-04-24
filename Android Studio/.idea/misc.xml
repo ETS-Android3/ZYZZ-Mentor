@@ -45,7 +45,7 @@
         <entry key="..\:/Users/moham/Google Drive/Dhaini/University/Computer Science Spring 2022/Mobile Computing/ZYZZ Mentor/Android Studio/app/src/main/res/layout/activity_trainer_register.xml" value="0.1" />
         <entry key="..\:/Users/moham/Google Drive/Dhaini/University/Computer Science Spring 2022/Mobile Computing/ZYZZ Mentor/Android Studio/app/src/main/res/layout/activity_trainer_select_client.xml" value="0.2" />
         <entry key="..\:/Users/moham/Google Drive/Dhaini/University/Computer Science Spring 2022/Mobile Computing/ZYZZ Mentor/Android Studio/app/src/main/res/layout/activity_trainer_view_client_info.xml" value="0.1" />
-        <entry key="..\:/Users/moham/Google Drive/Dhaini/University/Computer Science Spring 2022/Mobile Computing/ZYZZ Mentor/Android Studio/app/src/main/res/layout/client_selected_item_recycler_view.xml" value="0.1" />
+        <entry key="..\:/Users/moham/Google Drive/Dhaini/University/Computer Science Spring 2022/Mobile Computing/ZYZZ Mentor/Android Studio/app/src/main/res/layout/client_selected_item_recycler_view.xml" value="0.22" />
         <entry key="..\:/Users/moham/Google Drive/Dhaini/University/Computer Science Spring 2022/Mobile Computing/ZYZZ Mentor/Android Studio/app/src/main/res/layout/client_selected_recycler_view.xml" value="0.31354166666666666" />
         <entry key="..\:/Users/moham/Google Drive/Dhaini/University/Computer Science Spring 2022/Mobile Computing/ZYZZ Mentor/Android Studio/app/src/main/res/layout/content_scrolling.xml" value="0.268" />
         <entry key="..\:/Users/moham/Google Drive/Dhaini/University/Computer Science Spring 2022/Mobile Computing/ZYZZ Mentor/Android Studio/app/src/main/res/layout/drop_down_spinner.xml" value="0.1" />
@@ -56,6 +56,7 @@
         <entry key="..\:/Users/moham/Google Drive/Dhaini/University/Computer Science Spring 2022/Mobile Computing/ZYZZ Mentor/Android Studio/app/src/main/res/layout/my_drop_down.xml" value="0.25052083333333336" />
         <entry key="..\:/Users/moham/Google Drive/Dhaini/University/Computer Science Spring 2022/Mobile Computing/ZYZZ Mentor/Android Studio/app/src/main/res/layout/selected_item.xml" value="0.25052083333333336" />
         <entry key="..\:/Users/moham/Google Drive/Dhaini/University/Computer Science Spring 2022/Mobile Computing/ZYZZ Mentor/Android Studio/app/src/main/res/layout/selected_item_spinner.xml" value="0.23007246376811594" />
+        <entry key="..\:/Users/moham/Google Drive/Dhaini/University/Computer Science Spring 2022/Mobile Computing/ZYZZ Mentor/Android Studio/app/src/main/res/layout/set_card.xml" value="0.22395833333333334" />
         <entry key="..\:/Users/moham/Google Drive/Dhaini/University/Computer Science Spring 2022/Mobile Computing/ZYZZ Mentor/Android Studio/app/src/main/res/layout/spinner_options_trainer.xml" value="0.36302083333333335" />
         <entry key="..\:/Users/moham/Google Drive/Dhaini/University/Computer Science Spring 2022/Mobile Computing/ZYZZ Mentor/Android Studio/app/src/main/res/layout/trainer_nav_header.xml" value="0.36302083333333335" />
         <entry key="..\:/Users/moham/Google Drive/Dhaini/University/Computer Science Spring 2022/Mobile Computing/ZYZZ Mentor/Android Studio/app/src/main/res/layout/trainer_register.xml" value="0.36302083333333335" />

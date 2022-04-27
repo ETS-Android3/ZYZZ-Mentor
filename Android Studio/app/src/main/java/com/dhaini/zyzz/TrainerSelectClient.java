@@ -1,6 +1,7 @@
 package com.dhaini.zyzz;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -42,6 +44,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -58,7 +61,7 @@ public class TrainerSelectClient extends AppCompatActivity {
     private String addWorkout_url = "http://10.0.2.2/ZYZZ/workout_register_trainer.php?";
 
     GetClientWorkoutAPI getClientWorkoutAPI;
-    ArrayList<Workout> workoutsList;
+    ArrayList<Workout> workoutsList = null;
     TrainerClients client;
     FloatingActionButton floatingActionButtonAddWorkout;
     DeleteWorkoutAPI deleteWorkoutAPI;
@@ -133,13 +136,23 @@ public class TrainerSelectClient extends AppCompatActivity {
             HttpClient http_client = new DefaultHttpClient();
             HttpPost http_post = new HttpPost(addWorkout_url);
 
+            int position;
+            if(workoutsList == null){
+                position =0;
+            }
+            else{
+                position = workoutsList.size();
+            }
 
             BasicNameValuePair addWorkoutNameParam = new BasicNameValuePair("workoutName", addWorkoutName);
             BasicNameValuePair planIDParam = new BasicNameValuePair("planID", client.getClientPlanID());
+            BasicNameValuePair positionParam = new BasicNameValuePair("position", String.valueOf(position));
 
             ArrayList<NameValuePair> name_value_pair_list = new ArrayList<>();
+
             name_value_pair_list.add(addWorkoutNameParam);
             name_value_pair_list.add(planIDParam);
+            name_value_pair_list.add(positionParam);
 
             try {
                 // This is used to send the list with the api in an encoded form entity
@@ -212,6 +225,7 @@ public class TrainerSelectClient extends AppCompatActivity {
             }
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.N)
         protected void onPostExecute(String values) {
             super.onPostExecute(values);
             try {
@@ -224,18 +238,24 @@ public class TrainerSelectClient extends AppCompatActivity {
                 } else {
 
                     workoutsList = new ArrayList<>();
-
+                    int chosenImageIndex=0;
                     for (int i = 0; i < clientWorkoutJson.length(); i++) {
                         // Set a random Image that are in the array to card Image
-                        Random r = new Random();
-                        int chosenImageIndex = r.nextInt((3 - 0) + 1) + 0;
+                        if(chosenImageIndex>2){
+                            chosenImageIndex=0;
+                        }
+                        else{
+                            chosenImageIndex++;
+                        }
                         int chosenImage = imageCardArray[chosenImageIndex];
                         JSONObject jsonObject = clientWorkoutJson.getJSONObject(i);
-                        Workout workout = new Workout(jsonObject.get("workout_name").toString(), jsonObject.get("workout_id").toString(), jsonObject.get("plan_id").toString(), chosenImage);
+                        Workout workout = new Workout(jsonObject.get("workout_name").toString(), jsonObject.get("workout_id").toString(), jsonObject.get("plan_id").toString(), chosenImage,jsonObject.getInt("position"));
 
                         workoutsList.add(workout);
 
                     }
+
+                    Collections.sort(workoutsList,Workout.workoutPosition);
                     buildRecyclerView();
 
                 }
@@ -246,13 +266,22 @@ public class TrainerSelectClient extends AppCompatActivity {
             }
         }
     }
+    
 
+    
+    
     public void buildRecyclerView() {
         // Initializing the recyclerView to display the card of each client
         clientSelectedRecyclerView = findViewById(R.id.ClientSelectedRecyclerView);
         workoutLayoutManager = new LinearLayoutManager(TrainerSelectClient.this);
         workoutAdapter = new WorkoutAdapter(workoutsList);
         clientSelectedRecyclerView.setLayoutManager(workoutLayoutManager);
+
+        ItemTouchHelper.Callback callback = new myItemTouchHelper(workoutAdapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        workoutAdapter.setItemTouchHelper(itemTouchHelper);
+        itemTouchHelper.attachToRecyclerView(clientSelectedRecyclerView);
+
         clientSelectedRecyclerView.setAdapter(workoutAdapter);
 
 
@@ -270,7 +299,6 @@ public class TrainerSelectClient extends AppCompatActivity {
             public void onDeleteClick(int position) {
 
                 openConfirmationDialog(position);
-
 
             }
         });

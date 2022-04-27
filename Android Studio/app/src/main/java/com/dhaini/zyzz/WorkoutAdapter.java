@@ -2,7 +2,9 @@ package com.dhaini.zyzz;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -15,6 +17,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,10 +27,39 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutViewHolder> {
+public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutViewHolder> implements ItemTouchHelperAdapter{
+
     private ArrayList<Workout> workoutsList;
-    private OnItemClickListener mListener;
-    DeleteWorkoutAPI deleteWorkoutAPI;
+    private static OnItemClickListener mListener;
+    private static ItemTouchHelper itemTouchHelper;
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) throws JSONException {
+        Workout fromWorkout = workoutsList.get(fromPosition);
+        workoutsList.remove(fromWorkout);
+        workoutsList.add(toPosition,fromWorkout);
+
+      /*  JSONObject workoutFromJson = new JSONObject();
+        workoutFromJson.put("WorkoutID",fromWorkout.getWorkoutID());
+        workoutFromJson.put("position",fromWorkout.getWorkoutID());
+
+        JSONObject workoutToJson = new JSONObject();
+        workoutToJson.put("WorkoutID",workoutsList.get(toPosition).getWorkoutID());
+        workoutToJson.put("position",workoutsList.get(toPosition).getWorkoutID());
+      */
+
+        notifyItemMoved(fromPosition,toPosition);
+
+    }
+
+    @Override
+    public void onItemSwiped(int position) {
+
+    }
+
+    public void setItemTouchHelper(ItemTouchHelper itemTouchHelper){
+        this.itemTouchHelper = itemTouchHelper;
+    }
 
     public interface OnItemClickListener{
         void onItemClick(int position);
@@ -36,26 +70,23 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
         mListener = listener;
     }
 
-    public static class WorkoutViewHolder extends RecyclerView.ViewHolder{
+    public static class WorkoutViewHolder extends RecyclerView.ViewHolder implements View.OnTouchListener, GestureDetector.OnGestureListener {
+
         public TextView workoutNameTextView;
         public ImageView workoutCardImageBackground;
         public ImageButton deleteWorkout;
+        GestureDetector gestureDetector;
+
         public WorkoutViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
+
             workoutNameTextView = itemView.findViewById(R.id.workoutNameTextView);
             workoutCardImageBackground = itemView.findViewById(R.id.cardImage);
             deleteWorkout = itemView.findViewById(R.id.deleteWorkout);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(listener!=null){
-                        int position = getAdapterPosition();
-                        if(position!= RecyclerView.NO_POSITION){
-                            listener.onItemClick(position);
-                        }
-                    }
-                }
-            });
+            gestureDetector = new GestureDetector(itemView.getContext(),this);
+
+
+            itemView.setOnTouchListener(this);
             deleteWorkout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -69,82 +100,74 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
             });
 
         }
+
+        @Override
+        public boolean onDown(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent motionEvent) {
+
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent motionEvent) {
+            mListener.onItemClick(getAdapterPosition());
+            return false;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent motionEvent) {
+
+            itemTouchHelper.startDrag(this);
+        }
+
+        @Override
+        public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+            return false;
+        }
+
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            gestureDetector.onTouchEvent(motionEvent);
+            return true;
+        }
     }
+
     public WorkoutAdapter(ArrayList<Workout> workoutsList){
         this.workoutsList = workoutsList;
     }
     @NonNull
     @Override
+
     public WorkoutViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.client_selected_item_recycler_view,parent,false);
         WorkoutViewHolder mCVH = new WorkoutViewHolder(v,mListener);
         return mCVH;
     }
-    public void deleteItem(int position){
-        String deleteWorkout_url = "http://10.0.2.2/ZYZZ/delete_workout.php?workoutID=" + workoutsList.get(position).getWorkoutID();
-        deleteWorkoutAPI = new DeleteWorkoutAPI();
-        deleteWorkoutAPI.execute(deleteWorkout_url);
-
-    }
-
 
 
     @Override
     public void onBindViewHolder(@NonNull WorkoutViewHolder holder, int position) {
-        Workout currentWorkout = workoutsList.get(position);
 
+        Workout currentWorkout = workoutsList.get(position);
         holder.workoutNameTextView.setText(currentWorkout.getWorkoutName());
         holder.workoutCardImageBackground.setImageResource(currentWorkout.getBackground_Image());
+
     }
 
     @Override
     public int getItemCount() {
         return workoutsList.size();
     }
-    public class DeleteWorkoutAPI extends AsyncTask<String, Void, String> {
-        protected String doInBackground(String... urls) {
-            // URL and HTTP initialization to connect to API 2
-            URL url;
-            HttpURLConnection http;
 
-            try {
-                // Connect to API 2
-                url = new URL(urls[0]);
-                http = (HttpURLConnection) url.openConnection();
 
-                // Retrieve API 2 content
-                InputStream in = http.getInputStream();
-                InputStreamReader reader = new InputStreamReader(in);
-
-                // Read API 2 content line by line
-                BufferedReader br = new BufferedReader(reader);
-                StringBuilder sb = new StringBuilder();
-
-                String line;
-                while ((line = br.readLine()) != null) {
-                    sb.append(line + "\n");
-                }
-
-                br.close();
-                // Return content from API 2
-                return sb.toString();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        protected void onPostExecute(String values) {
-            super.onPostExecute(values);
-            try {
-                Log.i("Delete",values);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-
-            }
-        }
-    }
 
 
 }

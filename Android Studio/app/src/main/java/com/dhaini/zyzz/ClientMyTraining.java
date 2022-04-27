@@ -150,7 +150,7 @@ public class ClientMyTraining extends AppCompatActivity {
                         int chosenImageIndex = r.nextInt((3 - 0) + 1) + 0;
                         int chosenImage = imageCardArray[chosenImageIndex];
                         JSONObject jsonObject = clientWorkoutJson.getJSONObject(i);
-                        Workout workout = new Workout(jsonObject.get("workout_name").toString(),jsonObject.get("workout_id").toString(),jsonObject.get("plan_id").toString(),chosenImage);
+                        Workout workout = new Workout(jsonObject.get("workout_name").toString(),jsonObject.get("workout_id").toString(),jsonObject.get("plan_id").toString(),chosenImage,jsonObject.getInt("position"));
 
                         workoutsList.add(workout);
 

@@ -3,25 +3,30 @@ package com.dhaini.zyzz;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Workout implements Parcelable {
+import java.util.Comparator;
+
+public class Workout implements Parcelable{
     private String workoutName;
     private String workoutID;
     private String planID;
     private int background_Image;
+    private int position;
 
-
-    public Workout(String workoutName, String workoutID, String planID, int background_Image) {
+    public Workout(String workoutName, String workoutID, String planID, int background_Image,int position) {
         this.workoutName = workoutName;
         this.workoutID = workoutID;
         this.planID = planID;
         this.background_Image = background_Image;
+        this.position = position;
     }
+
 
     protected Workout(Parcel in) {
         workoutName = in.readString();
         workoutID = in.readString();
         planID = in.readString();
         background_Image = in.readInt();
+        position = in.readInt();
     }
 
     public static final Creator<Workout> CREATOR = new Creator<Workout>() {
@@ -68,6 +73,7 @@ public class Workout implements Parcelable {
         return background_Image;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -79,5 +85,31 @@ public class Workout implements Parcelable {
         parcel.writeString(workoutID);
         parcel.writeString(planID);
         parcel.writeInt(background_Image);
+        parcel.writeInt(position);
     }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+
+    // Method to sort the workout based on its position
+    public static Comparator<Workout> workoutPosition = new Comparator<Workout>() {
+        public int compare(Workout w1, Workout w2)
+        {
+
+            int workoutPosition1 = w1.position;
+            int workoutPosition2 = w2.position;
+
+            // For ascending order
+            return workoutPosition1 - workoutPosition2;
+
+            // For descending order
+            // rollno2-rollno1;
+        }
+    };
 }

@@ -4,10 +4,11 @@ include("db_info.php");
 $exerciseName = $_POST['exerciseName'];
 $comment = $_POST['comment'];
 $workoutID = $_POST['workoutID'];
+$postion = $_POST['position'];
 $exerciseID = gen_id(6,$mysqli);
 
-
-$registerExercise = $mysqli->query("INSERT INTO exercise (exercise_id,exercise_name,comments,workout_id) VALUES('$exerciseID','$exerciseName','$comment','$workoutID')"); 
+$exerciseName = ucwords($exerciseName);
+$registerExercise = $mysqli->query("INSERT INTO exercise (exercise_id,exercise_name,comments,workout_id,position) VALUES('$exerciseID','$exerciseName','$comment','$workoutID','$postion')"); 
 
 if($registerExercise){
     echo "Exercise Registered";

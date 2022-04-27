@@ -106,17 +106,19 @@ public class TrainerSelectClient extends AppCompatActivity {
         View mView = getLayoutInflater().inflate(R.layout.add_workout_dialog,null);
         final EditText workoutName = (EditText) mView.findViewById(R.id.workoutNameEditText);
         Button addWorkout = (Button) mView.findViewById(R.id.addWorkoutButton);
+        mBuilder.setView(mView);
+        AlertDialog dialog = mBuilder.create();
+        dialog.show();
         addWorkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addWorkoutName = workoutName.getText().toString();
                 addClientWorkoutAPI = new AddClientWorkoutAPI();
                 addClientWorkoutAPI.execute();
+                dialog.dismiss();
             }
         });
-        mBuilder.setView(mView);
-        AlertDialog dialog = mBuilder.create();
-        dialog.show();
+
     }
 
 
@@ -184,8 +186,10 @@ public class TrainerSelectClient extends AppCompatActivity {
             super.onPostExecute(s);
             try {
                 toastMessage(s).show();
-                finish();
-                startActivity(getIntent());
+                String getMyClient_url = "http://10.0.2.2/ZYZZ/get_trainer_client_workouts.php?planID=" + client.getClientPlanID();
+                getClientWorkoutAPI = new GetClientWorkoutAPI();
+                getClientWorkoutAPI.execute(getMyClient_url);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -323,7 +327,7 @@ public class TrainerSelectClient extends AppCompatActivity {
                 deleteWorkoutAPI = new DeleteWorkoutAPI();
                 deleteWorkoutAPI.execute(deleteWorkout_url);
                 workoutsList.remove(position);
-                workoutAdapter.notifyDataSetChanged();
+                workoutAdapter.notifyItemRemoved(position);
                 dialog.dismiss();
             }
         });

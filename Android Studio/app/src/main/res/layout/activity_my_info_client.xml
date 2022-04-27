@@ -126,6 +126,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/large_input_text_design"
                 android:ems="10"
+                android:gravity="top|start"
 
                 android:inputType="textWebEmailAddress|textMultiLine"
                 android:paddingLeft="10dp"
@@ -152,6 +153,8 @@
                 android:ems="10"
                 android:inputType="textWebEmailAddress"
                 android:paddingLeft="10dp"
+                android:gravity="top|start"
+
                 android:textSize="20sp" />
 
             <TextView
@@ -175,6 +178,7 @@
                 android:importantForAutofill="no"
                 android:inputType="number"
                 android:paddingLeft="10dp"
+                android:gravity="top|start"
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
@@ -197,6 +201,8 @@
                 android:clickable="false"
                 android:importantForAutofill="no"
                 android:inputType="number"
+
+                android:text="10"
                 android:paddingLeft="10dp"
                 tools:ignore="SpeakableTextPresentCheck" />
 
@@ -243,6 +249,7 @@
                 android:clickable="false"
                 android:importantForAutofill="no"
                 android:inputType="number"
+                android:gravity="top|start"
                 android:paddingLeft="10dp"
                 tools:ignore="SpeakableTextPresentCheck" />
 

@@ -5,20 +5,18 @@
     android:layout_height="138dp"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
-    android:backgroundTint="@color/greyInput"
-    android:outlineAmbientShadowColor="@color/grey"
-    android:outlineSpotShadowColor="@color/yellow"
+    android:background="@color/transparent"
+    android:backgroundTint="@color/transparent"
     app:cardCornerRadius="10dp"
-
-
     >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/grey">
+        android:background="@color/transparent">
 
         <ImageView
+
             android:id="@+id/cardImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,7 +26,7 @@
 
         <TextView
             android:id="@+id/workoutNameTextView"
-            android:layout_width="358dp"
+            android:layout_width="250dp"
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
             android:layout_marginTop="5dp"
@@ -43,6 +41,19 @@
 
             android:textSize="@dimen/fab_margin"
             app:autoSizeTextType="uniform" />
+
+        <ImageButton
+            android:id="@+id/deleteWorkout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/transparent"
+            android:src="@drawable/trash_icon" />
+
     </RelativeLayout>
 
     <ImageView

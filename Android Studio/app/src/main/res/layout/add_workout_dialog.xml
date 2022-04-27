@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@drawable/dialogs_backgrounds"
+    >
+
+    <TextView
+        android:id="@+id/addWorkoutTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="Create Workout"
+        android:textAlignment="center"
+        android:textColor="@color/yellow"
+        android:textSize="20sp" />
+    <EditText
+        android:id="@+id/workoutNameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addWorkoutTextView"
+        android:hint="Workout Name"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:background="@drawable/long_input_text_design"
+        />
+
+    <Button
+        android:id="@+id/addWorkoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_below="@id/workoutNameEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/yellow"
+        android:text="Add workout"
+        android:textAllCaps="false"
+        app:cornerRadius="10dp" />
+
+</RelativeLayout>

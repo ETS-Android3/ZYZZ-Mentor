@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/my_client_background"
     tools:context=".TrainerSelectClient">
 
     <ImageView
@@ -41,8 +40,8 @@
         android:textSize="@dimen/fab_margin"
         app:autoSizeTextType="uniform" />
 
-    <Spinner
-        android:id="@+id/spinnerOptionsSelectClient"
+    <ImageButton
+        android:id="@+id/viewMyClientInfoBtn"
         android:layout_width="85dp"
         android:layout_height="85dp"
 
@@ -51,12 +50,13 @@
         android:layout_centerVertical="true"
         android:layout_marginTop="7dp"
         android:layout_marginEnd="18dp"
+        android:background="@color/transparent"
+        android:src="@drawable/view_my_client_info_img_btn"
+        android:onClick="openMyClientInfo"
 
-        android:background="@drawable/option_button"
-        android:spinnerMode="dialog"
         app:layout_constraintVertical_bias="0.0">
 
-    </Spinner>
+    </ImageButton>
 
     <androidx.recyclerview.widget.RecyclerView
 
@@ -69,5 +69,21 @@
         android:layout_marginTop="70dp"
         android:background="@color/transparent"
         android:scrollbars="vertical" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingAddWorkoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="25dp"
+        android:layout_alignParentBottom="true"
+
+        android:background="@color/yellow"
+        android:backgroundTint="@color/yellow"
+        android:clickable="true"
+        app:srcCompat="@drawable/add_button_img" />
 
 </RelativeLayout>

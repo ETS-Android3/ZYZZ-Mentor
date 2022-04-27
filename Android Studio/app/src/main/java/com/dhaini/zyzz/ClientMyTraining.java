@@ -178,6 +178,11 @@ public class ClientMyTraining extends AppCompatActivity {
             public void onItemClick(int position) {
                 toastMessage("Clicked").show();
             }
+
+            @Override
+            public void onDeleteClick(int position) {
+
+            }
         });
     }
     public Toast toastMessage(String message){

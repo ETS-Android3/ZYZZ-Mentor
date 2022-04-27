@@ -32,7 +32,7 @@ public class ClientLogin extends AppCompatActivity {
     String clientUsername;
     String clientPassword;
     clientAuthenticationAPI API;
-    String post_url = "http://10.0.2.2/" + "ZYZZ/client_login.php";
+    String post_url = "http://10.0.2.2/ZYZZ/client_login.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

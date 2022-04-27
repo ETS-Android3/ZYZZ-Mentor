@@ -4,5 +4,7 @@
     <corners android:radius="10dp"></corners>
     <size android:height="100dp"></size>
     <size android:width="357dp"></size>
+    <padding android:top="10dp"></padding>
+
 
 </shape>

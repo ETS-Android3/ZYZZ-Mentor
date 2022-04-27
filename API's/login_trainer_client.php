@@ -3,9 +3,6 @@ include("db_info.php");
 
 $clientID = $_POST['clientID'];
 $trainerUsername = $_POST['trainerUsername'];
-$dayPerWeek = $_POST['dayPerWeek'];
-$objective = $_POST['objective'];
-
 
 $clientFullNameQuery = $mysqli->query("SELECT full_name from client where client_id = '$clientID'");
 
@@ -28,8 +25,8 @@ else{
     $clientFullName = $fetchClientFullName["full_name"];
 
     $planID = gen_id(6,$mysqli);
-    $registerPlan = $mysqli->query("INSERT INTO login_trainer_client (plan_id,client_id,trainer_username,day_per_week,objective,client_fullname) VALUES('$planID','$clientID',
-    '$trainerUsername','$dayPerWeek','$objective','$clientFullName')"); 
+    $registerPlan = $mysqli->query("INSERT INTO login_trainer_client (plan_id,client_id,trainer_username,client_fullname) VALUES('$planID','$clientID',
+    '$trainerUsername','$clientFullName')"); 
     if($registerPlan){
         echo 'client registered successfully!';
     }

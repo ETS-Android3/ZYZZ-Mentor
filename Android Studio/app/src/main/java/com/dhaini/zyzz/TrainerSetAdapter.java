@@ -37,6 +37,7 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
             setRepsTextView = itemView.findViewById(R.id.repsInput);
             setWeightTextView = itemView.findViewById(R.id.weightInput);
 
+
         }
     }
     public TrainerSetAdapter(ArrayList<SetTrainer> setTrainerList){

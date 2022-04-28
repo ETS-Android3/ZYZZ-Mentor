@@ -8,14 +8,22 @@ public class TrainerExercise {
     private String exerciseName;
     private String comments;
     private String workoutID;
+    private int position;
     private ArrayList<SetTrainer> SetTrainerList;
 
-    public TrainerExercise(String exerciseID, String exerciseName, String comments, String workoutID, ArrayList<SetTrainer> setTrainerList) {
+    public TrainerExercise(String exerciseID, String exerciseName, String comments, String workoutID, int position, ArrayList<SetTrainer> setTrainerList) {
         this.exerciseID = exerciseID;
         this.exerciseName = exerciseName;
         this.comments = comments;
         this.workoutID = workoutID;
+        this.position = position;
         SetTrainerList = setTrainerList;
+    }
+
+    public TrainerExercise(String exerciseName, String workoutID, int position) {
+        this.exerciseName = exerciseName;
+        this.workoutID = workoutID;
+        this.position = position;
     }
 
 
@@ -57,5 +65,13 @@ public class TrainerExercise {
 
     public void setSetTrainerList(ArrayList<SetTrainer> setTrainerList) {
         SetTrainerList = setTrainerList;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

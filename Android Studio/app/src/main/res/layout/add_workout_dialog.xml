@@ -8,7 +8,7 @@
     >
 
     <TextView
-        android:id="@+id/addWorkoutTextView"
+        android:id="@+id/titleAddWorkoutDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -21,7 +21,7 @@
         android:id="@+id/workoutNameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/addWorkoutTextView"
+        android:layout_below="@+id/titleAddWorkoutDialog"
         android:hint="Workout Name"
         android:textAlignment="center"
         android:textColor="@color/black"

@@ -2,16 +2,17 @@
 include("db_info.php");
 
 $exerciseName = $_POST['exerciseName'];
-$comment = $_POST['comment'];
 $workoutID = $_POST['workoutID'];
 $postion = $_POST['position'];
 $exerciseID = gen_id(6,$mysqli);
 
 $exerciseName = ucwords($exerciseName);
-$registerExercise = $mysqli->query("INSERT INTO exercise (exercise_id,exercise_name,comments,workout_id,position) VALUES('$exerciseID','$exerciseName','$comment','$workoutID','$postion')"); 
+
+$registerExercise = $mysqli->query("INSERT INTO exercise (exercise_id,exercise_name,workout_id,position) VALUES('$exerciseID','$exerciseName','$workoutID','$postion')"); 
 
 if($registerExercise){
-    echo "Exercise Registered";
+    $response= array("status" =>"Exercise Added!","ExerciseID"=> $exerciseID);
+    echo json_encode($response);
 }
 
 function gen_id($l,$mysqli){

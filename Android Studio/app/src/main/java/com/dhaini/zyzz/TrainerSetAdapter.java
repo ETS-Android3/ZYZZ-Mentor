@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -46,7 +47,7 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
     private String columnToChange;
     private String updatedInfo;
     private String set_id;
-
+    private DeleteSetAPI deleteSetAPI;
     private static ItemTouchHelper itemTouchHelper;
 
 
@@ -57,6 +58,11 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
 
     @Override
     public void onItemSwiped(int position) {
+
+        String deleteWorkout_url = "http://10.0.2.2/ZYZZ/delete_set.php?setID=" + setTrainerList.get(position).getSet_id();
+        deleteSetAPI = new DeleteSetAPI();
+        deleteSetAPI.execute(deleteWorkout_url);
+
         setTrainerList.remove(setTrainerList.get(position));
         notifyItemRemoved(position);
 
@@ -329,6 +335,52 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
 
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+        }
+    }
+
+
+    public class DeleteSetAPI extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... urls) {
+            // URL and HTTP initialization to connect to API 2
+            URL url;
+            HttpURLConnection http;
+
+            try {
+                // Connect to API 2
+                url = new URL(urls[0]);
+                http = (HttpURLConnection) url.openConnection();
+
+                // Retrieve API 2 content
+                InputStream in = http.getInputStream();
+                InputStreamReader reader = new InputStreamReader(in);
+
+                // Read API 2 content line by line
+                BufferedReader br = new BufferedReader(reader);
+                StringBuilder sb = new StringBuilder();
+
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+
+                br.close();
+                // Return content from API 2
+                return sb.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        protected void onPostExecute(String values) {
+            super.onPostExecute(values);
+            try {
+                values = values.replaceAll("[\\n]", "");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
             }
         }
     }

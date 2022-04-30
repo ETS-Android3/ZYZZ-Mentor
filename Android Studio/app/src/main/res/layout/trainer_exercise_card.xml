@@ -140,7 +140,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.10"
+        android:alpha="0.20"
         android:src="@drawable/mini_input_text_design"></ImageView>
 
 </androidx.cardview.widget.CardView>

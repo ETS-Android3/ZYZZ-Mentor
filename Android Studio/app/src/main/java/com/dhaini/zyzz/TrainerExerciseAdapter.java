@@ -5,11 +5,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +32,7 @@ public class TrainerExerciseAdapter extends RecyclerView.Adapter<TrainerExercise
 
     public interface OnItemClickListener{
         void onItemClick(int position);
+        void onAddSetClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -39,13 +43,14 @@ public class TrainerExerciseAdapter extends RecyclerView.Adapter<TrainerExercise
         public TextView exerciseNameTextView;
         public TextView commentsEditText;
         private RecyclerView setRepsWeightInputRecyclerView;
+        private ImageButton addSetImgBtn;
 
         public TrainerExerciseViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             exerciseNameTextView = itemView.findViewById(R.id.ExerciseNameTextView);
             commentsEditText = itemView.findViewById(R.id.commentsEditText);
             setRepsWeightInputRecyclerView = itemView.findViewById(R.id.setRepsWeightInputRecyclerView);
-
+            addSetImgBtn = itemView.findViewById(R.id.addSetButton);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -54,6 +59,17 @@ public class TrainerExerciseAdapter extends RecyclerView.Adapter<TrainerExercise
                         int position = getAdapterPosition();
                         if(position!= RecyclerView.NO_POSITION){
                             listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+            addSetImgBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener!=null){
+                        int position = getAdapterPosition();
+                        if(position!= RecyclerView.NO_POSITION){
+                            listener.onAddSetClick(position);
                         }
                     }
                 }
@@ -88,6 +104,7 @@ public class TrainerExerciseAdapter extends RecyclerView.Adapter<TrainerExercise
     public int getItemCount() {
         return trainerExerciseList.size();
     }
+
 
 
 }

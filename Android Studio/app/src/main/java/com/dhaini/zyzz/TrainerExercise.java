@@ -20,10 +20,15 @@ public class TrainerExercise {
         SetTrainerList = setTrainerList;
     }
 
-    public TrainerExercise(String exerciseName, String workoutID, int position) {
+    public TrainerExercise(String exerciseName, String workoutID, int position,ArrayList<SetTrainer> setTrainerList) {
         this.exerciseName = exerciseName;
         this.workoutID = workoutID;
         this.position = position;
+        SetTrainerList = setTrainerList;
+    }
+
+    public void addSet(SetTrainer set){
+        SetTrainerList.add(set);
     }
 
 

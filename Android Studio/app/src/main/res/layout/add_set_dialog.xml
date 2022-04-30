@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@drawable/dialogs_backgrounds"
+    >
+
+    <TextView
+        android:id="@+id/titleAddWorkoutDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/transparent"
+        android:layout_marginBottom="10dp"
+        android:text="Create Set"
+        android:textAlignment="center"
+        android:textColor="@color/yellow"
+        android:textSize="25sp" />
+
+    <TableRow
+
+        android:id="@+id/setRepsWeightTable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleAddWorkoutDialog"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/small_input_text_design"
+        android:gravity="center"
+
+
+        >
+
+        <EditText
+            android:id="@+id/setNameInputEditText"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:background="@color/transparent"
+            android:hint="Set"
+            android:paddingLeft="3dp"
+            android:paddingBottom="5dp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/repsInputEditText"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:background="@color/transparent"
+            android:hint="Reps"
+            android:paddingLeft="3dp"
+            android:paddingBottom="5dp"
+
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/weightInputEditText"
+            android:layout_width="100dp"
+
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:hint="Weight"
+            android:paddingLeft="3dp"
+
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+    </TableRow>
+
+    <Button
+        android:id="@+id/addSetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/setRepsWeightTable"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/yellow"
+        android:text="Add Set"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        app:cornerRadius="10dp" />
+
+
+</RelativeLayout>

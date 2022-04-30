@@ -17,7 +17,7 @@
 
 
         >
-        <TextView
+        <EditText
             android:id="@+id/setNameInput"
             android:text="Top set"
             android:paddingLeft="3dp"
@@ -29,7 +29,7 @@
             android:textColor="@color/black"
             android:textAlignment="center"
             />
-        <TextView
+        <EditText
             android:id="@+id/repsInput"
             android:textAlignment="center"
             android:text="5-9"
@@ -41,7 +41,7 @@
             android:paddingBottom="5dp"
             android:textColor="@color/black"
             />
-        <TextView
+        <EditText
             android:id="@+id/weightInput"
             android:text="123 Kg"
             android:paddingLeft="3dp"

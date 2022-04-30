@@ -21,11 +21,24 @@
 
         >
 
+        <ImageButton
+            android:id="@+id/addSetButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/transparent"
+            android:src="@drawable/add_set_btn" />
+
         <TextView
             android:id="@+id/ExerciseNameTextView"
-            android:layout_width="358dp"
+            android:layout_width="wrap_content"
+            android:layout_marginRight="120dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+
             android:layout_marginTop="5dp"
             android:background="@color/transparent"
             android:fontFamily="@font/bebas_neue"

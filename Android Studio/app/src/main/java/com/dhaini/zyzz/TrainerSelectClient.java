@@ -301,9 +301,7 @@ public class TrainerSelectClient extends AppCompatActivity {
 
             @Override
             public void onDeleteClick(int position) {
-
                 openConfirmationDialog(position);
-
             }
         });
 

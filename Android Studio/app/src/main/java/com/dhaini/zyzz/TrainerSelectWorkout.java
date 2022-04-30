@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -33,22 +34,26 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class TrainerSelectWorkout extends AppCompatActivity {
-    TextView workoutNameBannerTextView;
-    FloatingActionButton floatingActionButtonAddExercise;
+    private TextView workoutNameBannerTextView;
+    private FloatingActionButton floatingActionButtonAddExercise;
 
-    String getExercise_url = "http://10.0.2.2/ZYZZ/get_exercise_and_sets.php";
-    String addExercise_url = "http://10.0.2.2/ZYZZ/exercise_register_trainer.php";
-    ArrayList<TrainerExercise> trainerExerciseList = null;
-    Workout workoutSelected;
-    TrainerExercise newAddedExerciseTrainer;
+    private String addSet_url = "http://10.0.2.2/ZYZZ/set_register_trainer.php";
+    private String getExercise_url = "http://10.0.2.2/ZYZZ/get_exercise_and_sets.php";
+    private String addExercise_url = "http://10.0.2.2/ZYZZ/exercise_register_trainer.php";
+    private ArrayList<TrainerExercise> trainerExerciseList = new ArrayList<>();
+    private Workout workoutSelected;
+    private TrainerExercise newAddedExerciseTrainer;
 
     private RecyclerView WorkoutSelectedRecyclerView;
     private TrainerExerciseAdapter trainerExerciseAdapter;
     private RecyclerView.LayoutManager trainerExerciseLayoutManager;
 
+    private AddSetAPI addSetAPI;
 
-    AddExerciseAPI addExerciseAPI;
-    GetExercisesAPI getExercisesAPI;
+    private TrainerExercise selectedExercise;
+    private AddExerciseAPI addExerciseAPI;
+    private GetExercisesAPI getExercisesAPI;
+    private SetTrainer newAddedSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,12 +111,13 @@ public class TrainerSelectWorkout extends AppCompatActivity {
             public void onClick(View view) {
                 String exerciseName = exerciseNameEditText.getText().toString();
                 int position;
-                if (trainerExerciseList == null) {
+                if (trainerExerciseList.size() ==0) {
                     position = 0;
                 } else {
                     position = trainerExerciseList.size();
                 }
-                newAddedExerciseTrainer = new TrainerExercise(exerciseName, workoutSelected.getWorkoutID(), position);
+                ArrayList<SetTrainer> SetTrainerList = new ArrayList<>();
+                newAddedExerciseTrainer = new TrainerExercise(exerciseName, workoutSelected.getWorkoutID(), position,SetTrainerList);
                 addExerciseAPI = new AddExerciseAPI();
                 addExerciseAPI.execute();
                 dialog.dismiss();
@@ -123,6 +129,63 @@ public class TrainerSelectWorkout extends AppCompatActivity {
 
     public void openClientFeedback(View view) {
     }
+
+
+    public void buildRecyclerView() {
+        // Initializing the recyclerView to display the card of each client
+        WorkoutSelectedRecyclerView = findViewById(R.id.WorkoutSelectedRecyclerView);
+        trainerExerciseLayoutManager = new LinearLayoutManager(TrainerSelectWorkout.this);
+        trainerExerciseAdapter = new TrainerExerciseAdapter(trainerExerciseList, this);
+        WorkoutSelectedRecyclerView.setLayoutManager(trainerExerciseLayoutManager);
+        WorkoutSelectedRecyclerView.setAdapter(trainerExerciseAdapter);
+
+        trainerExerciseAdapter.setOnItemClickListener(new TrainerExerciseAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+
+            }
+
+            @Override
+            public void onAddSetClick(int position) {
+                openAddSetDialog(position);
+            }
+        });
+    }
+
+
+    private void openAddSetDialog(int position) {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
+        View mView = getLayoutInflater().inflate(R.layout.add_set_dialog,null);
+
+        final EditText setNameEditText = (EditText) mView.findViewById(R.id.setNameInputEditText);
+        final EditText weightEditText = (EditText) mView.findViewById(R.id.weightInputEditText);
+        final EditText repsEditText = (EditText) mView.findViewById(R.id.repsInputEditText);
+
+
+        Button addSetBtn = (Button) mView.findViewById(R.id.addSetButton);
+
+        mBuilder.setView(mView);
+        AlertDialog dialog = mBuilder.create();
+        dialog.show();
+        addSetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedExercise = trainerExerciseList.get(position);
+
+                newAddedSet = new SetTrainer(setNameEditText.getText().toString(),repsEditText.getText().toString(),weightEditText.getText().toString(),selectedExercise.getExerciseID());
+
+                addSetAPI = new AddSetAPI();
+                addSetAPI.execute();
+
+                dialog.dismiss();
+            }
+        });
+
+    }
+
+
+    //////////////////////////////////////// API Classes///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     class GetExercisesAPI extends AsyncTask<String, Void, String> {
 
@@ -219,6 +282,8 @@ public class TrainerSelectWorkout extends AppCompatActivity {
         }
     }
 
+
+
     class AddExerciseAPI extends AsyncTask<String, Void, String> {
 
         @Override
@@ -276,8 +341,9 @@ public class TrainerSelectWorkout extends AppCompatActivity {
                 String newAddedExerciseID = jsonObject.getString("ExerciseID");
                 newAddedExerciseTrainer.setExerciseID(newAddedExerciseID);
 
-                getExercisesAPI = new GetExercisesAPI();
-                getExercisesAPI.execute();
+                trainerExerciseList.add(newAddedExerciseTrainer);
+                buildRecyclerView();
+
 
 
             } catch (Exception e) {
@@ -286,19 +352,71 @@ public class TrainerSelectWorkout extends AppCompatActivity {
         }
     }
 
-    public void buildRecyclerView() {
-        // Initializing the recyclerView to display the card of each client
-        WorkoutSelectedRecyclerView = findViewById(R.id.WorkoutSelectedRecyclerView);
-        trainerExerciseLayoutManager = new LinearLayoutManager(TrainerSelectWorkout.this);
-        trainerExerciseAdapter = new TrainerExerciseAdapter(trainerExerciseList, this);
-        WorkoutSelectedRecyclerView.setLayoutManager(trainerExerciseLayoutManager);
-        WorkoutSelectedRecyclerView.setAdapter(trainerExerciseAdapter);
 
-        trainerExerciseAdapter.setOnItemClickListener(new TrainerExerciseAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
+    class AddSetAPI extends AsyncTask<String, Void, String> {
 
+        @Override
+        protected String doInBackground(String... params) {
+
+            HttpClient http_client = new DefaultHttpClient();
+            HttpPost http_post = new HttpPost(addSet_url);
+
+            BasicNameValuePair setNameParam = new BasicNameValuePair("setName", newAddedSet.getSetName());
+            BasicNameValuePair repsParam = new BasicNameValuePair("reps", newAddedSet.getReps());
+            BasicNameValuePair weightParam = new BasicNameValuePair("weight", newAddedSet.getWeight());
+            BasicNameValuePair exerciseIDParam = new BasicNameValuePair("exerciseID", newAddedSet.getExerciseID());
+
+            ArrayList<NameValuePair> name_value_pair_list = new ArrayList<>();
+            name_value_pair_list.add(setNameParam);
+            name_value_pair_list.add(repsParam);
+            name_value_pair_list.add(weightParam);
+            name_value_pair_list.add(exerciseIDParam);
+
+
+            try {
+                // This is used to send the list with the api in an encoded form entity
+                UrlEncodedFormEntity url_encoded_form_entity = new UrlEncodedFormEntity(name_value_pair_list);
+
+                // This sets the entity (which holds the list of values) in the http_post object
+                http_post.setEntity(url_encoded_form_entity);
+
+                // This gets the response from the post api and returns a string of the response.
+                HttpResponse http_response = http_client.execute(http_post);
+                InputStream input_stream = http_response.getEntity().getContent();
+                InputStreamReader input_stream_reader = new InputStreamReader(input_stream);
+                BufferedReader buffered_reader = new BufferedReader(input_stream_reader);
+                StringBuilder string_builder = new StringBuilder();
+                String buffered_str_chunk = null;
+                while ((buffered_str_chunk = buffered_reader.readLine()) != null) {
+                    string_builder.append(buffered_str_chunk);
+                }
+                return string_builder.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        });
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+
+                Log.i("message", s);
+                // Getting all the info for each client from the database
+                JSONObject jsonObject = new JSONObject(s);
+
+                String status = jsonObject.getString("status");
+                String newAddedSetID = jsonObject.getString("setID");
+                newAddedSet.setSet_id(newAddedSetID);
+                selectedExercise.addSet(newAddedSet);
+                buildRecyclerView();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
+
+
 }

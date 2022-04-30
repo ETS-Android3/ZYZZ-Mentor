@@ -5,6 +5,7 @@ public class SetTrainer {
     private String reps;
     private String weight;
     private String exerciseID;
+    private String set_id;
 
     public SetTrainer(String setName, String reps, String weight, String exerciseID) {
         this.setName = setName;
@@ -44,5 +45,13 @@ public class SetTrainer {
 
     public void setExerciseID(String exerciseID) {
         this.exerciseID = exerciseID;
+    }
+
+    public String getSet_id() {
+        return set_id;
+    }
+
+    public void setSet_id(String set_id) {
+        this.set_id = set_id;
     }
 }

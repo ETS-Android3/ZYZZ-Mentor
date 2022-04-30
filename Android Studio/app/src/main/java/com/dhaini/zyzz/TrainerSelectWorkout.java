@@ -256,7 +256,8 @@ public class TrainerSelectWorkout extends AppCompatActivity {
                                 String exerciseID = setJsonObject.getString("exercise_id");
                                 String reps = setJsonObject.getString("reps");
                                 String weight = setJsonObject.getString("weight");
-                                SetTrainer setTrainer = new SetTrainer(setName, reps, weight, exerciseID);
+                                String setID = setJsonObject.getString("set_id");
+                                SetTrainer setTrainer = new SetTrainer(setName, reps, weight, exerciseID,setID);
                                 setTrainerList.add(setTrainer);
                             }
                         }

@@ -13,6 +13,14 @@ public class SetTrainer {
         this.weight = weight;
         this.exerciseID = exerciseID;
     }
+    public SetTrainer(String setName, String reps, String weight, String exerciseID,String setID) {
+        this.setName = setName;
+        this.reps = reps;
+        this.weight = weight;
+        this.exerciseID = exerciseID;
+        this.set_id = setID;
+    }
+
 
 
     public String getSetName() {

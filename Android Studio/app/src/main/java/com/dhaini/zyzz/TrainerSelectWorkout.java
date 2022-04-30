@@ -343,7 +343,13 @@ public class TrainerSelectWorkout extends AppCompatActivity {
                 newAddedExerciseTrainer.setExerciseID(newAddedExerciseID);
 
                 trainerExerciseList.add(newAddedExerciseTrainer);
-                buildRecyclerView();
+                if(trainerExerciseAdapter ==null){
+                    buildRecyclerView();
+                }
+                else{
+                    trainerExerciseAdapter.notifyDataSetChanged();
+                }
+
 
 
 
@@ -411,7 +417,7 @@ public class TrainerSelectWorkout extends AppCompatActivity {
                 String newAddedSetID = jsonObject.getString("setID");
                 newAddedSet.setSet_id(newAddedSetID);
                 selectedExercise.addSet(newAddedSet);
-                buildRecyclerView();
+                trainerExerciseAdapter.notifyDataSetChanged();
 
             } catch (Exception e) {
                 e.printStackTrace();

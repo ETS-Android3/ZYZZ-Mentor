@@ -89,6 +89,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
         public TextView workoutNameTextView;
         public ImageView workoutCardImageBackground;
         public ImageButton deleteWorkout;
+
         GestureDetector gestureDetector;
 
         public WorkoutViewHolder(@NonNull View itemView, OnItemClickListener listener) {
@@ -97,6 +98,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
             workoutNameTextView = itemView.findViewById(R.id.workoutNameTextView);
             workoutCardImageBackground = itemView.findViewById(R.id.cardImage);
             deleteWorkout = itemView.findViewById(R.id.deleteWorkout);
+
             gestureDetector = new GestureDetector(itemView.getContext(), this);
 
 

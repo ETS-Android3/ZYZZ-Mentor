@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -93,8 +94,18 @@ public class TrainerExerciseAdapter extends RecyclerView.Adapter<TrainerExercise
 
         TrainerSetAdapter trainerSetAdapter = new TrainerSetAdapter(currentExercise.getSetTrainerList());
         LinearLayoutManager setLayout = new LinearLayoutManager(activity);
+
+        ItemTouchHelper.Callback callback = new myItemTouchHelper(trainerSetAdapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        trainerSetAdapter.setItemTouchHelper(itemTouchHelper);
+        itemTouchHelper.attachToRecyclerView(holder.setRepsWeightInputRecyclerView);
+
         holder.setRepsWeightInputRecyclerView.setAdapter(trainerSetAdapter);
         holder.setRepsWeightInputRecyclerView.setLayoutManager(setLayout);
+
+
+
+
 
         holder.exerciseNameTextView.setText(currentExercise.getExerciseName());
         holder.commentsEditText.setText(currentExercise.getComments());

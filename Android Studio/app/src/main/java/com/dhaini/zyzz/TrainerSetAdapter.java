@@ -4,13 +4,16 @@ import android.os.AsyncTask;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -38,20 +41,29 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
     private ArrayList<SetTrainer> setTrainerList;
     private OnItemClickListener mListener;
     private Timer timer = new Timer();
-    private final long DELAY = 3000; // in ms
+    private final long DELAY = 1000; // in ms
     private UpdateSetAPI updateSetAPI;
     private String columnToChange;
     private String updatedInfo;
     private String set_id;
 
+    private static ItemTouchHelper itemTouchHelper;
+
+
     @Override
     public void onItemMove(int fromPosition, int toPosition) throws JSONException {
-        
+
     }
 
     @Override
     public void onItemSwiped(int position) {
+        setTrainerList.remove(setTrainerList.get(position));
+        notifyItemRemoved(position);
 
+    }
+
+    public void setItemTouchHelper(ItemTouchHelper itemTouchHelper) {
+        this.itemTouchHelper = itemTouchHelper;
     }
 
     public interface OnItemClickListener {
@@ -62,10 +74,12 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
         mListener = listener;
     }
 
-    public static class TrainerSetViewHolder extends RecyclerView.ViewHolder {
+    public static class TrainerSetViewHolder extends RecyclerView.ViewHolder implements View.OnTouchListener, GestureDetector.OnGestureListener{
         public EditText setNameTextView;
         public EditText setRepsTextView;
         public EditText setWeightTextView;
+
+        GestureDetector gestureDetector;
 
         public TrainerSetViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
@@ -73,7 +87,43 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
             setRepsTextView = itemView.findViewById(R.id.repsInput);
             setWeightTextView = itemView.findViewById(R.id.weightInput);
 
+            gestureDetector = new GestureDetector(itemView.getContext(), this);
 
+        }
+
+        @Override
+        public boolean onDown(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent motionEvent) {
+
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent motionEvent) {
+
+        }
+
+        @Override
+        public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+            return false;
+        }
+
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            return false;
         }
     }
 

@@ -28,6 +28,7 @@
             android:paddingBottom="5dp"
             android:textColor="@color/black"
             android:textAlignment="center"
+            android:hint="Set"
             />
         <EditText
             android:id="@+id/repsInput"
@@ -40,6 +41,7 @@
             android:background="@color/transparent"
             android:paddingBottom="5dp"
             android:textColor="@color/black"
+            android:hint="Reps"
             />
         <EditText
             android:id="@+id/weightInput"
@@ -52,6 +54,7 @@
             android:background="@color/transparent"
             android:paddingBottom="5dp"
             android:textColor="@color/black"
+            android:hint="Weight"
             />
 
 

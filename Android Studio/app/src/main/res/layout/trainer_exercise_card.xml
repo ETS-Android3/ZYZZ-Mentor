@@ -31,15 +31,26 @@
             android:background="@color/transparent"
             android:src="@drawable/add_set_btn" />
 
+        <ImageButton
+            android:id="@+id/deleteExerciseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="13dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/transparent"
+            android:src="@drawable/trash_icon" />
+
         <TextView
             android:id="@+id/ExerciseNameTextView"
             android:layout_width="wrap_content"
-            android:layout_marginRight="120dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-
             android:layout_marginTop="5dp"
+
+            android:layout_marginRight="120dp"
             android:background="@color/transparent"
             android:fontFamily="@font/bebas_neue"
             android:paddingLeft="10dp"
@@ -120,7 +131,7 @@
                 android:textColor="@color/yellow"
                 android:textSize="20sp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/commentsEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -130,7 +141,8 @@
                 android:text=""
                 android:textColor="@color/white"
                 android:textSize="20sp"
-
+                android:hint="Put your comments"
+                android:textColorHint="@color/white"
                 />
         </TableRow>
 

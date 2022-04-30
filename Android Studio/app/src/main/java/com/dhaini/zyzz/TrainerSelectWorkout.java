@@ -2,6 +2,7 @@ package com.dhaini.zyzz;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -31,6 +33,8 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class TrainerSelectWorkout extends AppCompatActivity {
@@ -54,6 +58,8 @@ public class TrainerSelectWorkout extends AppCompatActivity {
     private AddExerciseAPI addExerciseAPI;
     private GetExercisesAPI getExercisesAPI;
     private SetTrainer newAddedSet;
+
+    private DeleteExerciseAPI deleteExerciseAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +143,7 @@ public class TrainerSelectWorkout extends AppCompatActivity {
         trainerExerciseLayoutManager = new LinearLayoutManager(TrainerSelectWorkout.this);
         trainerExerciseAdapter = new TrainerExerciseAdapter(trainerExerciseList, this);
         WorkoutSelectedRecyclerView.setLayoutManager(trainerExerciseLayoutManager);
+
         WorkoutSelectedRecyclerView.setAdapter(trainerExerciseAdapter);
 
         trainerExerciseAdapter.setOnItemClickListener(new TrainerExerciseAdapter.OnItemClickListener() {
@@ -149,9 +156,46 @@ public class TrainerSelectWorkout extends AppCompatActivity {
             public void onAddSetClick(int position) {
                 openAddSetDialog(position);
             }
+
+            @Override
+            public void onDeleteExerciseClick(int position) {
+                openConfirmationDialog(position);
+
+            }
         });
     }
 
+    private void openConfirmationDialog(int position) {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
+        View mView = getLayoutInflater().inflate(R.layout.confirmation_dialogue,null);
+        final TextView confirmationMessageTextView = (TextView) mView.findViewById(R.id.messageConfirmation);
+        confirmationMessageTextView.setText("Are you sure you want to delete "+trainerExerciseList.get(position).getExerciseName()+ " ?");
+        Button yes = (Button) mView.findViewById(R.id.YesButton);
+        Button no = (Button) mView.findViewById(R.id.NoButton);
+        mBuilder.setView(mView);
+        AlertDialog dialog = mBuilder.create();
+        dialog.show();
+
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String deleteExercise_url = "http://10.0.2.2/ZYZZ/delete_exercise.php?exerciseID=" + trainerExerciseList.get(position).getExerciseID();
+                deleteExerciseAPI = new DeleteExerciseAPI();
+                deleteExerciseAPI.execute(deleteExercise_url);
+                trainerExerciseList.remove(position);
+                trainerExerciseAdapter.notifyItemRemoved(position);
+                dialog.dismiss();
+            }
+        });
+
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+    }
 
     private void openAddSetDialog(int position) {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
@@ -417,7 +461,7 @@ public class TrainerSelectWorkout extends AppCompatActivity {
                 String newAddedSetID = jsonObject.getString("setID");
                 newAddedSet.setSet_id(newAddedSetID);
                 selectedExercise.addSet(newAddedSet);
-                trainerExerciseAdapter.notifyDataSetChanged();
+                buildRecyclerView();
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -425,5 +469,54 @@ public class TrainerSelectWorkout extends AppCompatActivity {
         }
     }
 
+    public class DeleteExerciseAPI extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... urls) {
+            // URL and HTTP initialization to connect to API 2
+            URL url;
+            HttpURLConnection http;
 
+            try {
+                // Connect to API 2
+                url = new URL(urls[0]);
+                http = (HttpURLConnection) url.openConnection();
+
+                // Retrieve API 2 content
+                InputStream in = http.getInputStream();
+                InputStreamReader reader = new InputStreamReader(in);
+
+                // Read API 2 content line by line
+                BufferedReader br = new BufferedReader(reader);
+                StringBuilder sb = new StringBuilder();
+
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+
+                br.close();
+                // Return content from API 2
+                return sb.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        protected void onPostExecute(String values) {
+            super.onPostExecute(values);
+            try {
+                values = values.replaceAll("[\\n]", "");
+                toastMessage(values).show();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+        }
+    }
+
+    public Toast toastMessage(String message) {
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
+        return toast;
+    }
 }

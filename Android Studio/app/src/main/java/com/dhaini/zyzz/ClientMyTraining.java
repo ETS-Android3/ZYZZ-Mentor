@@ -184,6 +184,7 @@ public class ClientMyTraining extends AppCompatActivity {
             public void onItemClick(int position) {
                 Intent intent = new Intent(ClientMyTraining.this,ClientSelectWorkout.class);
                 intent.putExtra("Workout",workoutsList.get(position));
+                intent.putExtra("User","Client");
                 startActivity(intent);
             }
         });

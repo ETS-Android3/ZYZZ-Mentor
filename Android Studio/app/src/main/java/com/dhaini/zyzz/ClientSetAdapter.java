@@ -143,6 +143,9 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
         void onItemClick(int position);
     }
 
+    public void setItemTouchHelper(ItemTouchHelper itemTouchHelper) {
+        this.itemTouchHelper = itemTouchHelper;
+    }
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }

@@ -112,4 +112,15 @@ public class Workout implements Parcelable{
             // rollno2-rollno1;
         }
     };
+
+    @Override
+    public String toString() {
+        return "Workout{" +
+                "workoutName='" + workoutName + '\'' +
+                ", workoutID='" + workoutID + '\'' +
+                ", planID='" + planID + '\'' +
+                ", background_Image=" + background_Image +
+                ", position=" + position +
+                '}';
+    }
 }

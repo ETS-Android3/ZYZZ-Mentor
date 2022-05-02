@@ -55,6 +55,8 @@ public class TrainerSelectWorkout extends AppCompatActivity {
     private AddSetAPI addSetAPI;
 
     private TrainerExercise selectedExercise;
+
+
     private AddExerciseAPI addExerciseAPI;
     private GetExercisesAPI getExercisesAPI;
     private SetTrainer newAddedSet;

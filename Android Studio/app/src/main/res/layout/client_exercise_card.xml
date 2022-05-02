@@ -21,27 +21,6 @@
 
         >
 
-        <ImageButton
-            android:id="@+id/addSetButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="18dp"
-            android:layout_marginEnd="20dp"
-            android:background="@color/transparent"
-            android:src="@drawable/add_set_btn" />
-
-        <ImageButton
-            android:id="@+id/deleteExerciseButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="13dp"
-            android:layout_marginStart="3dp"
-            android:layout_marginBottom="10dp"
-            android:background="@color/transparent"
-            android:src="@drawable/trash_icon" />
-
         <TextView
             android:id="@+id/ExerciseNameTextView"
             android:layout_width="wrap_content"
@@ -137,12 +116,49 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:paddingEnd="3dp"
+                android:paddingEnd="5dp"
                 android:paddingBottom="10dp"
                 android:text=""
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                android:hint="Put your comments"
+                android:hint="Trainer Comments"
+                android:textColorHint="@color/white"
+                />
+        </TableRow>
+
+        <TableRow
+
+            android:id="@+id/myFeedbackTable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/commentsTable"
+            android:background="@color/transparent"
+
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:paddingLeft="3dp"
+                android:paddingTop="10dp"
+                android:text="My Feedbacks:"
+
+                android:textColor="@color/yellow"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/myFeedbackEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:paddingEnd="5dp"
+                android:paddingBottom="10dp"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:hint="Put your Feedbacks"
+
                 android:textColorHint="@color/white"
                 />
         </TableRow>

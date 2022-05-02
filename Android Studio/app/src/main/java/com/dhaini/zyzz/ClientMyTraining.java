@@ -26,14 +26,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class ClientMyTraining extends AppCompatActivity {
     GetClientWorkoutAPI getClientWorkoutAPI;
     int imageCardArray[] = {R.drawable.card_image_1,R.drawable.card_image_2,R.drawable.card_image_3,R.drawable.card_image_4};
     private RecyclerView clientMyTrainingRecyclerView;
-    private WorkoutAdapter workoutAdapter;
+    private ClientWorkoutAdapter clientWorkoutAdapter;
     private RecyclerView.LayoutManager workoutLayoutManager;
 
     ArrayList<Workout> workoutsList;
@@ -143,11 +143,16 @@ public class ClientMyTraining extends AppCompatActivity {
                 } else {
 
                     workoutsList = new ArrayList<>();
-
+                    int chosenImageIndex=0;
                     for (int i = 0; i < clientWorkoutJson.length(); i++) {
                         // Set a random Image that are in the array to card Image
-                        Random r = new Random();
-                        int chosenImageIndex = r.nextInt((3 - 0) + 1) + 0;
+
+                        if(chosenImageIndex>2){
+                            chosenImageIndex=0;
+                        }
+                        else{
+                            chosenImageIndex++;
+                        }
                         int chosenImage = imageCardArray[chosenImageIndex];
                         JSONObject jsonObject = clientWorkoutJson.getJSONObject(i);
                         Workout workout = new Workout(jsonObject.get("workout_name").toString(),jsonObject.get("workout_id").toString(),jsonObject.get("plan_id").toString(),chosenImage,jsonObject.getInt("position"));
@@ -155,6 +160,7 @@ public class ClientMyTraining extends AppCompatActivity {
                         workoutsList.add(workout);
 
                     }
+                    Collections.sort(workoutsList,Workout.workoutPosition);
                     buildRecyclerView();
 
                 }
@@ -169,19 +175,16 @@ public class ClientMyTraining extends AppCompatActivity {
         // Initializing the recyclerView to display the card of each client
         clientMyTrainingRecyclerView = findViewById(R.id.ClientMyTrainingRecyclerView);
         workoutLayoutManager = new LinearLayoutManager(ClientMyTraining.this);
-        workoutAdapter = new WorkoutAdapter(workoutsList);
+        clientWorkoutAdapter = new ClientWorkoutAdapter(workoutsList);
         clientMyTrainingRecyclerView.setLayoutManager(workoutLayoutManager);
-        clientMyTrainingRecyclerView.setAdapter(workoutAdapter);
+        clientMyTrainingRecyclerView.setAdapter(clientWorkoutAdapter);
 
-        workoutAdapter.setOnItemClickListener(new WorkoutAdapter.OnItemClickListener() {
+        clientWorkoutAdapter.setOnItemClickListener(new ClientWorkoutAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                toastMessage("Clicked").show();
-            }
-
-            @Override
-            public void onDeleteClick(int position) {
-
+                Intent intent = new Intent(ClientMyTraining.this,ClientSelectWorkout.class);
+                intent.putExtra("Workout",workoutsList.get(position));
+                startActivity(intent);
             }
         });
     }

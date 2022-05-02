@@ -52,13 +52,15 @@
                 android:textSize="24sp" />
 
             <TextView
+                android:text="20"
+                android:gravity="center"
                 android:id="@+id/AgeInputTrainerClientMyInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/small_input_text_design"
-                android:paddingLeft="10dp"
-                android:textSize="25sp"
-                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="23sp"
+
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
@@ -67,7 +69,7 @@
                 android:background="@color/transparent"
                 android:paddingTop="10dp"
                 android:paddingBottom="5dp"
-                android:text="Height"
+                android:text="Height (cm)"
                 android:textColor="@color/yellow"
                 android:textSize="24sp" />
 
@@ -79,11 +81,13 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/small_input_text_design"
                 android:clickable="false"
-                android:drawableEnd="@drawable/meter_icon"
-                android:importantForAutofill="no"
+                android:textColor="@color/black"
 
+                android:importantForAutofill="no"
+                android:text="190"
                 android:paddingLeft="10dp"
                 android:paddingEnd="7dp"
+                android:textSize="23sp"
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
@@ -92,19 +96,21 @@
                 android:background="@color/transparent"
                 android:paddingTop="10dp"
                 android:paddingBottom="5dp"
-                android:text="Weight"
+                android:text="Weight (kg)"
                 android:textColor="@color/yellow"
-                android:textSize="24sp" />
+                android:textSize="25sp" />
 
             <TextView
+                style="@style/Widget.AppCompat.EditText"
                 android:id="@+id/WeightInputTrainerClientMyInfo"
-
+                android:text="65.5"
+                android:textSize="23sp"
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/small_input_text_design"
-                android:drawableEnd="@drawable/kg_icon"
-                android:paddingLeft="10dp"
-                android:paddingEnd="5dp"
+                android:background="@drawable/small_input_text_design"   android:paddingLeft="10dp"
+
+                android:paddingEnd="7dp"
                 tools:ignore="SpeakableTextPresentCheck" />
 
 
@@ -119,15 +125,16 @@
                 android:textSize="24sp" />
 
             <TextView
-
+                android:text="asdsahdshdjhaskdhdjkasjdsjdsajldjsaldjklsajdlsajdkjasdsakldjlsadjlksajdlsakjdsad"
                 android:id="@+id/pastInjuriesInputTrainerClientMyInfo"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/large_input_text_design"
                 android:ems="10"
-
-
+                android:gravity="start"
+                android:textColor="@color/black"
+                android:paddingRight="10dp"
                 android:paddingLeft="10dp"
                 android:textSize="20sp" />
 
@@ -143,13 +150,17 @@
                 android:textSize="24sp" />
 
             <TextView
-
+                android:text="asdsadjksadlasdlashddjfhdskfdsjfjkdsfjkdsfkjdshkjsdhfkjdshfhdsfhsdhfsdhfhjdsfdshfjdsfsdhfsdjfhkjdsfkjdlasjlkdjsakdjasjdlasjd"
                 android:id="@+id/healthIssuesInputTrainerClientMyInfo"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/large_input_text_design"
                 android:ems="10"
+                android:gravity="start"
+                android:textColor="@color/black"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
                 android:paddingLeft="10dp"
                 android:textSize="20sp" />
 
@@ -172,8 +183,9 @@
                 android:background="@drawable/small_input_text_design"
                 android:clickable="false"
                 android:importantForAutofill="no"
-
+                android:text="5"
                 android:paddingLeft="10dp"
+                android:textSize="23dp"
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
@@ -195,7 +207,8 @@
                 android:background="@drawable/small_input_text_design"
                 android:clickable="false"
                 android:importantForAutofill="no"
-
+                android:text="5"
+                android:textSize="23sp"
                 android:paddingLeft="10dp"
                 tools:ignore="SpeakableTextPresentCheck" />
 
@@ -213,13 +226,18 @@
             <TextView
                 android:id="@+id/trainingPreferencesInputTrainerClientMyInfo"
                 style="@style/Widget.AppCompat.EditText"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/long_input_text_design"
 
                 android:importantForAutofill="no"
-
+                android:text="jkabsdkbsakdbsaksajdsadasdlalsdjsaldlsajldjdhkashdkjsahd"
                 android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textSize="20sp"
+                android:gravity="start"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
@@ -236,13 +254,17 @@
             <TextView
                 android:id="@+id/objectiveInputTrainerClientMyInfo"
                 style="@style/Widget.AppCompat.EditText"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/large_input_text_design"
                 android:clickable="false"
                 android:importantForAutofill="no"
-
+                android:text="kasjdlsajdlsadkasdjhaskhdsakhdkasjhdjshadkhsadkhsajdhsajdhksadjhasdhaslkdhkjlsadhbkjashdkjsadklbjsakjldsackb asc aslkc sakbsapidsacnalscascnasjasdskaldlsajdlsajdlksjkdjsakldjsla"
                 android:paddingLeft="10dp"
+                android:gravity="start"
+                android:textSize="20sp"
+                android:paddingBottom="10dp"
+                android:paddingRight="10dp"
                 tools:ignore="SpeakableTextPresentCheck"
                 android:layout_marginBottom="50dp"/>
 

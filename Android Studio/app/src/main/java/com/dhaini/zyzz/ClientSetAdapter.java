@@ -1,5 +1,6 @@
 package com.dhaini.zyzz;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,11 +11,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
-
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -28,74 +31,46 @@ import org.json.JSONException;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.TrainerSetViewHolder> implements ItemTouchHelperAdapter{
-    private ArrayList<SetTrainer> setTrainerList;
+public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.ClientSetViewHolder> implements ItemTouchHelperAdapter {
+
+    private ArrayList<SetClient> setClientList;
     private OnItemClickListener mListener;
+    private static ItemTouchHelper itemTouchHelper;
+    private String user;
     private Timer timer = new Timer();
     private final long DELAY = 1000; // in ms
 
-    private UpdateSetAPI updateSetAPI; // Global variable to be initialized to be able to send the data to the api
+    //Global variable to be initialized to be able to send the data to the api
+    private UpdateSetAPI updateSetAPI;
     private String columnToChange;
     private String updatedInfo;
     private String set_id;
 
-    private DeleteSetAPI deleteSetAPI;
-    private static ItemTouchHelper itemTouchHelper;
 
 
-    @Override
-    public void onItemMove(int fromPosition, int toPosition) throws JSONException {
-
+    public ClientSetAdapter(ArrayList<SetClient> setClientList, String user) {
+        this.setClientList = setClientList;
+        this.user = user; // To know if this is a client or a trainer
     }
-
-    @Override
-    public void onItemSwiped(int position) {
-
-       String deleteWorkout_url = "http://10.0.2.2/ZYZZ/delete_set.php?setID=" + setTrainerList.get(position).getSet_id();
-        deleteSetAPI = new DeleteSetAPI();
-        deleteSetAPI.execute(deleteWorkout_url);
-
-        setTrainerList.remove(setTrainerList.get(position));
-        notifyItemRemoved(position);
-       /* setTrainerList.get(position).setSetName("Hellooo");
-        notifyItemChanged(position);*/
-
-
-    }
-
-    public void setItemTouchHelper(ItemTouchHelper itemTouchHelper) {
-        this.itemTouchHelper = itemTouchHelper;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        mListener = listener;
-    }
-
-    public static class TrainerSetViewHolder extends RecyclerView.ViewHolder implements View.OnTouchListener, GestureDetector.OnGestureListener{
-        public EditText setNameEditText;
+    public static class ClientSetViewHolder extends RecyclerView.ViewHolder implements View.OnTouchListener, GestureDetector.OnGestureListener {
+        public TextView setNameTextView;
         public EditText setRepsEditText;
         public EditText setWeightEditText;
-
+        public ImageView CompleteLineImageView;
         GestureDetector gestureDetector;
 
-        public TrainerSetViewHolder(@NonNull View itemView, OnItemClickListener listener) {
+        public ClientSetViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
-            setNameEditText = itemView.findViewById(R.id.setNameInput);
+
+            setNameTextView = itemView.findViewById(R.id.setNameInput);
             setRepsEditText = itemView.findViewById(R.id.repsInput);
             setWeightEditText = itemView.findViewById(R.id.weightInput);
-
+            CompleteLineImageView = itemView.findViewById(R.id.CompleteLineImageView);
             gestureDetector = new GestureDetector(itemView.getContext(), this);
-
         }
 
         @Override
@@ -134,70 +109,86 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
         }
     }
 
-    public TrainerSetAdapter(ArrayList<SetTrainer> setTrainerList) {
-        this.setTrainerList = setTrainerList;
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) throws JSONException {
+
+    }
+
+    @Override
+    public void onItemSwiped(int position) {
+
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
     }
 
     @NonNull
     @Override
-    public TrainerSetAdapter.TrainerSetViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.trainer_set_card, parent, false);
-        TrainerSetViewHolder mCVH = new TrainerSetViewHolder(v, mListener);
+    public ClientSetViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.client_set_card, parent, false);
+        ClientSetAdapter.ClientSetViewHolder mCVH = new ClientSetAdapter.ClientSetViewHolder (v, mListener);
         return mCVH;
     }
 
-
     @Override
-    public void onBindViewHolder(@NonNull TrainerSetViewHolder holder, int position) {
-        SetTrainer currentSet = setTrainerList.get(position);
-        holder.setNameEditText.setText(currentSet.getSetName());
-        holder.setRepsEditText.setText(currentSet.getReps());
-        holder.setWeightEditText.setText(currentSet.getWeight());
+    public void onBindViewHolder(@NonNull ClientSetAdapter.ClientSetViewHolder holder, int position) {
+        SetClient currentSet = setClientList.get(position);
+
+        // If the user is a trainer he can't edit the client weight and reps;
+        if(user.equalsIgnoreCase("Trainer")){
+            holder.setWeightEditText.setEnabled(false);
+            holder.setRepsEditText.setEnabled(false);
+        }
+        // Check if the client completed his set if not we hide the completed line imageView
+        if(currentSet.getCompleted() == 0){
+            holder.CompleteLineImageView.setImageAlpha(0);
+        }
+
+        holder.setNameTextView.setText(currentSet.getSetName());
+
+        // Putting the trainer weight and reps assigned as hint to help the client to remember what the trainer assigned to him in case he changed the reps or weights.
+        holder.setWeightEditText.setHint(currentSet.getTrainerWeight());
+        holder.setRepsEditText.setHint(currentSet.getTrainerReps());
 
 
-        // If the trainer want to edit the setName or Reps or Weight after he finish editing using UpdateSetAPI we update the data change in the database
-        //////////////////////// Set Name /////////////////////////
-        holder.setNameEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        // If the client didn't change the reps and weight the trainer assigned to him
 
+        if(currentSet.getClientReps().equals("null")){
+            holder.setRepsEditText.setText(currentSet.getTrainerReps());
+        }
+        else{
+            // Check if the trainer and client reps are the same if not we change the text color to yellow to highlight that the client changed the reps
+            if(currentSet.getClientReps().equalsIgnoreCase(currentSet.getTrainerReps())){
+                holder.setRepsEditText.setText(currentSet.getTrainerReps());
+            }
+            else{
+                holder.setRepsEditText.setTextColor(Color.parseColor("#E9CB0C"));
+                holder.setRepsEditText.setText(currentSet.getClientReps());
             }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (timer != null)
-                    timer.cancel();
+        }
+
+        if(currentSet.getClientWeight().equals("null")){
+            holder.setWeightEditText.setText(currentSet.getTrainerWeight());
+        }
+        else{
+            // Check if the trainer and client weights are the same if not we change the text color to yellow to highlight that the client changed the weights
+            if(currentSet.getClientWeight().equalsIgnoreCase(currentSet.getTrainerWeight())){
+                holder.setRepsEditText.setText(currentSet.getTrainerReps());
             }
-
-            @Override
-            public void afterTextChanged(final Editable s) {
-                //avoid triggering event when text is too short
-                timer = new Timer();
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        // TODO: do what you need here (refresh list)
-                        // you will probably need to use
-                        // runOnUiThread(Runnable action) for some specific
-                        // actions
-                        final String edit = s.toString();
-                        currentSet.setSetName(edit);
-
-                        set_id = currentSet.getSet_id();
-                        columnToChange = "set_name";
-                        updatedInfo = edit;
-
-                        updateSetAPI = new UpdateSetAPI();
-                        updateSetAPI.execute();
-                        Log.i("Message From set", "Hello");
-                    }
-
-                }, DELAY);
-
+            else{
+                holder.setWeightEditText.setTextColor(Color.parseColor("#E9CB0C"));
+                holder.setWeightEditText.setText(currentSet.getClientWeight());
             }
-        });
+        }
 
-        ///////////////////////////////// Reps////////////////////////////////
+
+        // When the client change the reps and weight assigned by the trainer
         holder.setRepsEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -218,14 +209,14 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
                     @Override
                     public void run() {
                         final String edit = s.toString();
-                        currentSet.setReps(edit);
+                        currentSet.setClientReps(edit);
 
-                        set_id = currentSet.getSet_id();
+                        set_id = currentSet.getSetID();
                         columnToChange = "reps";
                         updatedInfo = edit;
 
 
-                        updateSetAPI = new UpdateSetAPI();
+                        updateSetAPI = new TrainerSetAdapter.UpdateSetAPI();
                         updateSetAPI.execute();
                         Log.i("Message From set", "Hello");
                     }
@@ -263,11 +254,14 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
 
                         final String edit = s.toString();
 
-                        currentSet.setWeight(edit);
-                        set_id = currentSet.getSet_id();
-                        columnToChange = "weight";
+                        currentSet.setClientWeight(edit);
+                        set_id = currentSet.getSetID();
+                        columnToChange = "client_weight";
                         updatedInfo = edit;
 
+                        if(!updatedInfo.equalsIgnoreCase(currentSet.getTrainerWeight())){
+                            holder.setWeightEditText.setTextColor(Color.parseColor("#E9CB0C"));
+                        }
                         updateSetAPI = new UpdateSetAPI();
                         updateSetAPI.execute();
                         Log.i("Message From set", s.toString());
@@ -277,17 +271,18 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
 
             }
         });
+
+
     }
 
     @Override
     public int getItemCount() {
-        if (setTrainerList == null) {
+        if(setClientList==null){
             return 0;
         }
-        return setTrainerList.size();
+        return setClientList.size();
     }
 
-    ////////////////////////////////////////////// API Classes ///////////////
     class UpdateSetAPI extends AsyncTask<String, Void, String> {
 
         @Override
@@ -341,52 +336,4 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
             }
         }
     }
-
-
-    public class DeleteSetAPI extends AsyncTask<String, Void, String> {
-        protected String doInBackground(String... urls) {
-            // URL and HTTP initialization to connect to API 2
-            URL url;
-            HttpURLConnection http;
-
-            try {
-                // Connect to API 2
-                url = new URL(urls[0]);
-                http = (HttpURLConnection) url.openConnection();
-
-                // Retrieve API 2 content
-                InputStream in = http.getInputStream();
-                InputStreamReader reader = new InputStreamReader(in);
-
-                // Read API 2 content line by line
-                BufferedReader br = new BufferedReader(reader);
-                StringBuilder sb = new StringBuilder();
-
-                String line;
-                while ((line = br.readLine()) != null) {
-                    sb.append(line + "\n");
-                }
-
-                br.close();
-                // Return content from API 2
-                return sb.toString();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        protected void onPostExecute(String values) {
-            super.onPostExecute(values);
-            try {
-                return;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-
-            }
-        }
-    }
-
-
 }

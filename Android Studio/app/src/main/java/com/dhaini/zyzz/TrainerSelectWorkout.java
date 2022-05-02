@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -136,6 +137,10 @@ public class TrainerSelectWorkout extends AppCompatActivity {
 
 
     public void openClientFeedback(View view) {
+        Intent intent = new Intent(this,ClientSelectWorkout.class);
+        intent.putExtra("Workout",workoutSelected);
+        intent.putExtra("User","Trainer");
+        startActivity(intent);
     }
 
 

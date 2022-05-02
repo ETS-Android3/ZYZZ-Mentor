@@ -17,7 +17,7 @@
 
 
         >
-        <EditText
+        <TextView
             android:id="@+id/setNameInput"
             android:text="Top set"
             android:paddingLeft="3dp"
@@ -65,8 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:layout_gravity="center"
-
-        android:alpha="0.5"
+        android:alpha="0"
         android:src="@drawable/check_line"></ImageView>
 
 

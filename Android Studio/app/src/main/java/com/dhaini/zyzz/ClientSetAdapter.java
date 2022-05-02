@@ -2,6 +2,7 @@ package com.dhaini.zyzz;
 
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -52,6 +53,7 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
     private String columnToChange;
     private String updatedInfo;
     private String set_id;
+    private int positionSetUpdated;
 
 
 
@@ -170,18 +172,19 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
         // Check if the client completed his set if not we hide the completed line imageView
         if(currentSet.getCompleted() == 0){
             holder.CompleteLineImageView.setImageAlpha(0);
+            holder.CompleteLineImageView.setAlpha(0);
         }
 
         holder.setNameTextView.setText(currentSet.getSetName());
 
         // Putting the trainer weight and reps assigned as hint to help the client to remember what the trainer assigned to him in case he changed the reps or weights.
-        holder.setWeightEditText.setHint(currentSet.getTrainerWeight());
-        holder.setRepsEditText.setHint(currentSet.getTrainerReps());
 
+        holder.setRepsEditText.setHint(currentSet.getTrainerReps());
+        holder.setWeightEditText.setHint(currentSet.getTrainerWeight());
 
         // If the client didn't change the reps and weight the trainer assigned to him
 
-        if(currentSet.getClientReps().equals("null")){
+        if(currentSet.getClientReps().equalsIgnoreCase("null")||currentSet.getClientReps().equalsIgnoreCase("") ){
             holder.setRepsEditText.setText(currentSet.getTrainerReps());
         }
         else{
@@ -190,13 +193,13 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
                 holder.setRepsEditText.setText(currentSet.getTrainerReps());
             }
             else{
-                holder.setRepsEditText.setTextColor(Color.parseColor("#E9CB0C"));
+                holder.setRepsEditText.setTextColor(Color.parseColor("#4F5A69"));
                 holder.setRepsEditText.setText(currentSet.getClientReps());
             }
 
         }
 
-        if(currentSet.getClientWeight().equals("null")){
+        if(currentSet.getClientWeight().equalsIgnoreCase("null") ||currentSet.getClientWeight().equalsIgnoreCase("") ){
             holder.setWeightEditText.setText(currentSet.getTrainerWeight());
         }
         else{
@@ -206,7 +209,7 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
                 holder.setRepsEditText.setText(currentSet.getTrainerReps());
             }
             else{
-                holder.setWeightEditText.setTextColor(Color.parseColor("#E9CB0C"));
+                holder.setWeightEditText.setTextColor(Color.parseColor("#4F5A69"));
                 holder.setWeightEditText.setText(currentSet.getClientWeight());
             }
         }
@@ -232,9 +235,13 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
             public void afterTextChanged(final Editable s) {
                 //avoid triggering event when text is too short
                 timer = new Timer();
+
+                Handler handler;
                 timer.schedule(new TimerTask() {
+
                     @Override
                     public void run() {
+
                         final String edit = s.toString();
 
                         currentSet.setClientReps(edit);
@@ -243,9 +250,6 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
                         columnToChange = "client_reps";
                         updatedInfo = edit;
 
-                        if(!updatedInfo.equalsIgnoreCase(currentSet.getTrainerReps())){
-                            holder.setRepsEditText.setTextColor(Color.parseColor("#E9CB0C"));
-                        }
                         updateSetAPI = new UpdateSetAPI();
                         updateSetAPI.execute();
                         Log.i("Message From set", "Hello");
@@ -284,9 +288,7 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
                         columnToChange = "client_weight";
                         updatedInfo = edit;
 
-                        if(!updatedInfo.equalsIgnoreCase(currentSet.getTrainerWeight())){
-                            holder.setWeightEditText.setTextColor(Color.parseColor("#E9CB0C"));
-                        }
+
                         updateSetAPI = new UpdateSetAPI();
                         updateSetAPI.execute();
                         Log.i("Message From set", s.toString());
@@ -356,7 +358,6 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
             super.onPostExecute(s);
             try {
 
-                return;
             } catch (Exception e) {
                 e.printStackTrace();
             }

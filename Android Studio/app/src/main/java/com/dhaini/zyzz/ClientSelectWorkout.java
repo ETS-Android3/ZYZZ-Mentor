@@ -54,6 +54,10 @@ public class ClientSelectWorkout extends AppCompatActivity {
         workoutSelected = getIntent().getParcelableExtra("Workout");
         user = getIntent().getStringExtra("User");
 
+        getExercisesAPI = new GetExercisesAPI();
+        getExercisesAPI.execute();
+
+
         workoutSelectedBannerNameTextView.setText(workoutSelected.getWorkoutName());
 
         Log.i("Client Workout",workoutSelected.toString());
@@ -135,8 +139,8 @@ public class ClientSelectWorkout extends AppCompatActivity {
                                 String clientWeight = setJsonObject.getString("client_weight");
                                 int completed = Integer.valueOf(setJsonObject.getString("complete"));
 
-                                SetClient setClient = new SetClient(setName,trainerReps,trainerWeight,clientReps,clientWeight,completed);
-                                setTrainerList.add(setTrainer);
+                                SetClient setClient = new SetClient(setName,trainerReps,trainerWeight,clientReps,clientWeight,exerciseID,setID,completed);
+                                setClientList.add(setClient);
                             }
                         }
 
@@ -151,8 +155,8 @@ public class ClientSelectWorkout extends AppCompatActivity {
 
                         int workoutPosition = Integer.valueOf(ExerciseJsonObject.getString("position"));
 
-                       ClientExercise clientExercise = new ClientExercise();
-                        clientExerciseList.add(clientExercise);
+                       ClientExercise clientExercise = new ClientExercise(exerciseID,exerciseName,comments,feedbacks,workoutID,workoutPosition,setClientList);
+                       clientExerciseList.add(clientExercise);
 
                     }
 

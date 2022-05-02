@@ -142,7 +142,7 @@
                 android:background="@color/transparent"
                 android:paddingLeft="3dp"
                 android:paddingTop="10dp"
-                android:text="My Feedbacks:"
+                android:text="Feedbacks:"
 
                 android:textColor="@color/yellow"
                 android:textSize="20sp" />

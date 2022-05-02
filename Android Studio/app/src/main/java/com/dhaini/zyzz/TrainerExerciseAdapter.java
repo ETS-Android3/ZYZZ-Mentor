@@ -48,14 +48,10 @@ public class TrainerExerciseAdapter extends RecyclerView.Adapter<TrainerExercise
     private Timer timer = new Timer();
     private final long DELAY = 1000; // in ms
 
-    private DeleteExerciseAPI deleteExerciseAPI;
-
     private String currentExerciseID;
     private String updatedCommentToCurrentExercise;
 
     private UpdateCommentsAPI updateCommentsAPI;
-
-    private String changeExercisePosition_url = "http://10.0.2.2/ZYZZ/change_exercise_position.php?";
 
     public TrainerExerciseAdapter(ArrayList<TrainerExercise> trainerExerciseList, Activity activity) {
         this.activity = activity;
@@ -163,10 +159,7 @@ public class TrainerExerciseAdapter extends RecyclerView.Adapter<TrainerExercise
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        // TODO: do what you need here (refresh list)
-                        // you will probably need to use
-                        // runOnUiThread(Runnable action) for some specific
-                        // actions
+
                         final String edit = s.toString();
                         currentExercise.setComments(edit);
 
@@ -197,50 +190,6 @@ public class TrainerExerciseAdapter extends RecyclerView.Adapter<TrainerExercise
         return toast;
     }
 
-    public class DeleteExerciseAPI extends AsyncTask<String, Void, String> {
-        protected String doInBackground(String... urls) {
-            // URL and HTTP initialization to connect to API 2
-            URL url;
-            HttpURLConnection http;
-
-            try {
-                // Connect to API 2
-                url = new URL(urls[0]);
-                http = (HttpURLConnection) url.openConnection();
-
-                // Retrieve API 2 content
-                InputStream in = http.getInputStream();
-                InputStreamReader reader = new InputStreamReader(in);
-
-                // Read API 2 content line by line
-                BufferedReader br = new BufferedReader(reader);
-                StringBuilder sb = new StringBuilder();
-
-                String line;
-                while ((line = br.readLine()) != null) {
-                    sb.append(line + "\n");
-                }
-
-                br.close();
-                // Return content from API 2
-                return sb.toString();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        protected void onPostExecute(String values) {
-            super.onPostExecute(values);
-            try {
-                return;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-
-            }
-        }
-    }
 
     class UpdateCommentsAPI extends AsyncTask<String, Void, String> {
 

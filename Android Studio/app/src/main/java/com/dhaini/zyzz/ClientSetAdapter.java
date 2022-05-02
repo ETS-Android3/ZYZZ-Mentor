@@ -40,11 +40,14 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
     private ArrayList<SetClient> setClientList;
     private OnItemClickListener mListener;
     private static ItemTouchHelper itemTouchHelper;
+
+    // User if its a client or trainer
     private String user;
+
     private Timer timer = new Timer();
     private final long DELAY = 1000; // in ms
 
-    //Global variable to be initialized to be able to send the data to the api
+    // Global variable to be initialized to be able to send the data to the api
     private UpdateSetAPI updateSetAPI;
     private String columnToChange;
     private String updatedInfo;
@@ -116,7 +119,24 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
 
     @Override
     public void onItemSwiped(int position) {
+        SetClient currentSet = setClientList.get(position);
+        // If the user is a client and swiped change the status of the set
+        // from complete to incomplete and viceVersa and of course we update it to the database
+        if(user.equalsIgnoreCase("Client")) {
+            if (currentSet.getCompleted() == 0) {
+                currentSet.setCompleted(1);
+            } else {
+                currentSet.setCompleted(0);
 
+            }
+            set_id = currentSet.getSetID();
+            updatedInfo = String.valueOf(currentSet.getCompleted());
+            columnToChange = "complete";
+
+            updateSetAPI = new UpdateSetAPI();
+            updateSetAPI.execute();
+        }
+        notifyItemChanged(position);
     }
 
     public interface OnItemClickListener {
@@ -177,7 +197,8 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
             holder.setWeightEditText.setText(currentSet.getTrainerWeight());
         }
         else{
-            // Check if the trainer and client weights are the same if not we change the text color to yellow to highlight that the client changed the weights
+            // Check if the trainer and client weights are the same
+            // if not we change the text color to yellow to highlight that the client changed the weights
             if(currentSet.getClientWeight().equalsIgnoreCase(currentSet.getTrainerWeight())){
                 holder.setRepsEditText.setText(currentSet.getTrainerReps());
             }
@@ -189,6 +210,9 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
 
 
         // When the client change the reps and weight assigned by the trainer
+        // See what the client changed and update it in the database and again if the client weight or reps are not
+        // similar to those assigned by the trainer the text color will change to yellow
+
         holder.setRepsEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -209,14 +233,17 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
                     @Override
                     public void run() {
                         final String edit = s.toString();
+
                         currentSet.setClientReps(edit);
 
                         set_id = currentSet.getSetID();
-                        columnToChange = "reps";
+                        columnToChange = "client_reps";
                         updatedInfo = edit;
 
-
-                        updateSetAPI = new TrainerSetAdapter.UpdateSetAPI();
+                        if(!updatedInfo.equalsIgnoreCase(currentSet.getTrainerReps())){
+                            holder.setRepsEditText.setTextColor(Color.parseColor("#E9CB0C"));
+                        }
+                        updateSetAPI = new UpdateSetAPI();
                         updateSetAPI.execute();
                         Log.i("Message From set", "Hello");
                     }
@@ -247,11 +274,6 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        // TODO: do what you need here (refresh list)
-                        // you will probably need to use
-                        // runOnUiThread(Runnable action) for some specific
-                        // actions
-
                         final String edit = s.toString();
 
                         currentSet.setClientWeight(edit);
@@ -289,13 +311,14 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
         protected String doInBackground(String... params) {
 
             HttpClient http_client = new DefaultHttpClient();
-            HttpPost http_post = new HttpPost("http://10.0.2.2/ZYZZ/update_set.php?");
-            Log.i("Message from api",set_id);
+            HttpPost http_post = new HttpPost("http://10.0.2.2/ZYZZ/update_set.php");
+
             BasicNameValuePair setIDParam = new BasicNameValuePair("setID", set_id);
             BasicNameValuePair columnToChangeParam = new BasicNameValuePair("column", columnToChange);
             BasicNameValuePair updatedInfoParam = new BasicNameValuePair("updatedInfo", updatedInfo);
 
             ArrayList<NameValuePair> name_value_pair_list = new ArrayList<>();
+
             name_value_pair_list.add(setIDParam);
             name_value_pair_list.add(columnToChangeParam);
             name_value_pair_list.add(updatedInfoParam);

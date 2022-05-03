@@ -48,7 +48,7 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
     private String user;
 
     private Timer timer = new Timer();
-    private final long DELAY = 1000; // in ms
+    private final long DELAY = 3500; // in ms
 
     private UpdateSetRepsAPI updateSetRepsAPI;
     private UpdateSetWeightAPI updateSetWeightAPI;
@@ -233,8 +233,6 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
                 public void afterTextChanged(final Editable s) {
                     //avoid triggering event when text is too short
                     timer = new Timer();
-
-
                     timer.schedule(new TimerTask() {
 
                         @Override

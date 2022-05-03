@@ -33,8 +33,12 @@ if($verifyPassword){
     $name = $splitFullName[0];
     
     $planIDQuery = $mysqli->query("SELECT plan_id from login_trainer_client where client_id='$clientID'");
-    $fetchPlanID = mysqli_fetch_assoc($planIDQuery);
-    $planID = $fetchPlanID["plan_id"];
+    
+    if($planIDQuery->num_rows>0){
+        $fetchPlanID = mysqli_fetch_assoc($planIDQuery);
+        $planID = $fetchPlanID["plan_id"];
+    }
+    
     $result= "accepted";
 }
 else{

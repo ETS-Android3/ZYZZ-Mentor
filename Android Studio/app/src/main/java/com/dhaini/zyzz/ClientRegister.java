@@ -193,7 +193,7 @@ public class ClientRegister extends AppCompatActivity {
                 if(s.equalsIgnoreCase("Client registered")){
 
                     toastMessage("Welcome "+ fullName);
-                    Intent intent = new Intent(ClientRegister.this, ClientMyTraining.class);
+                    Intent intent = new Intent(ClientRegister.this, ClientLogin.class);
                     startActivity(intent);
                 }
                 else{

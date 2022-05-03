@@ -23,7 +23,6 @@ while($row =mysqli_fetch_assoc($workoutIDQuery))
     while($row2 =mysqli_fetch_assoc($exerciseIDQuery))
     {
     
-        
         $deleteSetsQuery = $mysqli->query("DELETE from sets where exercise_id='$row2[exercise_id]'");
         $deleteExerciseQuery = $mysqli->query("DELETE from exercise where exercise_id='$row2[exercise_id]'");
     }

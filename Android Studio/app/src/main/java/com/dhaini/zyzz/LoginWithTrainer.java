@@ -2,6 +2,7 @@ package com.dhaini.zyzz;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,24 +37,24 @@ import java.util.Arrays;
 import java.util.List;
 
 public class LoginWithTrainer extends AppCompatActivity {
-    String listTrainer_url = "http://10.0.2.2/ZYZZ/get_list_of_trainer.php";
-    String myTrainer_url = "http://10.0.2.2/ZYZZ/get_my_trainer.php";
-    String sendEmail_url = "http://10.0.2.2/ZYZZ/client_send_clientID_to_trainer.php";
-    String dumpTrainer_url = "http://10.0.2.2/ZYZZ/dump_trainer.php";
+    private String listTrainer_url = "http://10.0.2.2/ZYZZ/get_list_of_trainer.php";
+    private String myTrainer_url = "http://10.0.2.2/ZYZZ/get_my_trainer.php";
+    private String sendEmail_url = "http://10.0.2.2/ZYZZ/client_send_clientID_to_trainer.php";
+    private String dumpTrainer_url = "http://10.0.2.2/ZYZZ/dump_trainer.php";
 
-
-    getTrainerListAPI APITrainerList;
-    AutoCompleteTextView searchTrainerAutoCompleteTextView;
-    JSONArray trainerUsernameJsonArray;
-    String trainerUsernameSelected;
-    TextView trainerNameTextView;
-    boolean isValidTrainerUsername = false;
-    String clientUsername;
-    String clientID;
-    sendEmailToTrainerAPI sendEmailAPI;
-    TextView myTrainerTextView;
-    myTrainerAPI getMyTrainerAPI;
-    dumpTrainerAPI dumpTrainer_api;
+    private Client client;
+    private getTrainerListAPI APITrainerList;
+    private AutoCompleteTextView searchTrainerAutoCompleteTextView;
+    private JSONArray trainerUsernameJsonArray;
+    private String trainerUsernameSelected;
+    private TextView trainerNameTextView;
+    private boolean isValidTrainerUsername = false;
+    private String clientUsername;
+    private String clientID;
+    private sendEmailToTrainerAPI sendEmailAPI;
+    private TextView myTrainerTextView;
+    private myTrainerAPI getMyTrainerAPI;
+    private dumpTrainerAPI dumpTrainer_api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class LoginWithTrainer extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_login_with_trainer);
 
-        Client client = getIntent().getParcelableExtra("Client");
+        client = getIntent().getParcelableExtra("Client");
         clientUsername = client.getClientUsername();
         clientID = client.getClientID();
 
@@ -228,8 +229,6 @@ public class LoginWithTrainer extends AppCompatActivity {
             HttpClient http_client = new DefaultHttpClient();
             HttpPost http_post = new HttpPost(sendEmail_url);
 
-
-
             BasicNameValuePair usernameParam = new BasicNameValuePair("clientID", clientID);
             BasicNameValuePair passwordParam = new BasicNameValuePair("trainerUsername", trainerUsernameSelected);
 
@@ -254,7 +253,6 @@ public class LoginWithTrainer extends AppCompatActivity {
                 while ((buffered_str_chunk = buffered_reader.readLine()) != null) {
                     string_builder.append(buffered_str_chunk);
                 }
-                Log.i("result",string_builder.toString());
                 return string_builder.toString();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -266,6 +264,12 @@ public class LoginWithTrainer extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
+                searchTrainerAutoCompleteTextView.setText("");
+                trainerNameTextView.setText("");
+
+                Intent intent = new Intent(LoginWithTrainer.this,ClientMyTraining.class);
+                intent.putExtra("Client",client);
+
                 toastMessage(s).show();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -304,7 +308,6 @@ public class LoginWithTrainer extends AppCompatActivity {
                 while ((buffered_str_chunk = buffered_reader.readLine()) != null) {
                     string_builder.append(buffered_str_chunk);
                 }
-                Log.i("result",string_builder.toString());
                 return string_builder.toString();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -316,6 +319,11 @@ public class LoginWithTrainer extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
+                Intent intent = new Intent(LoginWithTrainer.this,ClientMyTraining.class);
+                client.setClientID("");
+                intent.putExtra("Client",client);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 toastMessage(s).show();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -358,7 +366,6 @@ public class LoginWithTrainer extends AppCompatActivity {
                 while ((buffered_str_chunk = buffered_reader.readLine()) != null) {
                     string_builder.append(buffered_str_chunk);
                 }
-                Log.i("result",string_builder.toString());
                 return string_builder.toString();
             } catch (Exception e) {
                 e.printStackTrace();

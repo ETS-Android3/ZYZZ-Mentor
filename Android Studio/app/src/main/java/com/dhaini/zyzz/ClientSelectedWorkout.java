@@ -52,7 +52,13 @@ public class ClientSelectedWorkout extends AppCompatActivity {
         workoutSelected = getIntent().getParcelableExtra("Workout");
         user = getIntent().getStringExtra("User");
 
-        workoutSelectedBannerNameTextView.setText(workoutSelected.getWorkoutName());
+        if(user.equalsIgnoreCase("Trainer")){
+            workoutSelectedBannerNameTextView.setText(workoutSelected.getWorkoutName()+ "Feedback");
+        }
+        else{
+            workoutSelectedBannerNameTextView.setText(workoutSelected.getWorkoutName());
+        }
+
 
         getExercisesAPI = new GetExercisesAPI();
         getExercisesAPI.execute();

@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -215,16 +216,15 @@ public class TrainerSelectedClient extends AppCompatActivity {
             }
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.N)
         protected void onPostExecute(String values) {
             super.onPostExecute(values);
             try {
-                JSONArray clientWorkoutJson = new JSONArray(values);
 
-                if (clientWorkoutJson.length() == 0) {
+                if (values.equalsIgnoreCase("0")) {
+                    toastMessage("Workouts none");
 
                 } else {
-
+                    JSONArray clientWorkoutJson = new JSONArray(values);
                     workoutsList = new ArrayList<>();
 
                     int chosenImageIndex = 0;
@@ -247,9 +247,9 @@ public class TrainerSelectedClient extends AppCompatActivity {
                     }
 
                     Collections.sort(workoutsList, Workout.workoutPosition);
-                    buildRecyclerView();
 
                 }
+                buildRecyclerView();
 
             } catch (Exception e) {
                 e.printStackTrace();

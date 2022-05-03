@@ -127,8 +127,14 @@ public class TrainerAddClient extends AppCompatActivity {
             try {
                 if (s.equalsIgnoreCase("client registered successfully!")) {
                     clientID_EditText.setText("");
+                    clientName_TextView.setText("");
+
+                    Intent intent = new Intent(TrainerAddClient.this,TrainerMyClients.class);
+                    intent.putExtra("trainerUsername",trainerUsername);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                 }
-                toastMessage(s);
+                toastMessage(s).show();
             } catch (Exception e) {
                 e.printStackTrace();
             }

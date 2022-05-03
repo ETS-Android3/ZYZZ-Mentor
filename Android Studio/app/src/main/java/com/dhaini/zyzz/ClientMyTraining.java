@@ -138,12 +138,13 @@ public class ClientMyTraining extends AppCompatActivity {
             try {
                 Log.i("message",values);
                 // Getting all the info for each client from the database
-                JSONArray clientWorkoutJson = new JSONArray(values);
 
-                if (clientWorkoutJson.length() == 0) {
+
+                if (values.equalsIgnoreCase("0")) {
+                    toastMessage("Workout none");
 
                 } else {
-
+                    JSONArray clientWorkoutJson = new JSONArray(values);
                     workoutsList = new ArrayList<>();
 
                     // Choose an image to put it in the card Workout
@@ -167,9 +168,10 @@ public class ClientMyTraining extends AppCompatActivity {
 
                     }
                     Collections.sort(workoutsList,Workout.workoutPosition);
-                    buildRecyclerView();
+
 
                 }
+                buildRecyclerView();
 
             } catch (Exception e) {
                 e.printStackTrace();

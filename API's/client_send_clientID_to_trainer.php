@@ -33,8 +33,8 @@ $headers .= 'From: '.$from."\r\n".'Reply-To: '.$from."\r\n" . 'X-Mailer: PHP/' .
  
 // Compose a simple HTML email message
 $message = '<html><body>';
-$message .= '<h1 style="color:#000000;">Hello! '.$trainerFullName.'</h1>';
-$message .= '<p style="color:#000000;font-size:18px;">We have '.$clientFullName.' that want to be coached by YOU!</p>';
+$message .= '<h1 style="color:#000000;">Hello '.$trainerFullName.'</h1>';
+$message .= '<p style="color:#000000;font-size:18px;">We have '.$clientFullName.' that want to be coached by you!</p>';
 $message .= '<p style="color:#000000;font-size:18px;"> There client ID is: <u>'.$clientID.'</u> </p>';
 $message .= '<p style="color:#000000;font-size:15px;"><b> Please do not share it with anyone </b></p>';
 $message .= '</body></html>';

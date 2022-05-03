@@ -68,7 +68,7 @@
                 android:background="@color/transparent"
                 android:paddingTop="10dp"
                 android:paddingBottom="5dp"
-                android:text="Height"
+                android:text="Height (cm)"
                 android:textColor="@color/yellow"
                 android:textSize="24sp" />
 
@@ -83,9 +83,10 @@
 
                 android:importantForAutofill="no"
                 android:inputType="number"
-
                 android:paddingLeft="10dp"
                 android:paddingEnd="7dp"
+                android:textSize="23sp"
+
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
@@ -94,20 +95,20 @@
                 android:background="@color/transparent"
                 android:paddingTop="10dp"
                 android:paddingBottom="5dp"
-                android:text="Weight"
+                android:text="Weight (kg)"
                 android:textColor="@color/yellow"
                 android:textSize="24sp" />
 
             <EditText
                 android:id="@+id/WeightInput"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/small_input_text_design"
-                android:drawableEnd="@drawable/kg_icon"
                 android:inputType="number"
+
                 android:paddingLeft="10dp"
-                android:paddingEnd="5dp"
+                android:paddingEnd="7dp"
+                android:textSize="23sp"
                 tools:ignore="SpeakableTextPresentCheck" />
 
 
@@ -124,15 +125,19 @@
             <EditText
 
                 android:id="@+id/pastInjuriesInput"
+
+                android:inputType="text|textMultiLine"
+                android:paddingLeft="10dp"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/large_input_text_design"
                 android:ems="10"
-                android:gravity="top|start"
+                android:gravity="start"
+                android:textColor="@color/black"
+                android:paddingRight="10dp"
 
-                android:inputType="textWebEmailAddress|textMultiLine"
-                android:paddingLeft="10dp"
+
                 android:textSize="20sp" />
 
 
@@ -149,16 +154,19 @@
             <EditText
 
                 android:id="@+id/healthIssuesInput"
+
+                android:inputType="textMultiLine"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/large_input_text_design"
                 android:ems="10"
-                android:inputType="textWebEmailAddress"
+                android:gravity="start"
+                android:textColor="@color/black"
+                android:paddingRight="10dp"
                 android:paddingLeft="10dp"
-                android:gravity="top|start"
-
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -181,7 +189,9 @@
                 android:importantForAutofill="no"
                 android:inputType="number"
                 android:paddingLeft="10dp"
-                android:gravity="top|start"
+                android:gravity="center_vertical"
+
+                android:textSize="23sp"
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
@@ -191,12 +201,14 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="5dp"
                 android:text="Hours/day "
+
                 android:textColor="@color/yellow"
                 android:textSize="24sp" />
 
 
             <EditText
                 android:id="@+id/hoursPerDayInput"
+
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -204,10 +216,14 @@
                 android:clickable="false"
                 android:importantForAutofill="no"
                 android:inputType="number"
-
-                android:text="10"
                 android:paddingLeft="10dp"
-                tools:ignore="SpeakableTextPresentCheck" />
+
+                android:gravity="center_vertical"
+                android:textSize="23sp"
+                tools:ignore="SpeakableTextPresentCheck"
+
+
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -222,14 +238,23 @@
 
             <EditText
                 android:id="@+id/trainingPreferencesInput"
-                style="@style/Widget.AppCompat.EditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+
                 android:background="@drawable/long_input_text_design"
                 android:clickable="false"
                 android:importantForAutofill="no"
-                android:inputType="number"
+                android:inputType="textMultiLine"
+
+
+                style="@style/Widget.AppCompat.EditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:ems="10"
+
+                android:textColor="@color/black"
+                android:paddingRight="10dp"
                 android:paddingLeft="10dp"
+                android:textSize="20sp"
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
@@ -245,15 +270,20 @@
 
             <EditText
                 android:id="@+id/objectiveInput"
+                android:clickable="false"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/large_input_text_design"
-                android:clickable="false"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                android:gravity="top|start"
+                android:ems="10"
+                android:gravity="start"
+                android:textColor="@color/black"
+                android:paddingRight="10dp"
                 android:paddingLeft="10dp"
+                android:textSize="20sp"
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <Button

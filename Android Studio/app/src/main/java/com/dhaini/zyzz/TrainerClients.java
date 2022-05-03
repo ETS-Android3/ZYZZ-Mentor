@@ -7,24 +7,18 @@ public class TrainerClients implements Parcelable{
     private String clientFullName;
     private String clientID;
     private String clientPlanID;
-    private String dayPerWeek;
-    private String trainerObjectives;
 
 
-    public TrainerClients(String clientFullName, String clientID, String clientPlanID, String dayPerWeek, String trainerObjectives) {
+    public TrainerClients(String clientFullName, String clientID, String clientPlanID) {
         this.clientFullName = clientFullName;
         this.clientID = clientID;
         this.clientPlanID = clientPlanID;
-        this.dayPerWeek = dayPerWeek;
-        this.trainerObjectives = trainerObjectives;
     }
 
     protected TrainerClients(Parcel in) {
         clientFullName = in.readString();
         clientID = in.readString();
         clientPlanID = in.readString();
-        dayPerWeek = in.readString();
-        trainerObjectives = in.readString();
     }
 
     public static final Creator<TrainerClients> CREATOR = new Creator<TrainerClients>() {
@@ -63,22 +57,6 @@ public class TrainerClients implements Parcelable{
         this.clientPlanID = clientPlanID;
     }
 
-    public String getDayPerWeek() {
-        return dayPerWeek;
-    }
-
-    public void setDayPerWeek(String dayPerWeek) {
-        this.dayPerWeek = dayPerWeek;
-    }
-
-    public String getTrainerObjectives() {
-        return trainerObjectives;
-    }
-
-    public void setTrainerObjectives(String trainerObjectives) {
-        this.trainerObjectives = trainerObjectives;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -89,7 +67,5 @@ public class TrainerClients implements Parcelable{
         parcel.writeString(clientFullName);
         parcel.writeString(clientID);
         parcel.writeString(clientPlanID);
-        parcel.writeString(dayPerWeek);
-        parcel.writeString(trainerObjectives);
     }
 }

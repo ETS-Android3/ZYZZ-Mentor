@@ -132,8 +132,7 @@ public class TrainerMyClients extends AppCompatActivity {
                         // Putting all the info of each client in TrainerClients class object and adding it to the myClientList
                         TrainerClients client = new TrainerClients(jsonObject.getString("client_fullname"),
                                 jsonObject.getString("client_id"),
-                                jsonObject.getString("plan_id"),jsonObject.getString("day_per_week"),
-                                jsonObject.getString("objective"));
+                                jsonObject.getString("plan_id"));
 
                         trainerClientList.add(client);
 

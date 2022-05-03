@@ -27,12 +27,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class ClientLogin extends AppCompatActivity {
-    EditText usernameInputEditText;
-    EditText passwordInputEditText;
-    String clientUsername;
-    String clientPassword;
-    clientAuthenticationAPI API;
-    String post_url = "http://10.0.2.2/ZYZZ/client_login.php";
+    private EditText usernameInputEditText;
+    private EditText passwordInputEditText;
+    private String clientUsername;
+    private String clientPassword;
+    private clientAuthenticationAPI API;
+    private String post_url = "http://10.0.2.2/ZYZZ/client_login.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

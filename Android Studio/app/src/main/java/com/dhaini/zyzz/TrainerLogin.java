@@ -27,10 +27,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class TrainerLogin extends AppCompatActivity {
-    EditText username;
-    EditText password;
-    TrainerAuthenticationAPI trainerAuthenticationAPI;
-    String post_url = "http://10.0.2.2/ZYZZ/trainer_login.php";
+    private EditText username;
+    private EditText password;
+    private TrainerAuthenticationAPI trainerAuthenticationAPI;
+    private String post_url = "http://10.0.2.2/ZYZZ/trainer_login.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

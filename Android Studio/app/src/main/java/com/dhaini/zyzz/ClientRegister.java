@@ -35,23 +35,23 @@ import java.util.Calendar;
 import java.util.List;
 
 public class ClientRegister extends AppCompatActivity {
-    EditText dobEditText;
-    EditText fullNameEditText;
-    EditText emailEditText;
-    EditText usernameEditText;
-    EditText passwordEditText;
-    EditText confirmPasswordEditText;
-    Spinner genderSpinner;
-    String post_url = "http://10.0.2.2/ZYZZ/client_register.php";
-    String password ="";
-    String username ="";
-    String fullName="";
-    String email="";
-    String dob="";
-    String gender="";
-    String confirmPassword="";
-    DatePickerDialog.OnDateSetListener onDateSetListener;
-    clientRegistrationAPI API;
+    private EditText dobEditText;
+    private EditText fullNameEditText;
+    private EditText emailEditText;
+    private EditText usernameEditText;
+    private EditText passwordEditText;
+    private EditText confirmPasswordEditText;
+    private Spinner genderSpinner;
+    private String post_url = "http://10.0.2.2/ZYZZ/client_register.php";
+    private String password ="";
+    private String username ="";
+    private String fullName="";
+    private String email="";
+    private String dob="";
+    private String gender="";
+    private String confirmPassword="";
+    private DatePickerDialog.OnDateSetListener onDateSetListener;
+    private clientRegistrationAPI API;
 
 
     @Override

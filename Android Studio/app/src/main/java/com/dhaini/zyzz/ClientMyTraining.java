@@ -30,23 +30,23 @@ import java.util.Collections;
 import java.util.List;
 
 public class ClientMyTraining extends AppCompatActivity {
-    GetClientWorkoutAPI getClientWorkoutAPI;
+    private GetClientWorkoutAPI getClientWorkoutAPI;
 
-    int imageCardArray[] = {R.drawable.card_image_1,R.drawable.card_image_2,R.drawable.card_image_3,R.drawable.card_image_4};
+    private int imageCardArray[] = {R.drawable.card_image_1, R.drawable.card_image_2, R.drawable.card_image_3, R.drawable.card_image_4};
 
     private RecyclerView clientMyTrainingRecyclerView;
     private ClientWorkoutAdapter clientWorkoutAdapter;
     private RecyclerView.LayoutManager workoutLayoutManager;
 
-    ArrayList<Workout> workoutsList;
+    private ArrayList<Workout> workoutsList;
 
-    Client client;
+    private Client client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE); //hide the actionbar
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_client_my_training);
 
@@ -58,33 +58,33 @@ public class ClientMyTraining extends AppCompatActivity {
         getClientWorkoutAPI.execute(getMyClient_url);
 
         // Initializing Option Button
-        List<String> options = Arrays.asList("","My Info","Login with Trainer","Logout");
+        List<String> options = Arrays.asList("", "My Info", "Login with Trainer", "Logout");
         Spinner optionsSpinner = findViewById(R.id.spinnerOptionClient);
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.spinner_options_trainer,options);
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.spinner_options_trainer, options);
         adapter.setDropDownViewResource(R.layout.drop_down_spinner_trainer_options);
         optionsSpinner.setAdapter(adapter);
 
         optionsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(adapterView.getItemAtPosition(i).equals("My Info")){
-                    Intent intentClientInfo = new Intent(ClientMyTraining.this,MyInfoClient.class);
+                if (adapterView.getItemAtPosition(i).equals("My Info")) {
+                    Intent intentClientInfo = new Intent(ClientMyTraining.this, MyInfoClient.class);
                     optionsSpinner.setSelection(0);
-                    intentClientInfo.putExtra("ClientUsername",client.getClientUsername());
+                    intentClientInfo.putExtra("ClientUsername", client.getClientUsername());
 
                     startActivity(intentClientInfo);
 
                 }
-                if(adapterView.getItemAtPosition(i).equals("Login with Trainer")){
-                    Intent intentClientInfo = new Intent(ClientMyTraining.this,LoginWithTrainer.class);
+                if (adapterView.getItemAtPosition(i).equals("Login with Trainer")) {
+                    Intent intentClientInfo = new Intent(ClientMyTraining.this, LoginWithTrainer.class);
                     optionsSpinner.setSelection(0);
-                    intentClientInfo.putExtra("Client",client);
+                    intentClientInfo.putExtra("Client", client);
 
                     startActivity(intentClientInfo);
 
                 }
-                if(adapterView.getItemAtPosition(i).equals("Logout")){
-                    Intent intentLogout = new Intent(ClientMyTraining.this,MainActivity.class);
+                if (adapterView.getItemAtPosition(i).equals("Logout")) {
+                    Intent intentLogout = new Intent(ClientMyTraining.this, MainActivity.class);
                     // End all previous activities and go back to main page
                     intentLogout.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intentLogout);
@@ -100,6 +100,7 @@ public class ClientMyTraining extends AppCompatActivity {
 
 
     }
+
     public class GetClientWorkoutAPI extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... urls) {
             // URL and HTTP initialization to connect to API 2
@@ -136,7 +137,7 @@ public class ClientMyTraining extends AppCompatActivity {
         protected void onPostExecute(String values) {
             super.onPostExecute(values);
             try {
-                Log.i("message",values);
+                Log.i("message", values);
                 // Getting all the info for each client from the database
 
 
@@ -148,26 +149,25 @@ public class ClientMyTraining extends AppCompatActivity {
                     workoutsList = new ArrayList<>();
 
                     // Choose an image to put it in the card Workout
-                    int chosenImageIndex=0;
+                    int chosenImageIndex = 0;
                     for (int i = 0; i < clientWorkoutJson.length(); i++) {
 
-                        if(chosenImageIndex>2){
-                            chosenImageIndex=0;
-                        }
-                        else{
+                        if (chosenImageIndex > 2) {
+                            chosenImageIndex = 0;
+                        } else {
                             chosenImageIndex++;
                         }
                         int chosenImage = imageCardArray[chosenImageIndex];
 
                         JSONObject jsonObject = clientWorkoutJson.getJSONObject(i);
 
-                        Workout workout = new Workout(jsonObject.get("workout_name").toString(),jsonObject.get("workout_id").toString(),
-                                jsonObject.get("plan_id").toString(),chosenImage,jsonObject.getInt("position"));
+                        Workout workout = new Workout(jsonObject.get("workout_name").toString(), jsonObject.get("workout_id").toString(),
+                                jsonObject.get("plan_id").toString(), chosenImage, jsonObject.getInt("position"));
 
                         workoutsList.add(workout);
 
                     }
-                    Collections.sort(workoutsList,Workout.workoutPosition);
+                    Collections.sort(workoutsList, Workout.workoutPosition);
 
 
                 }
@@ -179,7 +179,8 @@ public class ClientMyTraining extends AppCompatActivity {
             }
         }
     }
-    public void buildRecyclerView(){
+
+    public void buildRecyclerView() {
         clientMyTrainingRecyclerView = findViewById(R.id.ClientMyTrainingRecyclerView);
         workoutLayoutManager = new LinearLayoutManager(ClientMyTraining.this);
         clientWorkoutAdapter = new ClientWorkoutAdapter(workoutsList);
@@ -190,15 +191,15 @@ public class ClientMyTraining extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 Intent intent = new Intent(ClientMyTraining.this, ClientSelectedWorkout.class);
-                intent.putExtra("Workout",workoutsList.get(position));
-                intent.putExtra("User","Client");
+                intent.putExtra("Workout", workoutsList.get(position));
+                intent.putExtra("User", "Client");
                 startActivity(intent);
             }
         });
     }
 
-    public Toast toastMessage(String message){
-        Toast toast= Toast.makeText(getApplicationContext(),message,Toast. LENGTH_SHORT);
+    public Toast toastMessage(String message) {
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
         return toast;
     }
 }

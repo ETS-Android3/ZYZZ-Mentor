@@ -28,17 +28,17 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class TrainerAddClient extends AppCompatActivity {
-    EditText clientID_EditText;
-    TextView clientName_TextView;
+    private EditText clientID_EditText;
+    private TextView clientName_TextView;
 
-    String clientID;
-    String trainerUsername;
+    private String clientID;
+    private String trainerUsername;
 
-    String registerClient_url = "http://10.0.2.2/ZYZZ/login_trainer_client.php";
-    String searchClientName_url = "http://10.0.2.2/ZYZZ/search_client_name.php";
+    private String registerClient_url = "http://10.0.2.2/ZYZZ/login_trainer_client.php";
+    private String searchClientName_url = "http://10.0.2.2/ZYZZ/search_client_name.php";
 
-    registerClientAPI registerClient_api;
-    SearchClientNameAPI searchClientName_api;
+    private registerClientAPI registerClient_api;
+    private SearchClientNameAPI searchClientName_api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

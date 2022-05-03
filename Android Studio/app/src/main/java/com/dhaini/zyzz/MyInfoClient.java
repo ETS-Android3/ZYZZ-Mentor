@@ -28,28 +28,28 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class MyInfoClient extends AppCompatActivity {
-    String clientUsername;
-    String post_url = "http://10.0.2.2/ZYZZ/get_client_info.php";
-    String post_url2 = "http://10.0.2.2/ZYZZ/client_register_info.php";
-    TextView ageTextView;
-    EditText heightEditText;
-    EditText weightEditText;
-    EditText pastInjuriesEditText;
-    EditText healthIssuesEditText;
-    EditText daysWeekEditText;
-    EditText hoursDayEditText;
-    EditText trainingPreferenceEditText;
-    EditText objectiveEditText;
-    String height;
-    String weight;
-    String pastInjuries;
-    String healthIssues;
-    String daysWeek;
-    String hoursDay;
-    String trainingPreference;
-    String objectives;
-    getClientInfoAPI get_clientInfoAPI;
-    clientUpdateInfoAPI updateClientInfoAPI;
+    private String clientUsername;
+    private String post_url = "http://10.0.2.2/ZYZZ/get_client_info.php";
+    private String post_url2 = "http://10.0.2.2/ZYZZ/client_register_info.php";
+    private TextView ageTextView;
+    private EditText heightEditText;
+    private EditText weightEditText;
+    private EditText pastInjuriesEditText;
+    private EditText healthIssuesEditText;
+    private EditText daysWeekEditText;
+    private EditText hoursDayEditText;
+    private EditText trainingPreferenceEditText;
+    private EditText objectiveEditText;
+    private String height;
+    private String weight;
+    private String pastInjuries;
+    private String healthIssues;
+    private String daysWeek;
+    private String hoursDay;
+    private String trainingPreference;
+    private String objectives;
+    private getClientInfoAPI get_clientInfoAPI;
+    private clientUpdateInfoAPI updateClientInfoAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

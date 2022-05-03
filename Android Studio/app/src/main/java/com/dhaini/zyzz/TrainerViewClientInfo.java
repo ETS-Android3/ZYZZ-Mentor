@@ -23,16 +23,16 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class TrainerViewClientInfo extends AppCompatActivity {
-    TextView ageTextView;
-    TextView heightEditText;
-    TextView weightEditText;
-    TextView pastInjuriesEditText;
-    TextView healthIssuesEditText;
-    TextView daysWeekEditText;
-    TextView hoursDayEditText;
-    TextView trainingPreferenceEditText;
-    TextView objectiveEditText;
-    GetTrainerClientInfo get_clientInfoAPI;
+    private TextView ageTextView;
+    private TextView heightEditText;
+    private TextView weightEditText;
+    private TextView pastInjuriesEditText;
+    private TextView healthIssuesEditText;
+    private TextView daysWeekEditText;
+    private TextView hoursDayEditText;
+    private TextView trainingPreferenceEditText;
+    private TextView objectiveEditText;
+    private GetTrainerClientInfo get_clientInfoAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

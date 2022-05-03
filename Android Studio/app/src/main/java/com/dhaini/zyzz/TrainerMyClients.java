@@ -28,13 +28,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TrainerMyClients extends AppCompatActivity {
-    String trainerUsername;
+    private String trainerUsername;
     private RecyclerView myClientsListRecyclerView;
     private MyClientsAdapter myClientsAdapter;
     private RecyclerView.LayoutManager myClientsLayoutManager;
 
-    GetMyClientsAPI getMyClientsAPI;
-    ArrayList<TrainerClients> trainerClientList;
+    private GetMyClientsAPI getMyClientsAPI;
+    private ArrayList<TrainerClients> trainerClientList;
 
 
     @Override

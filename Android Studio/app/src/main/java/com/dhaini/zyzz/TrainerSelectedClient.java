@@ -42,10 +42,10 @@ import java.util.Collections;
 
 public class TrainerSelectedClient extends AppCompatActivity {
 
-    TextView clientNameBanner;
+    private TextView clientNameBanner;
     private FloatingActionButton floatingActionButtonAddWorkout;
 
-    int imageCardArray[] = {R.drawable.card_image_1, R.drawable.card_image_2, R.drawable.card_image_3, R.drawable.card_image_4};
+    private int imageCardArray[] = {R.drawable.card_image_1, R.drawable.card_image_2, R.drawable.card_image_3, R.drawable.card_image_4};
 
     private RecyclerView clientSelectedRecyclerView;
     private WorkoutAdapter workoutAdapter;

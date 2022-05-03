@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -26,7 +25,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class ClientSelectWorkout extends AppCompatActivity {
+public class ClientSelectedWorkout extends AppCompatActivity {
     private TextView workoutSelectedBannerNameTextView;
     private Workout workoutSelected;
     private ArrayList<ClientExercise> clientExerciseList = new ArrayList<>();
@@ -46,22 +45,17 @@ public class ClientSelectWorkout extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE); //hide the actionbar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_client_select_workout);
+        setContentView(R.layout.activity_client_selected_workout);
 
         workoutSelectedBannerNameTextView = (TextView) findViewById(R.id.ClientBannerWorkoutName);
-
 
         workoutSelected = getIntent().getParcelableExtra("Workout");
         user = getIntent().getStringExtra("User");
 
-        getExercisesAPI = new GetExercisesAPI();
-        getExercisesAPI.execute();
-
-
         workoutSelectedBannerNameTextView.setText(workoutSelected.getWorkoutName());
 
-        Log.i("Client Workout",workoutSelected.toString());
-
+        getExercisesAPI = new GetExercisesAPI();
+        getExercisesAPI.execute();
 
     }
 
@@ -117,14 +111,14 @@ public class ClientSelectWorkout extends AppCompatActivity {
 
                     for (int i = 0; i < exerciseJsonArray.length(); i++) {
 
-
                         JSONObject ExerciseJsonObject = exerciseJsonArray.getJSONObject(i);
-                        Log.i("Array", ExerciseJsonObject.get("0").toString());
+
                         JSONArray setJsonArray = new JSONArray(ExerciseJsonObject.getString("0"));
 
                         ArrayList<SetClient> setClientList = new ArrayList<>();
 
                         for (int j = 0; j < setJsonArray.length(); j++) {
+
                             JSONObject setJsonObject = setJsonArray.getJSONObject(j);
                             String setName = setJsonObject.getString("set_name");
 
@@ -139,7 +133,9 @@ public class ClientSelectWorkout extends AppCompatActivity {
                                 String clientWeight = setJsonObject.getString("client_weight");
                                 int completed = Integer.valueOf(setJsonObject.getString("complete"));
 
-                                SetClient setClient = new SetClient(setName,trainerReps,trainerWeight,clientReps,clientWeight,exerciseID,setID,completed);
+                                SetClient setClient = new SetClient(setName, trainerReps, trainerWeight, clientReps,
+                                        clientWeight, exerciseID, setID, completed);
+
                                 setClientList.add(setClient);
                             }
                         }
@@ -149,14 +145,17 @@ public class ClientSelectWorkout extends AppCompatActivity {
                         String comments = ExerciseJsonObject.getString("comments");
                         String workoutID = ExerciseJsonObject.getString("workout_id");
                         String feedbacks = ExerciseJsonObject.getString("client_feedback");
-                        if(feedbacks.equalsIgnoreCase("null")){
+
+                        if (feedbacks.equalsIgnoreCase("null")) {
                             feedbacks = "";
                         }
 
                         int workoutPosition = Integer.valueOf(ExerciseJsonObject.getString("position"));
 
-                       ClientExercise clientExercise = new ClientExercise(exerciseID,exerciseName,comments,feedbacks,workoutID,workoutPosition,setClientList);
-                       clientExerciseList.add(clientExercise);
+                        ClientExercise clientExercise = new ClientExercise(exerciseID, exerciseName, comments, feedbacks,
+                                workoutID, workoutPosition, setClientList);
+
+                        clientExerciseList.add(clientExercise);
 
                     }
 
@@ -170,12 +169,10 @@ public class ClientSelectWorkout extends AppCompatActivity {
         }
 
         public void buildRecyclerView() {
-            // Initializing the recyclerView to display the card of each client
             WorkoutSelectedRecyclerView = findViewById(R.id.ClientWorkoutSelectedRecyclerView);
-            clientExerciseLayoutManager = new LinearLayoutManager(ClientSelectWorkout.this);
-            clientExerciseAdapter = new ClientExerciseAdapter(ClientSelectWorkout.this,clientExerciseList,user);
+            clientExerciseLayoutManager = new LinearLayoutManager(ClientSelectedWorkout.this);
+            clientExerciseAdapter = new ClientExerciseAdapter(ClientSelectedWorkout.this, clientExerciseList, user);
             WorkoutSelectedRecyclerView.setLayoutManager(clientExerciseLayoutManager);
-
             WorkoutSelectedRecyclerView.setAdapter(clientExerciseAdapter);
 
         }

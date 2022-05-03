@@ -4,8 +4,6 @@ include("db_info.php");
 // Get the data from user
 $clientID = $_POST['clientID'];
 
-
-
 $planIDQuery = $mysqli->query("SELECT plan_id from login_trainer_client where client_id='$clientID'");
 
 if($planIDQuery->num_rows==0){
@@ -26,7 +24,7 @@ while($row =mysqli_fetch_assoc($workoutIDQuery))
     {
     
         
-        $deletesetsQuery = $mysqli->query("DELETE from sets where exercise_id='$row2[exercise_id]'");
+        $deleteSetsQuery = $mysqli->query("DELETE from sets where exercise_id='$row2[exercise_id]'");
         $deleteExerciseQuery = $mysqli->query("DELETE from exercise where exercise_id='$row2[exercise_id]'");
     }
     $deleteWorkoutQuery = $mysqli->query("DELETE from workout where workout_id='$row[workout_id]'");

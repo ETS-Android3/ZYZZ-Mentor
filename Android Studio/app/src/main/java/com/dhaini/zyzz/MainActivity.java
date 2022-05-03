@@ -20,16 +20,15 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
     }
-    public void trainerLogin(View view){ //Pop up window to show the PL logo and a small comment
+    public void trainerLogin(View view){
 
         Intent intent = new Intent(this,TrainerLogin.class);
-
         startActivity(intent);
     }
 
     public void ClientLogin(View view) {
-        Intent popupmenu = new Intent(this,ClientLogin.class);
 
-        startActivity(popupmenu);
+        Intent intent = new Intent(this,ClientLogin.class);
+        startActivity(intent);
     }
 }

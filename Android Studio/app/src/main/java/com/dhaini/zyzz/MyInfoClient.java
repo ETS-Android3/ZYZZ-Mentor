@@ -109,7 +109,9 @@ public class MyInfoClient extends AppCompatActivity {
             BasicNameValuePair hoursDayParam = new BasicNameValuePair("hoursPerDay", hoursDay);
             BasicNameValuePair trainingPreferenceParam = new BasicNameValuePair("trainingPreference", trainingPreference);
             BasicNameValuePair objectivesParam = new BasicNameValuePair("objectives", objectives);
+
             ArrayList<NameValuePair> name_value_pair_list = new ArrayList<>();
+
             name_value_pair_list.add(usernameParam);
             name_value_pair_list.add(healthIssuesParam);
             name_value_pair_list.add(heightParam);
@@ -137,7 +139,6 @@ public class MyInfoClient extends AppCompatActivity {
                 while ((buffered_str_chunk = buffered_reader.readLine()) != null) {
                     string_builder.append(buffered_str_chunk);
                 }
-                Log.i("result",string_builder.toString());
                 return string_builder.toString();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -149,7 +150,6 @@ public class MyInfoClient extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
-
                 toastMessage(s).show();
 
             } catch (Exception e) {

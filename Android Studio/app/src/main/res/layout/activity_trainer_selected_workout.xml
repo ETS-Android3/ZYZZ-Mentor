@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TrainerSelectClient">
+    android:background="@drawable/workout_selected_background"
+    tools:context=".TrainerSelectedWorkout">
 
     <ImageView
-        android:id="@+id/bannerClientName"
+        android:id="@+id/bannerBackgroundWorkoutName"
         android:layout_width="290dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -23,7 +24,7 @@
 
 
     <TextView
-        android:id="@+id/clientNameBanner"
+        android:id="@+id/bannerWorkoutName"
         android:layout_width="260dp"
 
 
@@ -34,14 +35,14 @@
         android:fontFamily="@font/poppins_semibold"
         android:lines="1"
         android:paddingLeft="5dp"
-        android:text="Mohamad Dhaini"
-        android:textAlignment="textStart"
+        android:text="Push Day"
+        android:textAlignment="center"
         android:textColor="@color/grey"
         android:textSize="@dimen/fab_margin"
         app:autoSizeTextType="uniform" />
 
     <ImageButton
-        android:id="@+id/viewMyClientInfoBtn"
+        android:id="@+id/clientFeedbackBtn"
         android:layout_width="85dp"
         android:layout_height="85dp"
 
@@ -50,9 +51,9 @@
         android:layout_centerVertical="true"
         android:layout_marginTop="7dp"
         android:layout_marginEnd="18dp"
-        android:background="@color/transparent"
-        android:src="@drawable/view_my_client_info_img_btn"
-        android:onClick="openMyClientInfo"
+
+        android:background="@drawable/client_feedback_btn_img"
+        android:onClick="openClientFeedback"
 
         app:layout_constraintVertical_bias="0.0">
 
@@ -60,19 +61,18 @@
 
     <androidx.recyclerview.widget.RecyclerView
 
-        android:id="@+id/ClientSelectedRecyclerView"
-        android:layout_width="340dp"
+        android:id="@+id/WorkoutSelectedRecyclerView"
+        android:layout_width="377dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/bannerClientName"
+        android:layout_below="@id/bannerBackgroundWorkoutName"
 
         android:layout_centerInParent="true"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="70dp"
         android:background="@color/transparent"
         android:scrollbars="vertical" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingAddWorkoutButton"
+        android:id="@+id/floatingAddExerciseButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 

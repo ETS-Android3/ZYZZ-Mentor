@@ -41,14 +41,16 @@ public class ClientLogin extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_client_login);
+
         usernameInputEditText = (EditText) findViewById(R.id.usernameInputClient);
         passwordInputEditText = (EditText) findViewById(R.id.passwordInputClient);
     }
 
 
-    public void createAccountClient(View view) { //Pop up window to show the PL logo and a small comment
-        Intent popupmenu = new Intent(this, ClientRegister.class);
-        startActivity(popupmenu);
+    public void createAccountClient(View view) {
+        // Take the user to ClientRegister page to create an account
+        Intent intent = new Intent(this, ClientRegister.class);
+        startActivity(intent);
 
     }
 
@@ -112,21 +114,26 @@ public class ClientLogin extends AppCompatActivity {
             super.onPostExecute(s);
             try {
                 JSONObject json = new JSONObject(s);
-                // Getting the status that was returned in the json response from the post api
+
                 String status = json.getString("status");
 
 
                 if (status.equalsIgnoreCase("accepted")) {
+
                     String name = json.getString("Name");
                     String clientID = json.getString("clientID");
                     String clientPlanID = json.getString("planID");
-                    toastMessage("Welcome " + name).show();
 
                     Client client = new Client(clientUsername, clientID, clientPlanID);
 
+                    // Take the client to his training page
                     Intent intent = new Intent(ClientLogin.this, ClientMyTraining.class);
                     intent.putExtra("Client", client);
+
+                    toastMessage("Welcome " + name).show();
+
                     startActivity(intent);
+
                 } else {
                     // If the status != accepted, the user is notified that something wrong happened
                     toastMessage(status).show();

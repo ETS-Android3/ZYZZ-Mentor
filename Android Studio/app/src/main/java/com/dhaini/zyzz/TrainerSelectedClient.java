@@ -1,6 +1,5 @@
 package com.dhaini.zyzz;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,15 +11,11 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,15 +37,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
 
-public class TrainerSelectClient extends AppCompatActivity {
+public class TrainerSelectedClient extends AppCompatActivity {
 
     TextView clientNameBanner;
+    private FloatingActionButton floatingActionButtonAddWorkout;
 
     int imageCardArray[] = {R.drawable.card_image_1, R.drawable.card_image_2, R.drawable.card_image_3, R.drawable.card_image_4};
 
@@ -58,18 +50,14 @@ public class TrainerSelectClient extends AppCompatActivity {
     private WorkoutAdapter workoutAdapter;
     private RecyclerView.LayoutManager workoutLayoutManager;
 
+    private ArrayList<Workout> workoutsList = null;
+    private TrainerClients client;
+
+    private String addWorkoutName;
+    private GetClientWorkoutAPI getClientWorkoutAPI;
+    private DeleteWorkoutAPI deleteWorkoutAPI;
+    private AddClientWorkoutAPI addClientWorkoutAPI;
     private String addWorkout_url = "http://10.0.2.2/ZYZZ/workout_register_trainer.php?";
-
-    GetClientWorkoutAPI getClientWorkoutAPI;
-    ArrayList<Workout> workoutsList = null;
-    TrainerClients client;
-    FloatingActionButton floatingActionButtonAddWorkout;
-    DeleteWorkoutAPI deleteWorkoutAPI;
-
-    String addWorkoutName;
-
-    AddClientWorkoutAPI addClientWorkoutAPI;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +66,7 @@ public class TrainerSelectClient extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE); //hide the actionbar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_trainer_select_client);
+        setContentView(R.layout.activity_trainer_selected_client);
 
         client = getIntent().getParcelableExtra("Client");
         clientNameBanner = (TextView) findViewById(R.id.clientNameBanner);
@@ -88,7 +76,6 @@ public class TrainerSelectClient extends AppCompatActivity {
         String getMyClient_url = "http://10.0.2.2/ZYZZ/get_trainer_client_workouts.php?planID=" + client.getClientPlanID();
         getClientWorkoutAPI = new GetClientWorkoutAPI();
         getClientWorkoutAPI.execute(getMyClient_url);
-
 
         floatingActionButtonAddWorkout = (FloatingActionButton) findViewById(R.id.floatingAddWorkoutButton);
 
@@ -103,12 +90,15 @@ public class TrainerSelectClient extends AppCompatActivity {
 
     private void openAddWorkoutDialog() {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
-        View mView = getLayoutInflater().inflate(R.layout.add_workout_dialog,null);
-        final EditText workoutName = (EditText) mView.findViewById(R.id.workoutNameEditText);
+        View mView = getLayoutInflater().inflate(R.layout.add_workout_dialog, null);
+
+        EditText workoutName = (EditText) mView.findViewById(R.id.workoutNameEditText);
         Button addWorkout = (Button) mView.findViewById(R.id.addWorkoutButton);
+
         mBuilder.setView(mView);
         AlertDialog dialog = mBuilder.create();
         dialog.show();
+
         addWorkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,10 +112,8 @@ public class TrainerSelectClient extends AppCompatActivity {
     }
 
 
-
-
     public void openMyClientInfo(View view) {
-        Intent intentViewClientInfo = new Intent(TrainerSelectClient.this, TrainerViewClientInfo.class);
+        Intent intentViewClientInfo = new Intent(TrainerSelectedClient.this, TrainerViewClientInfo.class);
         intentViewClientInfo.putExtra("Client", client);
         startActivity(intentViewClientInfo);
     }
@@ -139,10 +127,9 @@ public class TrainerSelectClient extends AppCompatActivity {
             HttpPost http_post = new HttpPost(addWorkout_url);
 
             int position;
-            if(workoutsList == null){
-                position =0;
-            }
-            else{
+            if (workoutsList == null) {
+                position = 0;
+            } else {
                 position = workoutsList.size();
             }
 
@@ -173,7 +160,6 @@ public class TrainerSelectClient extends AppCompatActivity {
                 while ((buffered_str_chunk = buffered_reader.readLine()) != null) {
                     string_builder.append(buffered_str_chunk);
                 }
-                Log.i("result", string_builder.toString());
                 return string_builder.toString();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -233,8 +219,6 @@ public class TrainerSelectClient extends AppCompatActivity {
         protected void onPostExecute(String values) {
             super.onPostExecute(values);
             try {
-                Log.i("message", values);
-                // Getting all the info for each client from the database
                 JSONArray clientWorkoutJson = new JSONArray(values);
 
                 if (clientWorkoutJson.length() == 0) {
@@ -242,24 +226,27 @@ public class TrainerSelectClient extends AppCompatActivity {
                 } else {
 
                     workoutsList = new ArrayList<>();
-                    int chosenImageIndex=0;
+
+                    int chosenImageIndex = 0;
                     for (int i = 0; i < clientWorkoutJson.length(); i++) {
-                        // Set a random Image that are in the array to card Image
-                        if(chosenImageIndex>2){
-                            chosenImageIndex=0;
-                        }
-                        else{
+
+                        if (chosenImageIndex> 2) {
+                            chosenImageIndex = 0;
+                        } else {
                             chosenImageIndex++;
                         }
                         int chosenImage = imageCardArray[chosenImageIndex];
+
                         JSONObject jsonObject = clientWorkoutJson.getJSONObject(i);
-                        Workout workout = new Workout(jsonObject.get("workout_name").toString(), jsonObject.get("workout_id").toString(), jsonObject.get("plan_id").toString(), chosenImage,jsonObject.getInt("position"));
+                        Workout workout = new Workout(jsonObject.get("workout_name").toString(),
+                                jsonObject.get("workout_id").toString(), jsonObject.get("plan_id").toString(),
+                                chosenImage, jsonObject.getInt("position"));
 
                         workoutsList.add(workout);
 
                     }
 
-                    Collections.sort(workoutsList,Workout.workoutPosition);
+                    Collections.sort(workoutsList, Workout.workoutPosition);
                     buildRecyclerView();
 
                 }
@@ -270,14 +257,11 @@ public class TrainerSelectClient extends AppCompatActivity {
             }
         }
     }
-    
 
-    
-    
+
     public void buildRecyclerView() {
-        // Initializing the recyclerView to display the card of each client
         clientSelectedRecyclerView = findViewById(R.id.ClientSelectedRecyclerView);
-        workoutLayoutManager = new LinearLayoutManager(TrainerSelectClient.this);
+        workoutLayoutManager = new LinearLayoutManager(TrainerSelectedClient.this);
         workoutAdapter = new WorkoutAdapter(workoutsList);
         clientSelectedRecyclerView.setLayoutManager(workoutLayoutManager);
 
@@ -288,13 +272,11 @@ public class TrainerSelectClient extends AppCompatActivity {
 
         clientSelectedRecyclerView.setAdapter(workoutAdapter);
 
-
         workoutAdapter.setOnItemClickListener(new WorkoutAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
 
-                Intent intent = new Intent(TrainerSelectClient.this, TrainerSelectWorkout.class);
-
+                Intent intent = new Intent(TrainerSelectedClient.this, TrainerSelectedWorkout.class);
                 intent.putExtra("Workout", workoutsList.get(position));
                 startActivity(intent);
             }
@@ -307,30 +289,35 @@ public class TrainerSelectClient extends AppCompatActivity {
 
 
     }
+
     private void openConfirmationDialog(int position) {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
-        View mView = getLayoutInflater().inflate(R.layout.confirmation_dialogue,null);
-        final TextView confirmationMessageTextView = (TextView) mView.findViewById(R.id.messageConfirmation);
-        confirmationMessageTextView.setText("Are you sure you want to delete "+workoutsList.get(position).getWorkoutName()+ " ?");
-        Button yes = (Button) mView.findViewById(R.id.YesButton);
-        Button no = (Button) mView.findViewById(R.id.NoButton);
+        View mView = getLayoutInflater().inflate(R.layout.confirmation_dialogue, null);
+
+        TextView confirmationMessageTextView = (TextView) mView.findViewById(R.id.messageConfirmation);
+        confirmationMessageTextView.setText("Are you sure you want to delete " + workoutsList.get(position).getWorkoutName() + " ?");
+        Button yesButton = (Button) mView.findViewById(R.id.YesButton);
+        Button noButton = (Button) mView.findViewById(R.id.NoButton);
+
         mBuilder.setView(mView);
         AlertDialog dialog = mBuilder.create();
         dialog.show();
 
-        yes.setOnClickListener(new View.OnClickListener() {
+        yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String deleteWorkout_url = "http://10.0.2.2/ZYZZ/delete_workout.php?workoutID=" + workoutsList.get(position).getWorkoutID();
                 deleteWorkoutAPI = new DeleteWorkoutAPI();
                 deleteWorkoutAPI.execute(deleteWorkout_url);
+
                 workoutsList.remove(position);
                 workoutAdapter.notifyItemRemoved(position);
+
                 dialog.dismiss();
             }
         });
 
-        no.setOnClickListener(new View.OnClickListener() {
+        noButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();

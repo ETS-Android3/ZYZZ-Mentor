@@ -39,13 +39,15 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
     private ArrayList<Workout> workoutsList;
     private static OnItemClickListener mListener;
     private static ItemTouchHelper itemTouchHelper;
+
+    private JSONObject workoutFromJson;
+    private JSONObject workoutToJson;
+    private ChangeWorkoutPositionAPI changeWorkoutPositionAPI;
     private String changeWorkoutPosition_url = "http://10.0.2.2/ZYZZ/change_workout_position.php?";
-    JSONObject workoutFromJson;
-    JSONObject workoutToJson;
-    ChangeWorkoutPositionAPI changeWorkoutPositionAPI;
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) throws JSONException {
+
         Workout fromWorkout = workoutsList.get(fromPosition);
 
         workoutFromJson = new JSONObject();
@@ -67,7 +69,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
 
     @Override
     public void onItemSwiped(int position) {
-
+        notifyDataSetChanged();
     }
 
     public void setItemTouchHelper(ItemTouchHelper itemTouchHelper) {
@@ -191,11 +193,8 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
             HttpClient http_client = new DefaultHttpClient();
             HttpPost http_post = new HttpPost(changeWorkoutPosition_url);
 
-
-
             BasicNameValuePair addWorkoutNameParam = new BasicNameValuePair("workoutFrom", workoutFromJson.toString());
             BasicNameValuePair planIDParam = new BasicNameValuePair("workoutTo", workoutToJson.toString());
-
 
             ArrayList<NameValuePair> name_value_pair_list = new ArrayList<>();
 
@@ -232,7 +231,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
-              return;
+                return;
 
             } catch (Exception e) {
                 e.printStackTrace();

@@ -105,11 +105,9 @@ public class Workout implements Parcelable{
             int workoutPosition1 = w1.position;
             int workoutPosition2 = w2.position;
 
-            // For ascending order
             return workoutPosition1 - workoutPosition2;
 
-            // For descending order
-            // rollno2-rollno1;
+
         }
     };
 

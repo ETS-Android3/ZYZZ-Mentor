@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -22,7 +21,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -47,6 +45,7 @@ public class TrainerMyClients extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_trainer_my_clients);
+
         //Get username from Login activity
         trainerUsername = getIntent().getStringExtra("trainerUsername");
 
@@ -58,8 +57,6 @@ public class TrainerMyClients extends AppCompatActivity {
         // Initializing Options Button
         List<String> genders = Arrays.asList("","Add Client","Logout");
         Spinner optionsSpinner = findViewById(R.id.spinnerOption);
-
-
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.spinner_options_trainer,genders);
         adapter.setDropDownViewResource(R.layout.drop_down_spinner_trainer_options);
         optionsSpinner.setAdapter(adapter);
@@ -93,20 +90,16 @@ public class TrainerMyClients extends AppCompatActivity {
 
     public class GetMyClientsAPI extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... urls) {
-            // URL and HTTP initialization to connect to API 2
             URL url;
             HttpURLConnection http;
 
             try {
-                // Connect to API 2
                 url = new URL(urls[0]);
                 http = (HttpURLConnection) url.openConnection();
 
-                // Retrieve API 2 content
                 InputStream in = http.getInputStream();
                 InputStreamReader reader = new InputStreamReader(in);
 
-                // Read API 2 content line by line
                 BufferedReader br = new BufferedReader(reader);
                 StringBuilder sb = new StringBuilder();
 
@@ -116,7 +109,6 @@ public class TrainerMyClients extends AppCompatActivity {
                 }
 
                 br.close();
-                // Return content from API 2
                 return sb.toString();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -127,10 +119,8 @@ public class TrainerMyClients extends AppCompatActivity {
         protected void onPostExecute(String values) {
             super.onPostExecute(values);
             try {
-                Log.i("Message",values);
                 // Getting all the info for each client from the database
                 JSONArray myClientJson = new JSONArray(values);
-
 
                 trainerClientList = new ArrayList<>();
                 if(myClientJson.length()==0){
@@ -140,21 +130,16 @@ public class TrainerMyClients extends AppCompatActivity {
                     for(int i=0;i<myClientJson.length();i++) {
                         JSONObject jsonObject = myClientJson.getJSONObject(i);
                         // Putting all the info of each client in TrainerClients class object and adding it to the myClientList
-                        TrainerClients client = new TrainerClients(jsonObject.getString("client_fullname"),jsonObject.getString("client_id"),
+                        TrainerClients client = new TrainerClients(jsonObject.getString("client_fullname"),
+                                jsonObject.getString("client_id"),
                                 jsonObject.getString("plan_id"),jsonObject.getString("day_per_week"),
                                 jsonObject.getString("objective"));
+
                         trainerClientList.add(client);
 
                     }
                     buildRecyclerView();
                 }
-
-
-
-
-
-                // Getting the buy and sell results rates returned from API 2. Using BigDecimal class in case were dealing with huge numbers.
-
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -166,19 +151,18 @@ public class TrainerMyClients extends AppCompatActivity {
         Toast toast= Toast.makeText(getApplicationContext(),message,Toast. LENGTH_SHORT);
         return toast;
     }
+
     public void buildRecyclerView(){
-        // Initializing the recyclerView to display the card of each client
         myClientsListRecyclerView = findViewById(R.id.myClientRecyclerView);
         myClientsLayoutManager = new LinearLayoutManager(TrainerMyClients.this);
         myClientsAdapter = new MyClientsAdapter(trainerClientList);
         myClientsListRecyclerView.setLayoutManager(myClientsLayoutManager);
         myClientsListRecyclerView.setAdapter(myClientsAdapter);
-
         myClientsAdapter.setOnItemClickListener(new MyClientsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Intent trainerSelectedClientIntent = new Intent(TrainerMyClients.this, TrainerSelectClient.class);
-                Intent intent = trainerSelectedClientIntent.putExtra("Client", trainerClientList.get(position));
+                Intent trainerSelectedClientIntent = new Intent(TrainerMyClients.this, TrainerSelectedClient.class);
+                trainerSelectedClientIntent.putExtra("Client", trainerClientList.get(position));
                 startActivity(trainerSelectedClientIntent);
             }
         });

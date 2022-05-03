@@ -91,21 +91,22 @@ public class ClientExerciseAdapter extends RecyclerView.Adapter<ClientExerciseAd
         }
         ClientExercise currentExercise = clientExercisesList.get(position);
 
+        // Initializing the inner Set RecyclerView
         ClientSetAdapter clientSetAdapter = new ClientSetAdapter(currentExercise.getSetClientList(),user);
         LinearLayoutManager setLayout = new LinearLayoutManager(activity);
-
         ItemTouchHelper.Callback callback = new myItemTouchHelper(clientSetAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         clientSetAdapter.setItemTouchHelper(itemTouchHelper);
         itemTouchHelper.attachToRecyclerView(holder.setRepsWeightInputRecyclerView);
-
         holder.setRepsWeightInputRecyclerView.setAdapter(clientSetAdapter);
         holder.setRepsWeightInputRecyclerView.setLayoutManager(setLayout);
+
 
         holder.commentsTextView.setText(currentExercise.getComments());
         holder.myFeedbackEditText.setText(currentExercise.getFeedbacks());
         holder.ExerciseNameTextView.setText(currentExercise.getExerciseName());
 
+        // Update the client feedback and save it to the database
         holder.myFeedbackEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -128,11 +129,8 @@ public class ClientExerciseAdapter extends RecyclerView.Adapter<ClientExerciseAd
 
                         final String edit = s.toString();
                         currentExercise.setComments(edit);
-
                         currentExerciseID = currentExercise.getExerciseID();
-
                         updatedMyFeedbackToCurrentExercise = edit;
-
                         updateClientFeedbackAPI = new UpdateClientFeedbackAPI();
                         updateClientFeedbackAPI.execute();
 

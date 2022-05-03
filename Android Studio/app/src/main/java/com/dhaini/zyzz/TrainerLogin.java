@@ -24,16 +24,12 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 public class TrainerLogin extends AppCompatActivity {
     EditText username;
     EditText password;
-    trainerAuthenticationAPI  API;
+    TrainerAuthenticationAPI trainerAuthenticationAPI;
     String post_url = "http://10.0.2.2/ZYZZ/trainer_login.php";
 
     @Override
@@ -43,20 +39,21 @@ public class TrainerLogin extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_trainer_login);
+
         username = (EditText) findViewById(R.id.usernameInputTrainer);
         password = (EditText) findViewById(R.id.passwordInputTrainer);
     }
 
 
-    public void createAccountTrainer(View view){ //Pop up window to show the PL logo and a small comment
-        Intent popupmenu = new Intent(this, TrainerRegister.class);
-        startActivity(popupmenu);
+    public void createAccountTrainer(View view){
+        Intent intent = new Intent(this, TrainerRegister.class);
+        startActivity(intent);
 
     }
 
     public void loginTrainer(View view) {
-        API = new trainerAuthenticationAPI();
-        API.execute();
+        trainerAuthenticationAPI = new TrainerAuthenticationAPI();
+        trainerAuthenticationAPI.execute();
     }
 
 
@@ -66,7 +63,7 @@ public class TrainerLogin extends AppCompatActivity {
     }
 
 
-    class trainerAuthenticationAPI extends AsyncTask<String, Void, String> {
+    class TrainerAuthenticationAPI extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
@@ -77,10 +74,12 @@ public class TrainerLogin extends AppCompatActivity {
             String usernameInput, passwordInput;
             usernameInput = username.getText().toString() ;
             passwordInput = password.getText().toString();
+
             BasicNameValuePair usernameParam = new BasicNameValuePair("Username", usernameInput);
             BasicNameValuePair passwordParam = new BasicNameValuePair("Password", passwordInput);
 
             ArrayList<NameValuePair> name_value_pair_list = new ArrayList<>();
+
             name_value_pair_list.add(usernameParam);
             name_value_pair_list.add(passwordParam);
 
@@ -101,7 +100,6 @@ public class TrainerLogin extends AppCompatActivity {
                 while ((buffered_str_chunk = buffered_reader.readLine()) != null) {
                     string_builder.append(buffered_str_chunk);
                 }
-                Log.i("result",string_builder.toString());
                 return string_builder.toString();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -114,18 +112,19 @@ public class TrainerLogin extends AppCompatActivity {
             super.onPostExecute(s);
             try {
                 JSONObject json = new JSONObject(s);
-                // Getting the status that was returned in the json response from the post api
+
                 String status = json.getString("status");
 
-                // 200: OK status means the operation was successful
                 if (status.equalsIgnoreCase("accepted")) {
                     String name = json.getString("Name");
                     toastMessage("Welcome "+ name).show();
+
                     Intent intent = new Intent(TrainerLogin.this, TrainerMyClients.class);
                     intent.putExtra("trainerUsername",username.getText().toString());
+
                     startActivity(intent);
                 } else {
-                    // If the status was 404, the user is notified that something wrong happened
+                    // If the status!= accepted, the user is notified that something wrong happened
                     toastMessage(status).show();
                 }
             } catch (Exception e) {

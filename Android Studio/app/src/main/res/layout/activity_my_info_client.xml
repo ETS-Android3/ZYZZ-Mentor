@@ -52,12 +52,14 @@
                 android:textSize="24sp" />
 
             <TextView
+
+                android:gravity="center"
                 android:id="@+id/AgeInput"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/small_input_text_design"
-                android:paddingLeft="10dp"
-                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:textSize="23sp"
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
@@ -78,9 +80,10 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/small_input_text_design"
                 android:clickable="false"
-                android:drawableEnd="@drawable/meter_icon"
+
                 android:importantForAutofill="no"
                 android:inputType="number"
+
                 android:paddingLeft="10dp"
                 android:paddingEnd="7dp"
                 tools:ignore="SpeakableTextPresentCheck" />

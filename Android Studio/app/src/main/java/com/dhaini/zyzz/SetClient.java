@@ -85,4 +85,18 @@ public class SetClient {
     public void setCompleted(int completed) {
         this.completed = completed;
     }
+
+    @Override
+    public String toString() {
+        return "SetClient{" +
+                "setName='" + setName + '\'' +
+                ", trainerReps='" + trainerReps + '\'' +
+                ", trainerWeight='" + trainerWeight + '\'' +
+                ", clientReps='" + clientReps + '\'' +
+                ", clientWeight='" + clientWeight + '\'' +
+                ", exerciseID='" + exerciseID + '\'' +
+                ", setID='" + setID + '\'' +
+                ", completed=" + completed +
+                '}';
+    }
 }

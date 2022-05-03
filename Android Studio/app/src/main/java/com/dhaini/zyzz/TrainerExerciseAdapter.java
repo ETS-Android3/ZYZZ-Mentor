@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class TrainerExerciseAdapter extends RecyclerView.Adapter<TrainerExerciseAdapter.TrainerExerciseViewHolder>  {
+public class TrainerExerciseAdapter extends RecyclerView.Adapter<TrainerExerciseAdapter.TrainerExerciseViewHolder> {
     private ArrayList<TrainerExercise> trainerExerciseList;
     private OnItemClickListener mListener;
     private Activity activity;
@@ -60,8 +60,6 @@ public class TrainerExerciseAdapter extends RecyclerView.Adapter<TrainerExercise
 
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
-
         void onAddSetClick(int position);
 
         void onDeleteExerciseClick(int position);
@@ -71,7 +69,7 @@ public class TrainerExerciseAdapter extends RecyclerView.Adapter<TrainerExercise
         mListener = listener;
     }
 
-    public static class TrainerExerciseViewHolder extends RecyclerView.ViewHolder  {
+    public static class TrainerExerciseViewHolder extends RecyclerView.ViewHolder {
         public TextView exerciseNameTextView;
         public EditText commentsEditText;
         private RecyclerView setRepsWeightInputRecyclerView;
@@ -126,14 +124,13 @@ public class TrainerExerciseAdapter extends RecyclerView.Adapter<TrainerExercise
     public void onBindViewHolder(@NonNull TrainerExerciseViewHolder holder, int position) {
         TrainerExercise currentExercise = trainerExerciseList.get(position);
 
+        // Initializing inner Set RecyclerView
         TrainerSetAdapter trainerSetAdapter = new TrainerSetAdapter(currentExercise.getSetTrainerList());
         LinearLayoutManager setLayout = new LinearLayoutManager(activity);
-
         ItemTouchHelper.Callback callback = new myItemTouchHelper(trainerSetAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         trainerSetAdapter.setItemTouchHelper(itemTouchHelper);
         itemTouchHelper.attachToRecyclerView(holder.setRepsWeightInputRecyclerView);
-
         holder.setRepsWeightInputRecyclerView.setAdapter(trainerSetAdapter);
         holder.setRepsWeightInputRecyclerView.setLayoutManager(setLayout);
 
@@ -154,7 +151,6 @@ public class TrainerExerciseAdapter extends RecyclerView.Adapter<TrainerExercise
 
             @Override
             public void afterTextChanged(final Editable s) {
-                //avoid triggering event when text is too short
                 timer = new Timer();
                 timer.schedule(new TimerTask() {
                     @Override
@@ -202,8 +198,8 @@ public class TrainerExerciseAdapter extends RecyclerView.Adapter<TrainerExercise
             BasicNameValuePair exerciseIDParam = new BasicNameValuePair("exerciseID", currentExerciseID);
             BasicNameValuePair commentExerciseToChangeParam = new BasicNameValuePair("comments", updatedCommentToCurrentExercise);
 
-
             ArrayList<NameValuePair> name_value_pair_list = new ArrayList<>();
+
             name_value_pair_list.add(exerciseIDParam);
             name_value_pair_list.add(commentExerciseToChangeParam);
 
@@ -224,7 +220,6 @@ public class TrainerExerciseAdapter extends RecyclerView.Adapter<TrainerExercise
                 while ((buffered_str_chunk = buffered_reader.readLine()) != null) {
                     string_builder.append(buffered_str_chunk);
                 }
-                Log.i("result", string_builder.toString());
                 return string_builder.toString();
             } catch (Exception e) {
                 e.printStackTrace();

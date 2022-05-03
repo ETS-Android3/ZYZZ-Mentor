@@ -12,19 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Zyzz">
         <activity
-            android:name=".ClientSelectWorkout"
+            android:name=".ClientSelectedWorkout"
             android:exported="false" />
         <activity
-            android:name=".TrainerSelectWorkout"
+            android:name=".TrainerSelectedWorkout"
             android:exported="false" />
         <activity
             android:name=".TrainerViewClientInfo"
             android:exported="false" />
         <activity
-            android:name=".AddWorkoutAndExercises"
-            android:exported="false" />
-        <activity
-            android:name=".TrainerSelectClient"
+            android:name=".TrainerSelectedClient"
             android:exported="false" />
         <activity
             android:name=".MyInfoClient"

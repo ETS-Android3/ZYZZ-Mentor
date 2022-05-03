@@ -60,13 +60,6 @@
 
     </TableRow>
 
-    <ImageView
-        android:id="@+id/CompleteLineImageView"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_gravity="center"
-        android:alpha="0"
-        android:src="@drawable/check_line"></ImageView>
 
 
 </androidx.cardview.widget.CardView>

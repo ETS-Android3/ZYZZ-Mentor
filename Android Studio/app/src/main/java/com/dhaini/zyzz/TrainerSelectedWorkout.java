@@ -2,7 +2,6 @@ package com.dhaini.zyzz;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,7 +9,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -38,7 +36,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class TrainerSelectWorkout extends AppCompatActivity {
+public class TrainerSelectedWorkout extends AppCompatActivity {
     private TextView workoutNameBannerTextView;
     private FloatingActionButton floatingActionButtonAddExercise;
 
@@ -72,7 +70,7 @@ public class TrainerSelectWorkout extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
 
-        setContentView(R.layout.activity_trainer_select_workout);
+        setContentView(R.layout.activity_trainer_selected_workout);
 
         workoutSelected = getIntent().getParcelableExtra("Workout");
 
@@ -120,13 +118,13 @@ public class TrainerSelectWorkout extends AppCompatActivity {
             public void onClick(View view) {
                 String exerciseName = exerciseNameEditText.getText().toString();
                 int position;
-                if (trainerExerciseList.size() ==0) {
+                if (trainerExerciseList.size() == 0) {
                     position = 0;
                 } else {
                     position = trainerExerciseList.size();
                 }
                 ArrayList<SetTrainer> SetTrainerList = new ArrayList<>();
-                newAddedExerciseTrainer = new TrainerExercise(exerciseName, workoutSelected.getWorkoutID(), position,SetTrainerList);
+                newAddedExerciseTrainer = new TrainerExercise(exerciseName, workoutSelected.getWorkoutID(), position, SetTrainerList);
                 addExerciseAPI = new AddExerciseAPI();
                 addExerciseAPI.execute();
                 dialog.dismiss();
@@ -137,9 +135,9 @@ public class TrainerSelectWorkout extends AppCompatActivity {
 
 
     public void openClientFeedback(View view) {
-        Intent intent = new Intent(this,ClientSelectWorkout.class);
-        intent.putExtra("Workout",workoutSelected);
-        intent.putExtra("User","Trainer");
+        Intent intent = new Intent(this, ClientSelectedWorkout.class);
+        intent.putExtra("Workout", workoutSelected);
+        intent.putExtra("User", "Trainer");
         startActivity(intent);
     }
 
@@ -147,18 +145,13 @@ public class TrainerSelectWorkout extends AppCompatActivity {
     public void buildRecyclerView() {
         // Initializing the recyclerView to display the card of each client
         WorkoutSelectedRecyclerView = findViewById(R.id.WorkoutSelectedRecyclerView);
-        trainerExerciseLayoutManager = new LinearLayoutManager(TrainerSelectWorkout.this);
+        trainerExerciseLayoutManager = new LinearLayoutManager(TrainerSelectedWorkout.this);
         trainerExerciseAdapter = new TrainerExerciseAdapter(trainerExerciseList, this);
         WorkoutSelectedRecyclerView.setLayoutManager(trainerExerciseLayoutManager);
 
         WorkoutSelectedRecyclerView.setAdapter(trainerExerciseAdapter);
 
         trainerExerciseAdapter.setOnItemClickListener(new TrainerExerciseAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-
-            }
-
             @Override
             public void onAddSetClick(int position) {
                 openAddSetDialog(position);
@@ -174,28 +167,33 @@ public class TrainerSelectWorkout extends AppCompatActivity {
 
     private void openConfirmationDialog(int position) {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
-        View mView = getLayoutInflater().inflate(R.layout.confirmation_dialogue,null);
-        final TextView confirmationMessageTextView = (TextView) mView.findViewById(R.id.messageConfirmation);
-        confirmationMessageTextView.setText("Are you sure you want to delete "+trainerExerciseList.get(position).getExerciseName()+ " ?");
-        Button yes = (Button) mView.findViewById(R.id.YesButton);
-        Button no = (Button) mView.findViewById(R.id.NoButton);
+        View mView = getLayoutInflater().inflate(R.layout.confirmation_dialogue, null);
+
+        TextView confirmationMessageTextView = (TextView) mView.findViewById(R.id.messageConfirmation);
+        confirmationMessageTextView.setText("Are you sure you want to delete " + trainerExerciseList.get(position).getExerciseName() + " ?");
+
+        Button yesButton = (Button) mView.findViewById(R.id.YesButton);
+        Button noButton = (Button) mView.findViewById(R.id.NoButton);
+
         mBuilder.setView(mView);
         AlertDialog dialog = mBuilder.create();
         dialog.show();
 
-        yes.setOnClickListener(new View.OnClickListener() {
+        yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String deleteExercise_url = "http://10.0.2.2/ZYZZ/delete_exercise.php?exerciseID=" + trainerExerciseList.get(position).getExerciseID();
                 deleteExerciseAPI = new DeleteExerciseAPI();
                 deleteExerciseAPI.execute(deleteExercise_url);
+
                 trainerExerciseList.remove(position);
                 trainerExerciseAdapter.notifyItemRemoved(position);
+
                 dialog.dismiss();
             }
         });
 
-        no.setOnClickListener(new View.OnClickListener() {
+        noButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
@@ -206,24 +204,25 @@ public class TrainerSelectWorkout extends AppCompatActivity {
 
     private void openAddSetDialog(int position) {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
-        View mView = getLayoutInflater().inflate(R.layout.add_set_dialog,null);
+        View mView = getLayoutInflater().inflate(R.layout.add_set_dialog, null);
 
-        final EditText setNameEditText = (EditText) mView.findViewById(R.id.setNameInputEditText);
-        final EditText weightEditText = (EditText) mView.findViewById(R.id.weightInputEditText);
-        final EditText repsEditText = (EditText) mView.findViewById(R.id.repsInputEditText);
-
+        EditText setNameEditText = (EditText) mView.findViewById(R.id.setNameInputEditText);
+        EditText weightEditText = (EditText) mView.findViewById(R.id.weightInputEditText);
+        EditText repsEditText = (EditText) mView.findViewById(R.id.repsInputEditText);
 
         Button addSetBtn = (Button) mView.findViewById(R.id.addSetButton);
 
         mBuilder.setView(mView);
         AlertDialog dialog = mBuilder.create();
         dialog.show();
+
         addSetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectedExercise = trainerExerciseList.get(position);
 
-                newAddedSet = new SetTrainer(setNameEditText.getText().toString(),repsEditText.getText().toString(),weightEditText.getText().toString(),selectedExercise.getExerciseID());
+                newAddedSet = new SetTrainer(setNameEditText.getText().toString(), repsEditText.getText().toString(),
+                        weightEditText.getText().toString(), selectedExercise.getExerciseID());
 
                 addSetAPI = new AddSetAPI();
                 addSetAPI.execute();
@@ -279,7 +278,6 @@ public class TrainerSelectWorkout extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
-                // Getting all the info for each client from the database
                 JSONArray exerciseJsonArray = new JSONArray(s);
 
                 if (exerciseJsonArray.length() == 0) {
@@ -289,10 +287,9 @@ public class TrainerSelectWorkout extends AppCompatActivity {
                     trainerExerciseList = new ArrayList<>();
 
                     for (int i = 0; i < exerciseJsonArray.length(); i++) {
-                        // Set a random Image that are in the array to card Image
 
                         JSONObject ExerciseJsonObject = exerciseJsonArray.getJSONObject(i);
-                        Log.i("Array", ExerciseJsonObject.get("0").toString());
+
                         JSONArray setJsonArray = new JSONArray(ExerciseJsonObject.getString("0"));
 
                         ArrayList<SetTrainer> setTrainerList = new ArrayList<>();
@@ -308,7 +305,8 @@ public class TrainerSelectWorkout extends AppCompatActivity {
                                 String reps = setJsonObject.getString("reps");
                                 String weight = setJsonObject.getString("weight");
                                 String setID = setJsonObject.getString("set_id");
-                                SetTrainer setTrainer = new SetTrainer(setName, reps, weight, exerciseID,setID);
+
+                                SetTrainer setTrainer = new SetTrainer(setName, reps, weight, exerciseID, setID);
                                 setTrainerList.add(setTrainer);
                             }
                         }
@@ -333,7 +331,6 @@ public class TrainerSelectWorkout extends AppCompatActivity {
             }
         }
     }
-
 
 
     class AddExerciseAPI extends AsyncTask<String, Void, String> {
@@ -373,7 +370,6 @@ public class TrainerSelectWorkout extends AppCompatActivity {
                 while ((buffered_str_chunk = buffered_reader.readLine()) != null) {
                     string_builder.append(buffered_str_chunk);
                 }
-                Log.i("result", string_builder.toString());
                 return string_builder.toString();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -385,8 +381,6 @@ public class TrainerSelectWorkout extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
-                Log.i("message", s);
-                // Getting all the info for each client from the database
                 JSONObject jsonObject = new JSONObject(s);
 
                 String status = jsonObject.getString("status");
@@ -394,14 +388,12 @@ public class TrainerSelectWorkout extends AppCompatActivity {
                 newAddedExerciseTrainer.setExerciseID(newAddedExerciseID);
 
                 trainerExerciseList.add(newAddedExerciseTrainer);
-                if(trainerExerciseAdapter ==null){
+
+                if (trainerExerciseAdapter == null) {
                     buildRecyclerView();
-                }
-                else{
+                } else {
                     trainerExerciseAdapter.notifyDataSetChanged();
                 }
-
-
 
 
             } catch (Exception e) {
@@ -425,6 +417,7 @@ public class TrainerSelectWorkout extends AppCompatActivity {
             BasicNameValuePair exerciseIDParam = new BasicNameValuePair("exerciseID", newAddedSet.getExerciseID());
 
             ArrayList<NameValuePair> name_value_pair_list = new ArrayList<>();
+
             name_value_pair_list.add(setNameParam);
             name_value_pair_list.add(repsParam);
             name_value_pair_list.add(weightParam);
@@ -459,15 +452,12 @@ public class TrainerSelectWorkout extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
-
-                Log.i("message", s);
-                // Getting all the info for each client from the database
                 JSONObject jsonObject = new JSONObject(s);
 
-                String status = jsonObject.getString("status");
                 String newAddedSetID = jsonObject.getString("setID");
                 newAddedSet.setSet_id(newAddedSetID);
                 selectedExercise.addSet(newAddedSet);
+
                 buildRecyclerView();
 
             } catch (Exception e) {

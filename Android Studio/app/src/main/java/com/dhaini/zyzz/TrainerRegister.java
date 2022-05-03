@@ -51,7 +51,7 @@ public class TrainerRegister extends AppCompatActivity {
     String gender="";
     String confirmPassword="";
     DatePickerDialog.OnDateSetListener onDateSetListener;
-    trainerRegistrationAPI API;
+    trainerRegistrationAPI trainerRegistrationAPI;
 
 
     @Override
@@ -62,17 +62,17 @@ public class TrainerRegister extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_trainer_register);
 
-        // Calendar Picker setup
-        final Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
         fullNameEditText = (EditText) findViewById(R.id.fullNameInputTrainer);
         emailEditText =(EditText) findViewById(R.id.emailInputTrainer);
         usernameEditText = (EditText) findViewById(R.id.usernameInputTrainer);
         passwordEditText = (EditText) findViewById(R.id.passwordInputTrainer);
         confirmPasswordEditText = (EditText) findViewById(R.id.confirmPasswordInputTrainer);
+
+        // Calendar Picker setup
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         dobEditText = (EditText)findViewById(R.id.DOBInputTrainer);
         dobEditText.setOnClickListener(new View.OnClickListener() {
@@ -95,10 +95,9 @@ public class TrainerRegister extends AppCompatActivity {
             }
         };
 
-        //Spinner Initialization
+        // Gender Spinner Initialization
         List<String> genders = Arrays.asList("Male", "Female");
         genderSpinner = findViewById(R.id.genderInputTrainer);
-
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.selected_item_spinner, genders);
         adapter.setDropDownViewResource(R.layout.drop_down_spinner);
         genderSpinner.setAdapter(adapter);
@@ -116,15 +115,17 @@ public class TrainerRegister extends AppCompatActivity {
 
         if (password.equalsIgnoreCase("") || username.equalsIgnoreCase("")
                 || fullName.equalsIgnoreCase("") || email.equalsIgnoreCase("")
-                || confirmPassword.equalsIgnoreCase("")   || dob.equalsIgnoreCase("") || gender.equalsIgnoreCase("")) {
+                || confirmPassword.equalsIgnoreCase("")
+                || dob.equalsIgnoreCase("") || gender.equalsIgnoreCase("")) {
+
             toastMessage("Credential Incomplete!");
         }
         else if(!confirmPassword.equals(password)){
             toastMessage("Passwords doesn't match!");
         }
         else{
-            API = new trainerRegistrationAPI();
-            API.execute();
+            trainerRegistrationAPI = new trainerRegistrationAPI();
+            trainerRegistrationAPI.execute();
         }
 
 
@@ -143,14 +144,15 @@ public class TrainerRegister extends AppCompatActivity {
             HttpClient http_client = new DefaultHttpClient();
             HttpPost http_post = new HttpPost(post_url);
 
-
             BasicNameValuePair usernameParam = new BasicNameValuePair("username", username);
             BasicNameValuePair passwordParam = new BasicNameValuePair("password", password);
             BasicNameValuePair fullNameParam = new BasicNameValuePair("fullName", fullName);
             BasicNameValuePair emailParam = new BasicNameValuePair("email", email);
             BasicNameValuePair dobParam = new BasicNameValuePair("dob", dob);
             BasicNameValuePair genderParam = new BasicNameValuePair("gender", gender);
+
             ArrayList<NameValuePair> name_value_pair_list = new ArrayList<>();
+
             name_value_pair_list.add(fullNameParam);
             name_value_pair_list.add(passwordParam);
             name_value_pair_list.add(usernameParam);
@@ -176,7 +178,6 @@ public class TrainerRegister extends AppCompatActivity {
                 while ((buffered_str_chunk = buffered_reader.readLine()) != null) {
                     string_builder.append(buffered_str_chunk);
                 }
-                Log.i("result",string_builder.toString());
                 return string_builder.toString();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -194,9 +195,10 @@ public class TrainerRegister extends AppCompatActivity {
                     startActivity(popupmenu);
                 }
                 else{
+                    // If s!= Trainer Registered the user get notified what wrong happened
                     toastMessage(s);
                 }
-                toastMessage(s);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

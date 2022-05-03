@@ -32,13 +32,13 @@ public class TrainerAddClient extends AppCompatActivity {
     TextView clientName_TextView;
 
     String clientID;
-
-    registerClientAPI registerClient_api;
-    SearchClientNameAPI searchClientName_api;
     String trainerUsername;
 
     String registerClient_url = "http://10.0.2.2/ZYZZ/login_trainer_client.php";
     String searchClientName_url = "http://10.0.2.2/ZYZZ/search_client_name.php";
+
+    registerClientAPI registerClient_api;
+    SearchClientNameAPI searchClientName_api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +54,6 @@ public class TrainerAddClient extends AppCompatActivity {
 
         clientID_EditText = (EditText) findViewById(R.id.clientIDinputTrainer);
         clientName_TextView = (TextView) findViewById(R.id.clientNameAddClient);
-
-
 
     }
 
@@ -129,10 +127,8 @@ public class TrainerAddClient extends AppCompatActivity {
             try {
                 if (s.equalsIgnoreCase("client registered successfully!")) {
                     clientID_EditText.setText("");
-                    toastMessage(s).show();
-                } else {
-                    toastMessage(s).show();
                 }
+                toastMessage(s);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/workout_selected_background"
-    tools:context=".ClientSelectWorkout">
+    tools:context=".ClientSelectedWorkout">
 
     <ImageView
         android:id="@+id/ClientBannerBackgroundWorkoutName"

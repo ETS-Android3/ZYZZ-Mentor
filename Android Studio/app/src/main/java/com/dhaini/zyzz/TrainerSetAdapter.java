@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.TrainerSetViewHolder> implements ItemTouchHelperAdapter{
+public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.TrainerSetViewHolder> implements ItemTouchHelperAdapter {
     private ArrayList<SetTrainer> setTrainerList;
     private OnItemClickListener mListener;
     private Timer timer = new Timer();
@@ -57,16 +57,12 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
     @Override
     public void onItemSwiped(int position) {
 
-       String deleteWorkout_url = "http://10.0.2.2/ZYZZ/delete_set.php?setID=" + setTrainerList.get(position).getSet_id();
+        String deleteWorkout_url = "http://10.0.2.2/ZYZZ/delete_set.php?setID=" + setTrainerList.get(position).getSet_id();
         deleteSetAPI = new DeleteSetAPI();
         deleteSetAPI.execute(deleteWorkout_url);
 
         setTrainerList.remove(setTrainerList.get(position));
         notifyItemRemoved(position);
-       /* setTrainerList.get(position).setSetName("Hellooo");
-        notifyItemChanged(position);*/
-
-
     }
 
     public void setItemTouchHelper(ItemTouchHelper itemTouchHelper) {
@@ -81,7 +77,7 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
         mListener = listener;
     }
 
-    public static class TrainerSetViewHolder extends RecyclerView.ViewHolder implements View.OnTouchListener, GestureDetector.OnGestureListener{
+    public static class TrainerSetViewHolder extends RecyclerView.ViewHolder implements View.OnTouchListener, GestureDetector.OnGestureListener {
         public EditText setNameEditText;
         public EditText setRepsEditText;
         public EditText setWeightEditText;
@@ -176,20 +172,15 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        // TODO: do what you need here (refresh list)
-                        // you will probably need to use
-                        // runOnUiThread(Runnable action) for some specific
-                        // actions
-                        final String edit = s.toString();
-                        currentSet.setSetName(edit);
+                        String edit = s.toString();
 
+                        currentSet.setSetName(edit);
                         set_id = currentSet.getSet_id();
                         columnToChange = "set_name";
                         updatedInfo = edit;
 
                         updateSetAPI = new UpdateSetAPI();
                         updateSetAPI.execute();
-                        Log.i("Message From set", "Hello");
                     }
 
                 }, DELAY);
@@ -217,7 +208,7 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        final String edit = s.toString();
+                        String edit = s.toString();
                         currentSet.setReps(edit);
 
                         set_id = currentSet.getSet_id();
@@ -227,7 +218,6 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
 
                         updateSetAPI = new UpdateSetAPI();
                         updateSetAPI.execute();
-                        Log.i("Message From set", "Hello");
                     }
 
                 }, DELAY);
@@ -256,12 +246,8 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        // TODO: do what you need here (refresh list)
-                        // you will probably need to use
-                        // runOnUiThread(Runnable action) for some specific
-                        // actions
 
-                        final String edit = s.toString();
+                        String edit = s.toString();
 
                         currentSet.setWeight(edit);
                         set_id = currentSet.getSet_id();
@@ -270,7 +256,6 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
 
                         updateSetAPI = new UpdateSetAPI();
                         updateSetAPI.execute();
-                        Log.i("Message From set", s.toString());
                     }
 
                 }, DELAY);
@@ -295,12 +280,13 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
 
             HttpClient http_client = new DefaultHttpClient();
             HttpPost http_post = new HttpPost("http://10.0.2.2/ZYZZ/update_set.php?");
-            Log.i("Message from api",set_id);
+
             BasicNameValuePair setIDParam = new BasicNameValuePair("setID", set_id);
             BasicNameValuePair columnToChangeParam = new BasicNameValuePair("column", columnToChange);
             BasicNameValuePair updatedInfoParam = new BasicNameValuePair("updatedInfo", updatedInfo);
 
             ArrayList<NameValuePair> name_value_pair_list = new ArrayList<>();
+
             name_value_pair_list.add(setIDParam);
             name_value_pair_list.add(columnToChangeParam);
             name_value_pair_list.add(updatedInfoParam);
@@ -322,7 +308,6 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
                 while ((buffered_str_chunk = buffered_reader.readLine()) != null) {
                     string_builder.append(buffered_str_chunk);
                 }
-                Log.i("result", string_builder.toString());
                 return string_builder.toString();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -334,7 +319,6 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
-
                 return;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -350,15 +334,15 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
             HttpURLConnection http;
 
             try {
-                // Connect to API 2
+                // Connect to API
                 url = new URL(urls[0]);
                 http = (HttpURLConnection) url.openConnection();
 
-                // Retrieve API 2 content
+                // Retrieve API content
                 InputStream in = http.getInputStream();
                 InputStreamReader reader = new InputStreamReader(in);
 
-                // Read API 2 content line by line
+                // Read API  content line by line
                 BufferedReader br = new BufferedReader(reader);
                 StringBuilder sb = new StringBuilder();
 
@@ -368,7 +352,7 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
                 }
 
                 br.close();
-                // Return content from API 2
+                // Return content from API
                 return sb.toString();
             } catch (Exception e) {
                 e.printStackTrace();

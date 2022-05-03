@@ -150,7 +150,9 @@ public class ClientRegister extends AppCompatActivity {
             BasicNameValuePair emailParam = new BasicNameValuePair("email", email);
             BasicNameValuePair dobParam = new BasicNameValuePair("dob", dob);
             BasicNameValuePair genderParam = new BasicNameValuePair("gender", gender);
+
             ArrayList<NameValuePair> name_value_pair_list = new ArrayList<>();
+
             name_value_pair_list.add(fullNameParam);
             name_value_pair_list.add(passwordParam);
             name_value_pair_list.add(usernameParam);
@@ -176,7 +178,6 @@ public class ClientRegister extends AppCompatActivity {
                 while ((buffered_str_chunk = buffered_reader.readLine()) != null) {
                     string_builder.append(buffered_str_chunk);
                 }
-                Log.i("result",string_builder.toString());
                 return string_builder.toString();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -188,10 +189,12 @@ public class ClientRegister extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
+
                 if(s.equalsIgnoreCase("Client registered")){
+
                     toastMessage("Welcome "+ fullName);
-                    Intent popupmenu = new Intent(ClientRegister.this, ClientMyTraining.class);
-                    startActivity(popupmenu);
+                    Intent intent = new Intent(ClientRegister.this, ClientMyTraining.class);
+                    startActivity(intent);
                 }
                 else{
                     toastMessage(s);

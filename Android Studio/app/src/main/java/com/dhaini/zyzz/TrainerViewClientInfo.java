@@ -70,15 +70,15 @@ public class TrainerViewClientInfo extends AppCompatActivity {
             HttpURLConnection http;
 
             try {
-                // Connect to API 2
+                // Connect to API
                 url = new URL(urls[0]);
                 http = (HttpURLConnection) url.openConnection();
 
-                // Retrieve API 2 content
+                // Retrieve API content
                 InputStream in = http.getInputStream();
                 InputStreamReader reader = new InputStreamReader(in);
 
-                // Read API 2 content line by line
+                // Read API content line by line
                 BufferedReader br = new BufferedReader(reader);
                 StringBuilder sb = new StringBuilder();
 
@@ -88,7 +88,6 @@ public class TrainerViewClientInfo extends AppCompatActivity {
                 }
 
                 br.close();
-                // Return content from API 2
                 return sb.toString();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -100,10 +99,9 @@ public class TrainerViewClientInfo extends AppCompatActivity {
             super.onPostExecute(values);
             try {
                 try {
-                    Log.i("Message",values);
                     JSONArray jsonArray = new JSONArray(values);
                     JSONObject json = jsonArray.getJSONObject(0);
-                    // Getting client info from api and displaying to the ui
+
                     ageTextView.setText(json.get("age").toString());
                     heightEditText.setText(json.get("height").toString());
                     weightEditText.setText(json.get("weight").toString());

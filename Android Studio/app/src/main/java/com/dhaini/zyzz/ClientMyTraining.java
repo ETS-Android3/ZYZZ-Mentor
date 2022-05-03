@@ -31,7 +31,9 @@ import java.util.List;
 
 public class ClientMyTraining extends AppCompatActivity {
     GetClientWorkoutAPI getClientWorkoutAPI;
+
     int imageCardArray[] = {R.drawable.card_image_1,R.drawable.card_image_2,R.drawable.card_image_3,R.drawable.card_image_4};
+
     private RecyclerView clientMyTrainingRecyclerView;
     private ClientWorkoutAdapter clientWorkoutAdapter;
     private RecyclerView.LayoutManager workoutLayoutManager;
@@ -39,6 +41,7 @@ public class ClientMyTraining extends AppCompatActivity {
     ArrayList<Workout> workoutsList;
 
     Client client;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,11 +57,10 @@ public class ClientMyTraining extends AppCompatActivity {
         getClientWorkoutAPI = new GetClientWorkoutAPI();
         getClientWorkoutAPI.execute(getMyClient_url);
 
-        List<String> genders = Arrays.asList("","My Info","Login with Trainer","Logout");
+        // Initializing Option Button
+        List<String> options = Arrays.asList("","My Info","Login with Trainer","Logout");
         Spinner optionsSpinner = findViewById(R.id.spinnerOptionClient);
-
-
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.spinner_options_trainer,genders);
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.spinner_options_trainer,options);
         adapter.setDropDownViewResource(R.layout.drop_down_spinner_trainer_options);
         optionsSpinner.setAdapter(adapter);
 
@@ -143,9 +145,10 @@ public class ClientMyTraining extends AppCompatActivity {
                 } else {
 
                     workoutsList = new ArrayList<>();
+
+                    // Choose an image to put it in the card Workout
                     int chosenImageIndex=0;
                     for (int i = 0; i < clientWorkoutJson.length(); i++) {
-                        // Set a random Image that are in the array to card Image
 
                         if(chosenImageIndex>2){
                             chosenImageIndex=0;
@@ -154,8 +157,11 @@ public class ClientMyTraining extends AppCompatActivity {
                             chosenImageIndex++;
                         }
                         int chosenImage = imageCardArray[chosenImageIndex];
+
                         JSONObject jsonObject = clientWorkoutJson.getJSONObject(i);
-                        Workout workout = new Workout(jsonObject.get("workout_name").toString(),jsonObject.get("workout_id").toString(),jsonObject.get("plan_id").toString(),chosenImage,jsonObject.getInt("position"));
+
+                        Workout workout = new Workout(jsonObject.get("workout_name").toString(),jsonObject.get("workout_id").toString(),
+                                jsonObject.get("plan_id").toString(),chosenImage,jsonObject.getInt("position"));
 
                         workoutsList.add(workout);
 
@@ -172,7 +178,6 @@ public class ClientMyTraining extends AppCompatActivity {
         }
     }
     public void buildRecyclerView(){
-        // Initializing the recyclerView to display the card of each client
         clientMyTrainingRecyclerView = findViewById(R.id.ClientMyTrainingRecyclerView);
         workoutLayoutManager = new LinearLayoutManager(ClientMyTraining.this);
         clientWorkoutAdapter = new ClientWorkoutAdapter(workoutsList);
@@ -182,13 +187,14 @@ public class ClientMyTraining extends AppCompatActivity {
         clientWorkoutAdapter.setOnItemClickListener(new ClientWorkoutAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Intent intent = new Intent(ClientMyTraining.this,ClientSelectWorkout.class);
+                Intent intent = new Intent(ClientMyTraining.this, ClientSelectedWorkout.class);
                 intent.putExtra("Workout",workoutsList.get(position));
                 intent.putExtra("User","Client");
                 startActivity(intent);
             }
         });
     }
+
     public Toast toastMessage(String message){
         Toast toast= Toast.makeText(getApplicationContext(),message,Toast. LENGTH_SHORT);
         return toast;

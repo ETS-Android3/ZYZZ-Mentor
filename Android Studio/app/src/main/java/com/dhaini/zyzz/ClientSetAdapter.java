@@ -32,6 +32,8 @@ import org.json.JSONException;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -48,24 +50,20 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
     private Timer timer = new Timer();
     private final long DELAY = 1000; // in ms
 
-    // Global variable to be initialized to be able to send the data to the api
-    private UpdateSetAPI updateSetAPI;
-    private String columnToChange;
-    private String updatedInfo;
-    private String set_id;
-    private int positionSetUpdated;
-
+    private UpdateSetRepsAPI updateSetRepsAPI;
+    private UpdateSetWeightAPI updateSetWeightAPI;
+    private UpdateSetCompleteAPI updateSetCompleteAPI;
 
 
     public ClientSetAdapter(ArrayList<SetClient> setClientList, String user) {
         this.setClientList = setClientList;
         this.user = user; // To know if this is a client or a trainer
     }
+
     public static class ClientSetViewHolder extends RecyclerView.ViewHolder implements View.OnTouchListener, GestureDetector.OnGestureListener {
         public TextView setNameTextView;
         public EditText setRepsEditText;
         public EditText setWeightEditText;
-        public ImageView CompleteLineImageView;
         GestureDetector gestureDetector;
 
         public ClientSetViewHolder(@NonNull View itemView, OnItemClickListener listener) {
@@ -74,7 +72,6 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
             setNameTextView = itemView.findViewById(R.id.setNameInput);
             setRepsEditText = itemView.findViewById(R.id.repsInput);
             setWeightEditText = itemView.findViewById(R.id.weightInput);
-            CompleteLineImageView = itemView.findViewById(R.id.CompleteLineImageView);
             gestureDetector = new GestureDetector(itemView.getContext(), this);
         }
 
@@ -121,24 +118,27 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
 
     @Override
     public void onItemSwiped(int position) {
-        SetClient currentSet = setClientList.get(position);
+
         // If the user is a client and swiped change the status of the set
         // from complete to incomplete and viceVersa and of course we update it to the database
-        if(user.equalsIgnoreCase("Client")) {
+        if (user.equalsIgnoreCase("Client")) {
+            SetClient currentSet = setClientList.get(position);
             if (currentSet.getCompleted() == 0) {
                 currentSet.setCompleted(1);
             } else {
                 currentSet.setCompleted(0);
 
             }
-            set_id = currentSet.getSetID();
-            updatedInfo = String.valueOf(currentSet.getCompleted());
-            columnToChange = "complete";
+            String set_id = currentSet.getSetID();
+            String updatedInfo = String.valueOf(currentSet.getCompleted());
 
-            updateSetAPI = new UpdateSetAPI();
-            updateSetAPI.execute();
+
+            updateSetCompleteAPI = new UpdateSetCompleteAPI();
+            String updateSet_url = "http://10.0.2.2/ZYZZ/client_update_set_complete.php?setID=" + set_id + "&complete=" + updatedInfo;
+            updateSetCompleteAPI.execute(updateSet_url);
+            notifyItemChanged(position);
         }
-        notifyItemChanged(position);
+        notifyDataSetChanged();
     }
 
     public interface OnItemClickListener {
@@ -148,6 +148,7 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
     public void setItemTouchHelper(ItemTouchHelper itemTouchHelper) {
         this.itemTouchHelper = itemTouchHelper;
     }
+
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
@@ -156,7 +157,7 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
     @Override
     public ClientSetViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.client_set_card, parent, false);
-        ClientSetAdapter.ClientSetViewHolder mCVH = new ClientSetAdapter.ClientSetViewHolder (v, mListener);
+        ClientSetAdapter.ClientSetViewHolder mCVH = new ClientSetAdapter.ClientSetViewHolder(v, mListener);
         return mCVH;
     }
 
@@ -165,201 +166,267 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
         SetClient currentSet = setClientList.get(position);
 
         // If the user is a trainer he can't edit the client weight and reps;
-        if(user.equalsIgnoreCase("Trainer")){
+        if (user.equalsIgnoreCase("Trainer")) {
             holder.setWeightEditText.setEnabled(false);
             holder.setRepsEditText.setEnabled(false);
-        }
-        // Check if the client completed his set if not we hide the completed line imageView
-        if(currentSet.getCompleted() == 0){
-            holder.CompleteLineImageView.setImageAlpha(0);
-            holder.CompleteLineImageView.setAlpha(0);
         }
 
         holder.setNameTextView.setText(currentSet.getSetName());
 
-        // Putting the trainer weight and reps assigned as hint to help the client to remember what the trainer assigned to him in case he changed the reps or weights.
+        // Check if the client completed his set if not we hide the completed line imageView
+        if (currentSet.getCompleted() == 0) {
+            holder.setNameTextView.setTextColor(Color.parseColor("#000000"));
+        } else {
+            holder.setNameTextView.setTextColor(Color.parseColor("#025839"));
+        }
+
+        // Putting the trainer weight and reps assigned as hint to help the client to remember what
+        // the trainer assigned to him in case he changed the reps or weights.
 
         holder.setRepsEditText.setHint(currentSet.getTrainerReps());
         holder.setWeightEditText.setHint(currentSet.getTrainerWeight());
 
         // If the client didn't change the reps and weight the trainer assigned to him
 
-        if(currentSet.getClientReps().equalsIgnoreCase("null")||currentSet.getClientReps().equalsIgnoreCase("") ){
+        if (currentSet.getClientReps().equalsIgnoreCase("0")) {
             holder.setRepsEditText.setText(currentSet.getTrainerReps());
-        }
-        else{
-            // Check if the trainer and client reps are the same if not we change the text color to yellow to highlight that the client changed the reps
-            if(currentSet.getClientReps().equalsIgnoreCase(currentSet.getTrainerReps())){
-                holder.setRepsEditText.setText(currentSet.getTrainerReps());
+        } else {
+            // Check if the trainer and client reps are the same if not we change the text color to Red to highlight that the client changed the reps
+            if (!currentSet.getClientReps().equalsIgnoreCase(currentSet.getTrainerReps())) {
+                holder.setRepsEditText.setTextColor(Color.parseColor("#FF0000"));
             }
-            else{
-                holder.setRepsEditText.setTextColor(Color.parseColor("#4F5A69"));
-                holder.setRepsEditText.setText(currentSet.getClientReps());
-            }
+
+            holder.setRepsEditText.setText(currentSet.getClientReps());
 
         }
 
-        if(currentSet.getClientWeight().equalsIgnoreCase("null") ||currentSet.getClientWeight().equalsIgnoreCase("") ){
+        if (currentSet.getClientWeight().equalsIgnoreCase("0")) {
             holder.setWeightEditText.setText(currentSet.getTrainerWeight());
-        }
-        else{
+        } else {
             // Check if the trainer and client weights are the same
-            // if not we change the text color to yellow to highlight that the client changed the weights
-            if(currentSet.getClientWeight().equalsIgnoreCase(currentSet.getTrainerWeight())){
-                holder.setRepsEditText.setText(currentSet.getTrainerReps());
+            // if not we change the text color to Red to highlight that the client changed the weights
+            if (!currentSet.getClientWeight().equalsIgnoreCase(currentSet.getTrainerWeight())) {
+                holder.setWeightEditText.setTextColor(Color.parseColor("#FF0000"));
             }
-            else{
-                holder.setWeightEditText.setTextColor(Color.parseColor("#4F5A69"));
-                holder.setWeightEditText.setText(currentSet.getClientWeight());
-            }
+            holder.setWeightEditText.setText(currentSet.getClientWeight());
         }
 
 
         // When the client change the reps and weight assigned by the trainer
         // See what the client changed and update it in the database and again if the client weight or reps are not
-        // similar to those assigned by the trainer the text color will change to yellow
-
-        holder.setRepsEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (timer != null)
-                    timer.cancel();
-            }
-
-            @Override
-            public void afterTextChanged(final Editable s) {
-                //avoid triggering event when text is too short
-                timer = new Timer();
-
-                Handler handler;
-                timer.schedule(new TimerTask() {
-
-                    @Override
-                    public void run() {
-
-                        final String edit = s.toString();
-
-                        currentSet.setClientReps(edit);
-
-                        set_id = currentSet.getSetID();
-                        columnToChange = "client_reps";
-                        updatedInfo = edit;
-
-                        updateSetAPI = new UpdateSetAPI();
-                        updateSetAPI.execute();
-                        Log.i("Message From set", "Hello");
-                    }
-
-                }, DELAY);
-
-            }
-        });
+        // similar to those assigned by the trainer the text color will change to red
+        if (user.equalsIgnoreCase("Client")) {
 
 
-        //////////////////////// Weight ////////////////////////////////////////////////
-        holder.setWeightEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            holder.setRepsEditText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
 
-            }
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if (timer != null)
+                        timer.cancel();
+                }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (timer != null)
-                    timer.cancel();
-            }
-
-            @Override
-            public void afterTextChanged(final Editable s) {
-                //avoid triggering event when text is too short
-                timer = new Timer();
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        final String edit = s.toString();
-
-                        currentSet.setClientWeight(edit);
-                        set_id = currentSet.getSetID();
-                        columnToChange = "client_weight";
-                        updatedInfo = edit;
+                @Override
+                public void afterTextChanged(final Editable s) {
+                    //avoid triggering event when text is too short
+                    timer = new Timer();
 
 
-                        updateSetAPI = new UpdateSetAPI();
-                        updateSetAPI.execute();
-                        Log.i("Message From set", s.toString());
-                    }
+                    timer.schedule(new TimerTask() {
 
-                }, DELAY);
+                        @Override
+                        public void run() {
+                            final String edit = s.toString();
 
-            }
-        });
+                            String set_id = currentSet.getSetID();
+                            String columnToChange = "client_reps";
+                            String updatedInfo = edit.replaceAll("\\s+", "");
 
+                            updateSetRepsAPI = new UpdateSetRepsAPI();
+                            String updateSet_url = "http://10.0.2.2/ZYZZ/client_update_set_reps.php?setID=" +
+                                    set_id + "&reps=" + updatedInfo;
+                            updateSetRepsAPI.execute(updateSet_url);
 
+                            currentSet.setClientWeight(updatedInfo);
+
+                        }
+
+                    }, DELAY);
+
+                }
+            });
+
+            //////////////////////// Weight ////////////////////////////////////////////////
+            holder.setWeightEditText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if (timer != null)
+                        timer.cancel();
+                }
+
+                @Override
+                public void afterTextChanged(final Editable s) {
+                    //avoid triggering event when text is too short
+                    timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            final String edit = s.toString();
+
+                            String set_id = currentSet.getSetID();
+                            String columnToChange = "client_weight";
+                            String updatedInfo = edit.replaceAll("\\s+", "");
+
+                            updateSetWeightAPI = new UpdateSetWeightAPI();
+                            String updateSet_url = "http://10.0.2.2/ZYZZ/client_update_set_weight.php?setID=" +
+                                    set_id + "&weight=" + updatedInfo;
+                            updateSetWeightAPI.execute(updateSet_url);
+
+                            currentSet.setClientWeight(updatedInfo);
+
+                        }
+
+                    }, DELAY);
+
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-        if(setClientList==null){
+        if (setClientList == null) {
             return 0;
         }
         return setClientList.size();
     }
 
-    class UpdateSetAPI extends AsyncTask<String, Void, String> {
 
-        @Override
-        protected String doInBackground(String... params) {
-
-            HttpClient http_client = new DefaultHttpClient();
-            HttpPost http_post = new HttpPost("http://10.0.2.2/ZYZZ/update_set.php");
-
-            BasicNameValuePair setIDParam = new BasicNameValuePair("setID", set_id);
-            BasicNameValuePair columnToChangeParam = new BasicNameValuePair("column", columnToChange);
-            BasicNameValuePair updatedInfoParam = new BasicNameValuePair("updatedInfo", updatedInfo);
-
-            ArrayList<NameValuePair> name_value_pair_list = new ArrayList<>();
-
-            name_value_pair_list.add(setIDParam);
-            name_value_pair_list.add(columnToChangeParam);
-            name_value_pair_list.add(updatedInfoParam);
+    public class UpdateSetRepsAPI extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... urls) {
+            // URL and HTTP initialization to connect to API 2
+            URL url;
+            HttpURLConnection http;
 
             try {
-                // This is used to send the list with the api in an encoded form entity
-                UrlEncodedFormEntity url_encoded_form_entity = new UrlEncodedFormEntity(name_value_pair_list);
+                url = new URL(urls[0]);
+                http = (HttpURLConnection) url.openConnection();
 
-                // This sets the entity (which holds the list of values) in the http_post object
-                http_post.setEntity(url_encoded_form_entity);
+                InputStream in = http.getInputStream();
+                InputStreamReader reader = new InputStreamReader(in);
 
-                // This gets the response from the post api and returns a string of the response.
-                HttpResponse http_response = http_client.execute(http_post);
-                InputStream input_stream = http_response.getEntity().getContent();
-                InputStreamReader input_stream_reader = new InputStreamReader(input_stream);
-                BufferedReader buffered_reader = new BufferedReader(input_stream_reader);
-                StringBuilder string_builder = new StringBuilder();
-                String buffered_str_chunk = null;
-                while ((buffered_str_chunk = buffered_reader.readLine()) != null) {
-                    string_builder.append(buffered_str_chunk);
+                BufferedReader br = new BufferedReader(reader);
+                StringBuilder sb = new StringBuilder();
+
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line + "\n");
                 }
-                Log.i("result", string_builder.toString());
-                return string_builder.toString();
+
+                br.close();
+                return sb.toString();
             } catch (Exception e) {
                 e.printStackTrace();
+                return null;
             }
-            return null;
         }
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+        protected void onPostExecute(String values) {
+            super.onPostExecute(values);
             try {
+                return;
 
             } catch (Exception e) {
                 e.printStackTrace();
+
+            }
+        }
+    }
+
+    public class UpdateSetCompleteAPI extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... urls) {
+            URL url;
+            HttpURLConnection http;
+
+            try {
+                url = new URL(urls[0]);
+                http = (HttpURLConnection) url.openConnection();
+
+                InputStream in = http.getInputStream();
+                InputStreamReader reader = new InputStreamReader(in);
+
+                BufferedReader br = new BufferedReader(reader);
+                StringBuilder sb = new StringBuilder();
+
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                br.close();
+                return sb.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        protected void onPostExecute(String values) {
+            super.onPostExecute(values);
+            try {
+                return;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+        }
+    }
+
+    public class UpdateSetWeightAPI extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... urls) {
+            URL url;
+            HttpURLConnection http;
+
+            try {
+                url = new URL(urls[0]);
+                http = (HttpURLConnection) url.openConnection();
+
+                InputStream in = http.getInputStream();
+                InputStreamReader reader = new InputStreamReader(in);
+
+                BufferedReader br = new BufferedReader(reader);
+                StringBuilder sb = new StringBuilder();
+
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+
+                br.close();
+
+                return sb.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        protected void onPostExecute(String values) {
+            super.onPostExecute(values);
+            try {
+                return;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
             }
         }
     }

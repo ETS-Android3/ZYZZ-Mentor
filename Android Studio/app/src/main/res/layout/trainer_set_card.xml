@@ -21,7 +21,7 @@
         >
         <EditText
             android:id="@+id/setNameInput"
-            android:text="Top set"
+
             android:paddingLeft="10dp"
             android:layout_height="wrap_content"
             android:layout_width="125dp"
@@ -36,7 +36,7 @@
         <EditText
             android:id="@+id/repsInput"
 
-            android:text="5-9"
+
             android:paddingLeft="3dp"
             android:layout_height="wrap_content"
             android:layout_width="125dp"
@@ -50,7 +50,7 @@
             />
         <EditText
             android:id="@+id/weightInput"
-            android:text="123 Kg"
+
             android:paddingLeft="3dp"
             android:layout_height="wrap_content"
             android:layout_width="125dp"

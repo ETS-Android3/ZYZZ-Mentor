@@ -44,12 +44,7 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
     private static OnItemClickListener mListener;
     private static ItemTouchHelper itemTouchHelper;
 
-    // User if its a client or trainer
     private String user;
-
-    private Timer timer = new Timer();
-    private final long DELAY = 3500; // in ms
-
     private UpdateSetCompleteAPI updateSetCompleteAPI;
 
 
@@ -60,8 +55,8 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
 
     public static class ClientSetViewHolder extends RecyclerView.ViewHolder implements View.OnTouchListener, GestureDetector.OnGestureListener {
         public TextView setNameTextView;
-        public EditText setRepsEditText;
-        public EditText setWeightEditText;
+        public TextView setRepsEditText;
+        public TextView setWeightEditText;
         GestureDetector gestureDetector;
 
         public ClientSetViewHolder(@NonNull View itemView, OnItemClickListener listener) {
@@ -185,8 +180,6 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
         }
 
         holder.setNameTextView.setText(currentSet.getSetName());
-        holder.setWeightEditText.setEnabled(false);
-        holder.setRepsEditText.setEnabled(false);
 
         // Check if the client completed his set if not we hide the completed line imageView
 
@@ -196,12 +189,8 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
             holder.setNameTextView.setTextColor(Color.parseColor("#025839"));
         }
 
-        // Putting the trainer weight and reps assigned as hint to help the client to remember what
-        // the trainer assigned to him in case he changed the reps or weights.
-
 
         // If the client didn't change the reps and weight the trainer assigned to him
-
         if (currentSet.getClientReps().equalsIgnoreCase("0")) {
             holder.setRepsEditText.setText(currentSet.getTrainerReps());
         } else {

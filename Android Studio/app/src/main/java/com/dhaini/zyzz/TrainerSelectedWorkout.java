@@ -279,6 +279,8 @@ public class TrainerSelectedWorkout extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
+
+                Log.i("Message ",s);
                 JSONArray exerciseJsonArray = new JSONArray(s);
 
                 if (exerciseJsonArray.length() == 0) {

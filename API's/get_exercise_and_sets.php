@@ -4,7 +4,7 @@ include("db_info.php");
 $workoutID = $_POST['workoutID'];
 
 // Check if the plan_id exist or not
-$workoutsQuery = $mysqli->query("SELECT * FROM exercise where workout_id='$workoutID'");
+$workoutsQuery = $mysqli->query("SELECT * FROM exercise where workout_id='$workoutID' order by position ASC");
 if($workoutsQuery->num_rows==0){
     exit("PLease Add an Exercise");
 }

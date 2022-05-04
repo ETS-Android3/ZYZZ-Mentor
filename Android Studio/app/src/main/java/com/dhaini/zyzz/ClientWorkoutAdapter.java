@@ -49,8 +49,6 @@ public class ClientWorkoutAdapter extends RecyclerView.Adapter<ClientWorkoutAdap
         public ImageView workoutCardImageBackground;
 
 
-
-
         public ClientWorkoutViewHolder(@NonNull View itemView, ClientWorkoutAdapter.OnItemClickListener listener) {
             super(itemView);
 
@@ -100,8 +98,6 @@ public class ClientWorkoutAdapter extends RecyclerView.Adapter<ClientWorkoutAdap
     public int getItemCount() {
         return workoutsList.size();
     }
-
-
 
 
 }

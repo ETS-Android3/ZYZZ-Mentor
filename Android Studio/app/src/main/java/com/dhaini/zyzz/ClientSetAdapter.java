@@ -41,7 +41,7 @@ import java.util.TimerTask;
 public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.ClientSetViewHolder> implements ItemTouchHelperAdapter {
 
     private ArrayList<SetClient> setClientList;
-    private OnItemClickListener mListener;
+    private static OnItemClickListener mListener;
     private static ItemTouchHelper itemTouchHelper;
 
     // User if its a client or trainer
@@ -50,8 +50,6 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
     private Timer timer = new Timer();
     private final long DELAY = 3500; // in ms
 
-    private UpdateSetRepsAPI updateSetRepsAPI;
-    private UpdateSetWeightAPI updateSetWeightAPI;
     private UpdateSetCompleteAPI updateSetCompleteAPI;
 
 
@@ -73,6 +71,18 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
             setRepsEditText = itemView.findViewById(R.id.repsInput);
             setWeightEditText = itemView.findViewById(R.id.weightInput);
             gestureDetector = new GestureDetector(itemView.getContext(), this);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
 
         @Override
@@ -97,7 +107,6 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
 
         @Override
         public void onLongPress(MotionEvent motionEvent) {
-
         }
 
         @Override
@@ -122,23 +131,27 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
         // If the user is a client and swiped change the status of the set
         // from complete to incomplete and viceVersa and of course we update it to the database
         if (user.equalsIgnoreCase("Client")) {
+
             SetClient currentSet = setClientList.get(position);
             if (currentSet.getCompleted() == 0) {
                 currentSet.setCompleted(1);
             } else {
                 currentSet.setCompleted(0);
-
             }
+
             String set_id = currentSet.getSetID();
             String updatedInfo = String.valueOf(currentSet.getCompleted());
 
-
+            notifyItemChanged(position);
             updateSetCompleteAPI = new UpdateSetCompleteAPI();
             String updateSet_url = "http://10.0.2.2/ZYZZ/client_update_set_complete.php?setID=" + set_id + "&complete=" + updatedInfo;
             updateSetCompleteAPI.execute(updateSet_url);
-            notifyItemChanged(position);
+
         }
-        notifyDataSetChanged();
+        else if(user.equalsIgnoreCase("Trainer")){
+            notifyDataSetChanged();
+        }
+
     }
 
     public interface OnItemClickListener {
@@ -172,8 +185,11 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
         }
 
         holder.setNameTextView.setText(currentSet.getSetName());
+        holder.setWeightEditText.setEnabled(false);
+        holder.setRepsEditText.setEnabled(false);
 
         // Check if the client completed his set if not we hide the completed line imageView
+
         if (currentSet.getCompleted() == 0) {
             holder.setNameTextView.setTextColor(Color.parseColor("#000000"));
         } else {
@@ -183,8 +199,6 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
         // Putting the trainer weight and reps assigned as hint to help the client to remember what
         // the trainer assigned to him in case he changed the reps or weights.
 
-        holder.setRepsEditText.setHint(currentSet.getTrainerReps());
-        holder.setWeightEditText.setHint(currentSet.getTrainerWeight());
 
         // If the client didn't change the reps and weight the trainer assigned to him
 
@@ -212,91 +226,6 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
         }
 
 
-        // When the client change the reps and weight assigned by the trainer
-        // See what the client changed and update it in the database and again if the client weight or reps are not
-        // similar to those assigned by the trainer the text color will change to red
-        if (user.equalsIgnoreCase("Client")) {
-
-
-            holder.setRepsEditText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    if (timer != null)
-                        timer.cancel();
-                }
-
-                @Override
-                public void afterTextChanged(final Editable s) {
-                    //avoid triggering event when text is too short
-                    timer = new Timer();
-                    timer.schedule(new TimerTask() {
-
-                        @Override
-                        public void run() {
-                            final String edit = s.toString();
-
-                            String set_id = currentSet.getSetID();
-                            String columnToChange = "client_reps";
-                            String updatedInfo = edit.replaceAll("\\s+", "");
-
-                            updateSetRepsAPI = new UpdateSetRepsAPI();
-                            String updateSet_url = "http://10.0.2.2/ZYZZ/client_update_set_reps.php?setID=" +
-                                    set_id + "&reps=" + updatedInfo;
-                            updateSetRepsAPI.execute(updateSet_url);
-
-                            currentSet.setClientWeight(updatedInfo);
-
-                        }
-
-                    }, DELAY);
-
-                }
-            });
-
-            //////////////////////// Weight ////////////////////////////////////////////////
-            holder.setWeightEditText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    if (timer != null)
-                        timer.cancel();
-                }
-
-                @Override
-                public void afterTextChanged(final Editable s) {
-                    //avoid triggering event when text is too short
-                    timer = new Timer();
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            final String edit = s.toString();
-
-                            String set_id = currentSet.getSetID();
-                            String columnToChange = "client_weight";
-                            String updatedInfo = edit.replaceAll("\\s+", "");
-
-                            updateSetWeightAPI = new UpdateSetWeightAPI();
-                            String updateSet_url = "http://10.0.2.2/ZYZZ/client_update_set_weight.php?setID=" +
-                                    set_id + "&weight=" + updatedInfo;
-                            updateSetWeightAPI.execute(updateSet_url);
-
-                            currentSet.setClientWeight(updatedInfo);
-
-                        }
-
-                    }, DELAY);
-
-                }
-            });
-        }
     }
 
     @Override
@@ -308,46 +237,7 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
     }
 
 
-    public class UpdateSetRepsAPI extends AsyncTask<String, Void, String> {
-        protected String doInBackground(String... urls) {
-            // URL and HTTP initialization to connect to API 2
-            URL url;
-            HttpURLConnection http;
 
-            try {
-                url = new URL(urls[0]);
-                http = (HttpURLConnection) url.openConnection();
-
-                InputStream in = http.getInputStream();
-                InputStreamReader reader = new InputStreamReader(in);
-
-                BufferedReader br = new BufferedReader(reader);
-                StringBuilder sb = new StringBuilder();
-
-                String line;
-                while ((line = br.readLine()) != null) {
-                    sb.append(line + "\n");
-                }
-
-                br.close();
-                return sb.toString();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        protected void onPostExecute(String values) {
-            super.onPostExecute(values);
-            try {
-                return;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-
-            }
-        }
-    }
 
     public class UpdateSetCompleteAPI extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... urls) {
@@ -388,44 +278,5 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
         }
     }
 
-    public class UpdateSetWeightAPI extends AsyncTask<String, Void, String> {
-        protected String doInBackground(String... urls) {
-            URL url;
-            HttpURLConnection http;
 
-            try {
-                url = new URL(urls[0]);
-                http = (HttpURLConnection) url.openConnection();
-
-                InputStream in = http.getInputStream();
-                InputStreamReader reader = new InputStreamReader(in);
-
-                BufferedReader br = new BufferedReader(reader);
-                StringBuilder sb = new StringBuilder();
-
-                String line;
-                while ((line = br.readLine()) != null) {
-                    sb.append(line + "\n");
-                }
-
-                br.close();
-
-                return sb.toString();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        protected void onPostExecute(String values) {
-            super.onPostExecute(values);
-            try {
-                return;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-
-            }
-        }
-    }
 }

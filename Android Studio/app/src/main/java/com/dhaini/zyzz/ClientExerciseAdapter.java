@@ -1,5 +1,6 @@
 package com.dhaini.zyzz;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.text.Editable;
@@ -8,10 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +31,8 @@ import org.apache.http.message.BasicNameValuePair;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -43,8 +49,9 @@ public class ClientExerciseAdapter extends RecyclerView.Adapter<ClientExerciseAd
     private String currentExerciseID;
     private String updatedMyFeedbackToCurrentExercise;
 
+    private UpdateSetAPI updateSetAPI;
     private UpdateClientFeedbackAPI updateClientFeedbackAPI;
-
+    private ClientSetAdapter clientSetAdapter;
 
 
     public ClientExerciseAdapter(Activity activity,ArrayList<ClientExercise> clientExercisesList,String user){
@@ -82,6 +89,7 @@ public class ClientExerciseAdapter extends RecyclerView.Adapter<ClientExerciseAd
         return mCVH;
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ClientExerciseAdapter.ClientExerciseViewHolder holder, int position) {
 
@@ -90,9 +98,10 @@ public class ClientExerciseAdapter extends RecyclerView.Adapter<ClientExerciseAd
             holder.myFeedbackEditText.setEnabled(false);
         }
         ClientExercise currentExercise = clientExercisesList.get(position);
+        int currentExercisePosition = position;
 
         // Initializing the inner Set RecyclerView
-        ClientSetAdapter clientSetAdapter = new ClientSetAdapter(currentExercise.getSetClientList(),user);
+        clientSetAdapter = new ClientSetAdapter(currentExercise.getSetClientList(),user);
         LinearLayoutManager setLayout = new LinearLayoutManager(activity);
         ItemTouchHelper.Callback callback = new myItemTouchHelper(clientSetAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
@@ -101,6 +110,13 @@ public class ClientExerciseAdapter extends RecyclerView.Adapter<ClientExerciseAd
         holder.setRepsWeightInputRecyclerView.setAdapter(clientSetAdapter);
         holder.setRepsWeightInputRecyclerView.setLayoutManager(setLayout);
 
+        clientSetAdapter.setOnItemClickListener(new ClientSetAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position2) {
+                openUpdateSetDialog(currentExercisePosition,position2);
+            }
+
+        });
 
         holder.commentsTextView.setText(currentExercise.getComments());
         holder.myFeedbackEditText.setText(currentExercise.getFeedbacks());
@@ -121,7 +137,7 @@ public class ClientExerciseAdapter extends RecyclerView.Adapter<ClientExerciseAd
 
             @Override
             public void afterTextChanged(final Editable s) {
-                //avoid triggering event when text is too short
+
                 timer = new Timer();
                 timer.schedule(new TimerTask() {
                     @Override
@@ -145,6 +161,69 @@ public class ClientExerciseAdapter extends RecyclerView.Adapter<ClientExerciseAd
     @Override
     public int getItemCount() {
         return clientExercisesList.size();
+    }
+
+    private void openUpdateSetDialog(int position1, int position2) {
+
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(activity);
+        View mView = activity.getLayoutInflater().inflate(R.layout.add_set_dialog, null);
+
+        TextView dialogTitle = (TextView) mView.findViewById(R.id.titleAddWorkoutDialog);
+        EditText setNameEditText = (EditText) mView.findViewById(R.id.setNameInputEditText);
+        EditText weightEditText = (EditText) mView.findViewById(R.id.weightInputEditText);
+        EditText repsEditText = (EditText) mView.findViewById(R.id.repsInputEditText);
+
+
+
+        SetClient currentSet = clientExercisesList.get(position1).getSetClientList().get(position2);
+
+        dialogTitle.setText("Change Set");
+        setNameEditText.setEnabled(false);
+        setNameEditText.setText(currentSet.getSetName());
+
+        weightEditText.setHint(currentSet.getTrainerWeight());
+        repsEditText.setHint(currentSet.getTrainerReps());
+
+        if(currentSet.getClientWeight().equalsIgnoreCase("0")){
+            weightEditText.setText(currentSet.getTrainerWeight());
+        }else{
+            weightEditText.setText(currentSet.getClientWeight());
+        }
+
+        if(currentSet.getClientReps().equalsIgnoreCase("0")){
+            repsEditText.setText(currentSet.getTrainerReps());
+        }else{
+            repsEditText.setText(currentSet.getClientReps());
+        }
+
+
+        Button updateSetBtn = (Button) mView.findViewById(R.id.addSetButton);
+        updateSetBtn.setText("Update Set");
+
+        mBuilder.setView(mView);
+        AlertDialog dialog = mBuilder.create();
+        dialog.show();
+
+        updateSetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String updatedReps = repsEditText.getText().toString();
+                String updatedWeight = weightEditText.getText().toString();
+                currentSet.setClientWeight(updatedWeight);
+                currentSet.setClientReps(updatedReps);
+
+                String setID = currentSet.getSetID();
+
+                updateSetAPI = new UpdateSetAPI();
+                String updateSet_url = "http://10.0.2.2/ZYZZ/client_update_set_reps_and_weight.php?setID=" +
+                        setID + "&weight=" + updatedWeight+"&reps="+updatedReps;
+                updateSetAPI.execute(updateSet_url);
+                notifyItemChanged(position1);
+                dialog.dismiss();
+            }
+        });
+
     }
 
     class UpdateClientFeedbackAPI extends AsyncTask<String, Void, String> {
@@ -195,6 +274,47 @@ public class ClientExerciseAdapter extends RecyclerView.Adapter<ClientExerciseAd
                 return;
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+        }
+    }
+
+    public class UpdateSetAPI extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... urls) {
+            // URL and HTTP initialization to connect to API 2
+            URL url;
+            HttpURLConnection http;
+
+            try {
+                url = new URL(urls[0]);
+                http = (HttpURLConnection) url.openConnection();
+
+                InputStream in = http.getInputStream();
+                InputStreamReader reader = new InputStreamReader(in);
+
+                BufferedReader br = new BufferedReader(reader);
+                StringBuilder sb = new StringBuilder();
+
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+
+                br.close();
+                return sb.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        protected void onPostExecute(String values) {
+            super.onPostExecute(values);
+            try {
+                return;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
             }
         }
     }

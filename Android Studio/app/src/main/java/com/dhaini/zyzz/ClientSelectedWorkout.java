@@ -4,10 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
@@ -39,6 +42,8 @@ public class ClientSelectedWorkout extends AppCompatActivity {
 
     private String user;
 
+    private ImageButton refreshImgBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,17 +58,30 @@ public class ClientSelectedWorkout extends AppCompatActivity {
         user = getIntent().getStringExtra("User");
 
         if(user.equalsIgnoreCase("Trainer")){
-            workoutSelectedBannerNameTextView.setText(workoutSelected.getWorkoutName()+ "Feedback");
+            workoutSelectedBannerNameTextView.setText(workoutSelected.getWorkoutName()+ " Feedback");
         }
         else{
             workoutSelectedBannerNameTextView.setText(workoutSelected.getWorkoutName());
         }
 
+        refreshImgBtn = (ImageButton) findViewById(R.id.refreshBtn);
+        refreshImgBtn.animate().rotation(refreshImgBtn.getRotation()+720).setDuration(1000).start();
 
+        refreshImgBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refreshImgBtn.animate().rotation(refreshImgBtn.getRotation()+720).setDuration(1000).start();
+                finish();
+                overridePendingTransition( 0, 0);
+                startActivity(getIntent());
+                overridePendingTransition( 0, 0);
+            }
+        });
         getExercisesAPI = new GetExercisesAPI();
         getExercisesAPI.execute();
 
     }
+
 
     class GetExercisesAPI extends AsyncTask<String, Void, String> {
 

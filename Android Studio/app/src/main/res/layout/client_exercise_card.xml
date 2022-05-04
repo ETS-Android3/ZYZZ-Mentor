@@ -4,12 +4,13 @@
     android:layout_width="377dp"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp"
+    android:layout_marginBottom="25dp"
     android:background="@color/transparent"
     android:backgroundTint="@color/transparent"
     android:outlineAmbientShadowColor="@color/grey"
     android:outlineSpotShadowColor="@color/yellow"
     app:cardCornerRadius="10dp"
+
 
 
     >
@@ -33,30 +34,33 @@
             android:background="@color/transparent"
             android:fontFamily="@font/bebas_neue"
             android:paddingLeft="10dp"
-            android:paddingTop="5dp"
+            android:paddingTop="8dp"
             android:paddingBottom="10dp"
             android:text="Bench Press"
 
             android:textAlignment="center"
             android:textColor="@color/yellow"
-
+            android:layout_marginBottom="3dp"
             android:textSize="33sp"
             app:autoSizeTextType="uniform" />
 
 
         <TableRow
+
             android:id="@+id/setRepsWeightTable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:paddingTop="3dp"
             android:layout_below="@id/ExerciseNameTextView"
             android:background="@color/greyInput">
 
             <TextView
                 android:layout_width="125dp"
-                android:textAlignment="center"
+                android:textAlignment="textStart"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:paddingLeft="3dp"
+                android:paddingLeft="5dp"
                 android:text="Set:"
                 android:textColor="@color/black"
                 android:textSize="25sp" />
@@ -81,32 +85,34 @@
         </TableRow>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
             android:id="@+id/setRepsWeightInputRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/setRepsWeightTable"
             android:layout_centerInParent="true"
             android:background="@color/greyInput"
-            android:paddingTop="7dp"
-            android:paddingBottom="10dp" />
+           />
 
         <TableRow
-
             android:id="@+id/commentsTable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/setRepsWeightInputRecyclerView"
             android:background="@color/transparent"
+            android:paddingTop="5dp"
 
-            android:paddingBottom="10dp">
+            android:paddingBottom="20dp">
 
             <TextView
-                android:layout_width="125dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:paddingLeft="3dp"
+                android:paddingLeft="4.5dp"
                 android:paddingTop="10dp"
-                android:text="Comments:"
+                android:text="Comments :"
+                android:paddingEnd="5dp"
 
                 android:textColor="@color/yellow"
                 android:textSize="20sp" />
@@ -115,15 +121,15 @@
                 android:id="@+id/commentsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:background="@color/transparent"
-                android:paddingEnd="5dp"
+                android:hint="Trainer Comments"
                 android:paddingBottom="10dp"
                 android:text=""
                 android:textColor="@color/white"
-                android:textSize="20sp"
-                android:hint="Trainer Comments"
-                android:textColorHint="@color/white"
-                />
+
+                android:textColorHint="@color/whiteHint"
+                android:textSize="20sp" />
         </TableRow>
 
         <TableRow
@@ -134,15 +140,16 @@
             android:layout_below="@id/commentsTable"
             android:background="@color/transparent"
 
-            android:paddingBottom="10dp">
+            android:paddingBottom="20dp">
 
             <TextView
-                android:layout_width="125dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:paddingLeft="3dp"
+                android:paddingLeft="4.5dp"
                 android:paddingTop="10dp"
-                android:text="Feedbacks:"
+                android:text="Feedbacks :"
+                android:paddingEnd="5dp"
 
                 android:textColor="@color/yellow"
                 android:textSize="20sp" />
@@ -151,16 +158,15 @@
                 android:id="@+id/myFeedbackEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:background="@color/transparent"
-                android:paddingEnd="5dp"
+                android:hint="Put your feedbacks"
                 android:paddingBottom="10dp"
                 android:text=""
                 android:textColor="@color/white"
-                android:textSize="20sp"
-                android:hint="Put your Feedbacks"
 
-                android:textColorHint="@color/white"
-                />
+                android:textColorHint="@color/whiteHint"
+                android:textSize="20sp" />
         </TableRow>
 
 

@@ -9,30 +9,33 @@
     android:backgroundTint="@color/greyInput"
     >
     <TableRow
+        android:paddingBottom="5dp"
         android:id="@+id/setRepsWeightTable"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_below="@id/workoutNameTextView"
         android:background="@color/greyInput"
+        android:paddingTop="5dp"
 
 
         >
         <EditText
             android:id="@+id/setNameInput"
             android:text="Top set"
-            android:paddingLeft="3dp"
+            android:paddingLeft="10dp"
             android:layout_height="wrap_content"
             android:layout_width="125dp"
             android:textSize="25sp"
             android:background="@color/transparent"
             android:paddingBottom="5dp"
             android:textColor="@color/black"
-            android:textAlignment="center"
+
+            android:gravity="center_vertical"
             android:hint="Set"
             />
         <EditText
             android:id="@+id/repsInput"
-            android:textAlignment="center"
+
             android:text="5-9"
             android:paddingLeft="3dp"
             android:layout_height="wrap_content"
@@ -41,6 +44,8 @@
             android:background="@color/transparent"
             android:paddingBottom="5dp"
             android:textColor="@color/black"
+            android:gravity="center_vertical|center_horizontal"
+
             android:hint="Reps"
             />
         <EditText
@@ -55,6 +60,7 @@
             android:paddingBottom="5dp"
             android:textColor="@color/black"
             android:hint="Weight"
+            android:gravity="center_vertical|center_horizontal"
             />
 
 

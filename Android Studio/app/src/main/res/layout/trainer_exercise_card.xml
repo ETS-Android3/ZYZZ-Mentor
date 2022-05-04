@@ -4,7 +4,7 @@
     android:layout_width="377dp"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp"
+    android:layout_marginBottom="25dp"
     android:background="@color/transparent"
     android:backgroundTint="@color/transparent"
     android:outlineAmbientShadowColor="@color/grey"
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:background="@color/transparent"
             android:src="@drawable/add_set_btn" />
@@ -36,9 +36,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="13dp"
             android:layout_marginStart="3dp"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="10dp"
+
             android:background="@color/transparent"
             android:src="@drawable/trash_icon" />
 
@@ -66,6 +67,7 @@
 
 
         <TableRow
+            android:layout_marginTop="10dp"
             android:id="@+id/setRepsWeightTable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,7 +76,7 @@
 
             <TextView
                 android:layout_width="125dp"
-                android:textAlignment="center"
+                android:textAlignment="textStart"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
                 android:paddingLeft="3dp"
@@ -102,32 +104,34 @@
         </TableRow>
 
         <androidx.recyclerview.widget.RecyclerView
+
             android:id="@+id/setRepsWeightInputRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/setRepsWeightTable"
             android:layout_centerInParent="true"
             android:background="@color/greyInput"
-            android:paddingTop="7dp"
-            android:paddingBottom="10dp" />
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp" />
 
         <TableRow
-
+            android:paddingTop="5dp"
             android:id="@+id/commentsTable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/setRepsWeightInputRecyclerView"
             android:background="@color/transparent"
 
-            android:paddingBottom="10dp">
+            android:paddingBottom="25dp">
 
             <TextView
-                android:layout_width="125dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
                 android:paddingLeft="3dp"
                 android:paddingTop="10dp"
-                android:text="Comments:"
+                android:text="Comments :"
+                android:paddingEnd="5dp"
 
                 android:textColor="@color/yellow"
                 android:textSize="20sp" />
@@ -137,14 +141,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:paddingEnd="3dp"
+                android:hint="Put your comments"
+                android:layout_marginEnd="10dp"
                 android:paddingBottom="10dp"
                 android:text=""
                 android:textColor="@color/white"
-                android:textSize="20sp"
-                android:hint="Put your comments"
-                android:textColorHint="@color/white"
-                />
+
+                android:textColorHint="@color/whiteHint"
+                android:textSize="20sp" />
         </TableRow>
 
 

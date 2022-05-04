@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -36,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class LoginWithTrainer extends AppCompatActivity {
+public class ClientLoginWithTrainer extends AppCompatActivity {
     private String listTrainer_url = "http://10.0.2.2/ZYZZ/get_list_of_trainer.php";
     private String myTrainer_url = "http://10.0.2.2/ZYZZ/get_my_trainer.php";
     private String sendEmail_url = "http://10.0.2.2/ZYZZ/client_send_clientID_to_trainer.php";
@@ -62,7 +61,7 @@ public class LoginWithTrainer extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE); //hide the actionbar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_login_with_trainer);
+        setContentView(R.layout.activity_client_login_with_trainer);
 
         client = getIntent().getParcelableExtra("Client");
         clientUsername = client.getClientUsername();
@@ -211,7 +210,7 @@ public class LoginWithTrainer extends AppCompatActivity {
                         trainerUsernameList.add(jsonObject.getString("username"));
                 }
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(LoginWithTrainer.this, android.R.layout.simple_list_item_1,trainerUsernameList);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(ClientLoginWithTrainer.this, android.R.layout.simple_list_item_1,trainerUsernameList);
                 searchTrainerAutoCompleteTextView.setAdapter(adapter);
 
 
@@ -267,7 +266,7 @@ public class LoginWithTrainer extends AppCompatActivity {
                 searchTrainerAutoCompleteTextView.setText("");
                 trainerNameTextView.setText("");
 
-                Intent intent = new Intent(LoginWithTrainer.this,ClientMyTraining.class);
+                Intent intent = new Intent(ClientLoginWithTrainer.this,ClientMyTraining.class);
                 intent.putExtra("Client",client);
 
                 toastMessage(s).show();
@@ -319,7 +318,7 @@ public class LoginWithTrainer extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
-                Intent intent = new Intent(LoginWithTrainer.this,ClientMyTraining.class);
+                Intent intent = new Intent(ClientLoginWithTrainer.this,ClientMyTraining.class);
                 client.setClientID("");
                 intent.putExtra("Client",client);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

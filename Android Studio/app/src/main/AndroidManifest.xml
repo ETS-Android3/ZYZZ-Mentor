@@ -24,10 +24,10 @@
             android:name=".TrainerSelectedClient"
             android:exported="false" />
         <activity
-            android:name=".MyInfoClient"
+            android:name=".ClientMyInfo"
             android:exported="false" />
         <activity
-            android:name=".LoginWithTrainer"
+            android:name=".ClientLoginWithTrainer"
             android:exported="false" />
         <activity
             android:name=".ClientMyTraining"

@@ -12,10 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -27,9 +24,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 public class ClientMyTraining extends AppCompatActivity {
     private GetClientWorkoutAPI getClientWorkoutAPI;
@@ -100,7 +95,7 @@ public class ClientMyTraining extends AppCompatActivity {
         myInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentClientInfo = new Intent(ClientMyTraining.this, MyInfoClient.class);
+                Intent intentClientInfo = new Intent(ClientMyTraining.this, ClientMyInfo.class);
                 intentClientInfo.putExtra("ClientUsername", client.getClientUsername());
 
                 startActivity(intentClientInfo);
@@ -120,7 +115,7 @@ public class ClientMyTraining extends AppCompatActivity {
         loginWithTrainerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentClientInfo = new Intent(ClientMyTraining.this, LoginWithTrainer.class);
+                Intent intentClientInfo = new Intent(ClientMyTraining.this, ClientLoginWithTrainer.class);
                 intentClientInfo.putExtra("Client", client);
 
                 startActivity(intentClientInfo);

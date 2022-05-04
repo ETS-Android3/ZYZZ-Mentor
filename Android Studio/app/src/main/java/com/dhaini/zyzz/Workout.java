@@ -5,14 +5,14 @@ import android.os.Parcelable;
 
 import java.util.Comparator;
 
-public class Workout implements Parcelable{
+public class Workout implements Parcelable {
     private String workoutName;
     private String workoutID;
     private String planID;
     private int background_Image;
     private int position;
 
-    public Workout(String workoutName, String workoutID, String planID, int background_Image,int position) {
+    public Workout(String workoutName, String workoutID, String planID, int background_Image, int position) {
         this.workoutName = workoutName;
         this.workoutID = workoutID;
         this.planID = planID;
@@ -99,8 +99,7 @@ public class Workout implements Parcelable{
 
     // Method to sort the workout based on its position
     public static Comparator<Workout> workoutPosition = new Comparator<Workout>() {
-        public int compare(Workout w1, Workout w2)
-        {
+        public int compare(Workout w1, Workout w2) {
 
             int workoutPosition1 = w1.position;
             int workoutPosition2 = w2.position;

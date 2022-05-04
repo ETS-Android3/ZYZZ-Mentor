@@ -27,7 +27,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class MyInfoClient extends AppCompatActivity {
+public class ClientMyInfo extends AppCompatActivity {
     private String clientUsername;
     private String post_url = "http://10.0.2.2/ZYZZ/get_client_info.php";
     private String post_url2 = "http://10.0.2.2/ZYZZ/client_register_info.php";
@@ -57,7 +57,7 @@ public class MyInfoClient extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE); //hide the actionbar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_my_info_client);
+        setContentView(R.layout.activity_client_my_info);
 
         clientUsername = getIntent().getStringExtra("ClientUsername");
         Log.i("Message info",clientUsername);
@@ -151,7 +151,7 @@ public class MyInfoClient extends AppCompatActivity {
             super.onPostExecute(s);
             try {
                 toastMessage(s).show();
-                Intent intent = new Intent(MyInfoClient.this,ClientMyTraining.class);
+                Intent intent = new Intent(ClientMyInfo.this,ClientMyTraining.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 

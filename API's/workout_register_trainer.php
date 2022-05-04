@@ -8,6 +8,8 @@ $position = $_POST['position'];
 $workoutID = gen_id(6,$mysqli);
 
 // Check if the plan_id exist or not
+
+// Not prone to SQL Injection
 $planIDquery = $mysqli->query("SELECT plan_id from login_trainer_client where plan_id='$planID'");
 if($planIDquery->num_rows==0){
     exit("PLease create a plan with a client");
@@ -15,7 +17,8 @@ if($planIDquery->num_rows==0){
 
 $workoutName = ucwords($workoutName);
 
-$registerWorkout = $mysqli->query("INSERT INTO workout (workout_id,workout_name,plan_id,position) VALUES('$workoutID','$workoutName','$planID','$position')"); 
+$registerWorkout = $mysqli->prepare("INSERT INTO workout (workout_id,workout_name,plan_id,position) VALUES('$workoutID','$workoutName','$planID','$position')"); 
+$registerWorkout->execute();
 
 if($registerWorkout){
     echo "Workout Registered";

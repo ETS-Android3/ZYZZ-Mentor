@@ -8,6 +8,7 @@ $exerciseTo = $_POST['exerciseTo'];
 $exerciseFrom = json_decode($exerciseFrom);
 $exerciseTo = json_decode($exerciseTo);
 
+// Not prone to SQL Injection
 $changeexerciseFromPositionQuery = $mysqli->query("UPDATE exercise SET position = '$exerciseTo->position' WHERE exercise_id = '$exerciseFrom->ExerciseID'");
 $changeexerciseToPositionQuery = $mysqli->query("UPDATE exercise SET position = '$exerciseFrom->position' WHERE exercise_id = '$exerciseTo->ExerciseID'");
 

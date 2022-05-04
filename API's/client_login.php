@@ -3,19 +3,29 @@ include('db_info.php');
 
 $username = $_POST['Username'];
 $password = $_POST['Password'];
+
 $name="";
 $clientID="";
 $planID = "";
-$usernameQuery = $mysqli->query("SELECT username from client where username='$username'");
+
+$usernameQuery = $mysqli->prepare("SELECT username from client where username=?");
+$usernameQuery->bind_param("s",$username);
+$usernameQuery->execute();
+
 
 // Check if the username exist
-if($usernameQuery->num_rows==0){
+if($usernameQuery->get_result()->num_rows==0){
     $result = "user does not exist!"; 
 }
+
 else{
 // Get the hashed password of the account from the database
-$passwordQuery = $mysqli->query("SELECT password from client where username='$username'");
-$fetchHashedPassword = mysqli_fetch_assoc($passwordQuery);
+$passwordQuery = $mysqli->prepare("SELECT password from client where username=?");
+$passwordQuery->bind_param("s",$username);
+$passwordQuery->execute();
+
+$fetchHashedPassword = mysqli_fetch_array($passwordQuery->get_result());
+
 $hashedPassword = $fetchHashedPassword["password"];
 
 // Verify if the password is correct

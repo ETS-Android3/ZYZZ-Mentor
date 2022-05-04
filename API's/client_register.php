@@ -15,19 +15,23 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
   }
 
 // Check if username or email address are already used
-$usernameQuery = $mysqli->query("SELECT username from client where username='$username'");
-$emailQuery = $mysqli->query("SELECT username from client where email='$email'");
+$usernameQuery = $mysqli->prepare("SELECT username from client where username='$username'");
+$usernameQuery->execute();
 
 
 
-if($usernameQuery->num_rows>0){
+if($usernameQuery->get_result()->num_rows>0){
     exit('username already exists, please enter another');
 }
-if($emailQuery->num_rows>0){
+
+$emailQuery = $mysqli->prepare("SELECT username from client where email='$email'");
+$emailQuery->execute();
+
+if($emailQuery->get_result()->num_rows>0){
     exit('email already exists, please enter another');
 }
 
-// Get date and time for each conversion
+// Get date and time of the registration
 date_default_timezone_set('Asia/Beirut'); 
 $date = date('Y-m-d H:i:s');
 
@@ -36,8 +40,9 @@ $hashedPassword =password_hash($password,PASSWORD_BCRYPT);
 
 // Register the client to the Database
 $fullName = ucwords($fullName);
-$registerclient = $mysqli->query("INSERT INTO client (username,full_name,password,dob,email,gender,register_date) VALUES('$username','$fullName',
+$registerclient = $mysqli->prepare("INSERT INTO client (username,full_name,password,dob,email,gender,register_date) VALUES('$username','$fullName',
 '$hashedPassword','$dob','$email','$gender','$date')"); 
+$registerclient->execute();
 
 if($registerclient){
     echo "Client registered";

@@ -15,14 +15,17 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
   }
 
 // Check if username or phone number or email address are already used
-$usernameQuery = $mysqli->query("SELECT username from trainer where username='$username'");
-$emailQuery = $mysqli->query("SELECT username from trainer where email='$email'");
+$usernameQuery = $mysqli->prepare("SELECT username from trainer where username='$username'");
+$usernameQuery->execute();
 
 
-if($usernameQuery->num_rows>0){
+if($usernameQuery->get_result->num_rows>0){
     exit('username already exists, please enter another');
 }
-if($emailQuery->num_rows>0){
+
+$emailQuery = $mysqli->prepare("SELECT username from trainer where email='$email'");
+$emailQuery->execute();
+if($emailQuery->get_result()->num_rows>0){
     exit('email already exists, please enter another');
 }
 
@@ -33,12 +36,15 @@ $date = date('Y-m-d H:i:s');
 // Hash the password 
 $hashedPassword =password_hash($password,PASSWORD_BCRYPT);
 
+
 // Register the trainer to the Database
 $fullName = ucwords($fullName);
-$registerTrainer = $mysqli->query("INSERT INTO trainer (username,full_name,password,dob,email,gender,register_date) VALUES('$username','$fullName',
+$registerTrainerQuery = $mysqli->prepare("INSERT INTO trainer (username,full_name,password,dob,email,gender,register_date) VALUES('$username','$fullName',
 '$hashedPassword','$dob','$email','$gender','$date')"); 
 
-if($registerTrainer){
+$registerTrainerQuery->execute();
+
+if($registerTrainerQuery){
     echo "Trainer registered";
 }
 ?>

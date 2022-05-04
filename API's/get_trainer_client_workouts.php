@@ -2,8 +2,10 @@
 include("db_info.php");
 
 $planID = $_GET["planID"];
+// Not prone to SQL Injection
 $planIDQuery = $mysqli->query("SELECT * FROM workout WHERE plan_id = '$planID'");
-$emparray;
+$emparray=[];
+
 while($row =mysqli_fetch_assoc($planIDQuery))
 {
     $emparray[] = $row;

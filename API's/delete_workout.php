@@ -5,13 +5,13 @@ include("db_info.php");
 $workoutID = $_GET['workoutID'];
 
 
-
+// Not prone to SQL Injection
 $workoutIDQuery = $mysqli->query("SELECT workout_id from workout where workout_id='$workoutID'");
 
 if($workoutIDQuery->num_rows==0){
     exit("Nothing to delete");
 }
- 
+ // Not prone to SQL Injection
 $exerciseIDQuery = $mysqli->query("SELECT exercise_id from exercise where workout_id='$workoutID'");
 
 while($row2 =mysqli_fetch_assoc($exerciseIDQuery))

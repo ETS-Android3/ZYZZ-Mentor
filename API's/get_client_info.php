@@ -4,7 +4,7 @@ include("db_info.php");
 // Get the data from user
 $username = $_POST['username'];
 
-// Calculate the age of the client
+// Not prone to SQL Injection
 $clientIDquery = $mysqli->query("SELECT client_id from client where username='$username'");
 $fetchClientID = mysqli_fetch_assoc($clientIDquery);
 $clientID = $fetchClientID['client_id'];

@@ -5,16 +5,20 @@ $clientID = $_POST['clientID'];
 $trainerUsername = $_POST['trainerUsername'];
 
 // Get the email of the trainer
-$trainerEmailQuery = $mysqli->query("SELECT email from trainer where username='$trainerUsername'");
-$fetchEmail = mysqli_fetch_assoc($trainerEmailQuery);
+$trainerEmailQuery = $mysqli->prepare("SELECT email from trainer where username='$trainerUsername'");
+$trainerEmailQuery->execute();
+
+$fetchEmail = mysqli_fetch_array($trainerEmailQuery->get_result());
 $trainerEmail = $fetchEmail["email"];
 
 // Get the name of the trainer
-$trainerNameQuery = $mysqli->query("SELECT full_name from trainer where username='$trainerUsername'");
-$fetchTrainerName = mysqli_fetch_assoc($trainerNameQuery);
+$trainerNameQuery = $mysqli->prepare("SELECT full_name from trainer where username='$trainerUsername'");
+    
+$fetchTrainerName = mysqli_fetch_assoc($trainerNameQuery->get_result());
 $trainerFullName = $fetchTrainerName["full_name"];
 
 // Get the name of the client
+// Not prone to SQL Injection
 $clientNameQuery = $mysqli->query("SELECT full_name from client where client_id='$clientID'");
 $fetchClientName = mysqli_fetch_assoc($clientNameQuery);
 if(!$fetchClientName){

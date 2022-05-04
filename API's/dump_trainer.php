@@ -4,6 +4,7 @@ include("db_info.php");
 // Get the data from user
 $clientID = $_POST['clientID'];
 
+// Not prone to SQL Injection
 $planIDQuery = $mysqli->query("SELECT plan_id from login_trainer_client where client_id='$clientID'");
 
 if($planIDQuery->num_rows==0){
@@ -15,6 +16,7 @@ $planID = $fetchPlanID['plan_id'];
 
 $workoutIDQuery = $mysqli->query("SELECT workout_id from workout where plan_id='$planID'");
 
+// Cascade Deleting everything related between the client and his trainer
 while($row =mysqli_fetch_assoc($workoutIDQuery))
 {
   

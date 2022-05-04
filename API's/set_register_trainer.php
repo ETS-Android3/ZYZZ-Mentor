@@ -8,14 +8,14 @@ $exerciseID = $_POST['exerciseID'];
 
 $setID = gen_id(6,$mysqli);
 
-$setNameQuery = $mysqli->query("SELECT set_name from sets where set_name='$setName' AND exercise_id = '$exerciseID'");
-
-$registerSet = $mysqli->query("INSERT INTO sets (set_id,set_name,exercise_id,reps,weight) VALUES('$setID','$setName','$exerciseID','$reps','$weight')"); 
+$registerSet = $mysqli->prepare("INSERT INTO sets (set_id,set_name,exercise_id,reps,weight) VALUES('$setID','$setName','$exerciseID','$reps','$weight')"); 
+$registerSet->execute();
 
 if($registerSet){
     $response= array("status" =>"Set Added!","setID"=> $setID);
     echo json_encode($response);
 }
+
 
 function gen_id($l,$mysqli){
     $generatedID = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $l);

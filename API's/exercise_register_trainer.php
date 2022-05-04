@@ -8,7 +8,8 @@ $exerciseID = gen_id(6,$mysqli);
 
 $exerciseName = ucwords($exerciseName);
 
-$registerExercise = $mysqli->query("INSERT INTO exercise (exercise_id,exercise_name,workout_id,position) VALUES('$exerciseID','$exerciseName','$workoutID','$postion')"); 
+$registerExercise = $mysqli->prepare("INSERT INTO exercise (exercise_id,exercise_name,workout_id,position) VALUES('$exerciseID','$exerciseName','$workoutID','$postion')"); 
+$registerExercise->execute();
 
 if($registerExercise){
     $response= array("status" =>"Exercise Added!","ExerciseID"=> $exerciseID);

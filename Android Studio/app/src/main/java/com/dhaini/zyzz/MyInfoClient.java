@@ -152,6 +152,7 @@ public class MyInfoClient extends AppCompatActivity {
             try {
                 toastMessage(s).show();
                 Intent intent = new Intent(MyInfoClient.this,ClientMyTraining.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 
             } catch (Exception e) {

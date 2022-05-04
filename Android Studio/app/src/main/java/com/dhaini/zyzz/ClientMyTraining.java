@@ -47,7 +47,6 @@ public class ClientMyTraining extends AppCompatActivity {
     private Client client;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,9 +58,17 @@ public class ClientMyTraining extends AppCompatActivity {
         client = getIntent().getParcelableExtra("Client");
 
         // Initializing API URL
-        String getMyClient_url = "http://10.0.2.2/ZYZZ/get_trainer_client_workouts.php?planID=" + client.getClientPlanID();
-        getClientWorkoutAPI = new GetClientWorkoutAPI();
-        getClientWorkoutAPI.execute(getMyClient_url);
+        // In case getClientPlanID() is null;
+        try {
+
+            String getMyClient_url = "http://10.0.2.2/ZYZZ/get_trainer_client_workouts.php?planID=" + client.getClientPlanID();
+            getClientWorkoutAPI = new GetClientWorkoutAPI();
+            getClientWorkoutAPI.execute(getMyClient_url);
+
+        } catch (Exception e) {
+            toastMessage("Workout None");
+        }
+
 
         clientOptionImgButton = (ImageButton) findViewById(R.id.clientOptionButton);
 
@@ -69,7 +76,7 @@ public class ClientMyTraining extends AppCompatActivity {
         clientOptionImgButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clientOptionImgButton.animate().rotation(clientOptionImgButton.getRotation()-360).setDuration(500).start();
+                clientOptionImgButton.animate().rotation(clientOptionImgButton.getRotation() - 360).setDuration(500).start();
                 openClientOptionDialog();
             }
         });
@@ -105,7 +112,7 @@ public class ClientMyTraining extends AppCompatActivity {
         myTrainingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clientOptionImgButton.animate().rotation(clientOptionImgButton.getRotation()-360).setDuration(500).start();
+                clientOptionImgButton.animate().rotation(clientOptionImgButton.getRotation() - 360).setDuration(500).start();
                 dialog.dismiss();
             }
         });
@@ -124,7 +131,7 @@ public class ClientMyTraining extends AppCompatActivity {
         logoutImgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentLogout = new Intent(ClientMyTraining.this,MainActivity.class);
+                Intent intentLogout = new Intent(ClientMyTraining.this, MainActivity.class);
                 // End all previous activities and go back to main page
                 intentLogout.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentLogout);
@@ -174,36 +181,31 @@ public class ClientMyTraining extends AppCompatActivity {
                 // Getting all the info for each client from the database
 
 
-                if (values.equalsIgnoreCase("0")) {
-                    toastMessage("Workout none");
+                JSONArray clientWorkoutJson = new JSONArray(values);
+                workoutsList = new ArrayList<>();
 
-                } else {
-                    JSONArray clientWorkoutJson = new JSONArray(values);
-                    workoutsList = new ArrayList<>();
+                // Choose an image to put it in the card Workout
+                int chosenImageIndex = 0;
+                for (int i = 0; i < clientWorkoutJson.length(); i++) {
 
-                    // Choose an image to put it in the card Workout
-                    int chosenImageIndex = 0;
-                    for (int i = 0; i < clientWorkoutJson.length(); i++) {
-
-                        if (chosenImageIndex > 2) {
-                            chosenImageIndex = 0;
-                        } else {
-                            chosenImageIndex++;
-                        }
-                        int chosenImage = imageCardArray[chosenImageIndex];
-
-                        JSONObject jsonObject = clientWorkoutJson.getJSONObject(i);
-
-                        Workout workout = new Workout(jsonObject.get("workout_name").toString(), jsonObject.get("workout_id").toString(),
-                                jsonObject.get("plan_id").toString(), chosenImage, jsonObject.getInt("position"));
-
-                        workoutsList.add(workout);
-
+                    if (chosenImageIndex > 2) {
+                        chosenImageIndex = 0;
+                    } else {
+                        chosenImageIndex++;
                     }
-                    Collections.sort(workoutsList, Workout.workoutPosition);
+                    int chosenImage = imageCardArray[chosenImageIndex];
 
+                    JSONObject jsonObject = clientWorkoutJson.getJSONObject(i);
+
+                    Workout workout = new Workout(jsonObject.get("workout_name").toString(), jsonObject.get("workout_id").toString(),
+                            jsonObject.get("plan_id").toString(), chosenImage, jsonObject.getInt("position"));
+
+                    workoutsList.add(workout);
 
                 }
+                Collections.sort(workoutsList, Workout.workoutPosition);
+
+
                 buildRecyclerView();
 
             } catch (Exception e) {

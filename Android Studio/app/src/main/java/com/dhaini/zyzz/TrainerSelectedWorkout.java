@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -315,6 +316,9 @@ public class TrainerSelectedWorkout extends AppCompatActivity {
                         String exerciseID = ExerciseJsonObject.getString("exercise_id");
                         String comments = ExerciseJsonObject.getString("comments");
                         String workoutID = ExerciseJsonObject.getString("workout_id");
+
+                        if(comments.equalsIgnoreCase("null")) comments = "";
+
                         int workoutPosition = Integer.valueOf(ExerciseJsonObject.getString("position"));
 
                         TrainerExercise trainerExercise = new TrainerExercise(exerciseID, exerciseName, comments, workoutID, workoutPosition, setTrainerList);

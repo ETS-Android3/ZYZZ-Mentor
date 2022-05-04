@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:background="@drawable/dialogs_backgrounds"
+    >
+
+    <ImageView
+        android:id="@+id/titleAddWorkoutDialog"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-10dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/zyzz_logo_trainer_adjusted" />
+
+    <ImageButton
+
+        android:id="@+id/myClientsOptionButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleAddWorkoutDialog"
+        android:layout_centerHorizontal="true"
+        android:background="@color/transparent"
+        android:paddingRight="15dp"
+        android:src="@drawable/my_client_option_button" />
+
+    <ImageButton
+
+        android:id="@+id/addClientOptionButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/myClientsOptionButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@color/transparent"
+        android:layout_marginBottom="10dp"
+        android:paddingRight="15dp"
+        android:src="@drawable/add_client_option_button" />
+
+    <ImageButton
+
+        android:id="@+id/logoutOptionBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addClientOptionButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="30dp"
+        android:background="@color/transparent"
+        android:paddingRight="15dp"
+        android:src="@drawable/logout_option_button" />
+
+
+
+</RelativeLayout>

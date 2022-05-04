@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -38,9 +40,13 @@ public class ClientMyTraining extends AppCompatActivity {
     private ClientWorkoutAdapter clientWorkoutAdapter;
     private RecyclerView.LayoutManager workoutLayoutManager;
 
+    private ImageButton clientOptionImgButton;
+
     private ArrayList<Workout> workoutsList;
 
     private Client client;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,47 +63,74 @@ public class ClientMyTraining extends AppCompatActivity {
         getClientWorkoutAPI = new GetClientWorkoutAPI();
         getClientWorkoutAPI.execute(getMyClient_url);
 
-        // Initializing Option Button
-        List<String> options = Arrays.asList("", "My Info", "Login with Trainer", "Logout");
-        Spinner optionsSpinner = findViewById(R.id.spinnerOptionClient);
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.spinner_options_trainer, options);
-        adapter.setDropDownViewResource(R.layout.drop_down_spinner_trainer_options);
-        optionsSpinner.setAdapter(adapter);
+        clientOptionImgButton = (ImageButton) findViewById(R.id.clientOptionButton);
 
-        optionsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        clientOptionImgButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (adapterView.getItemAtPosition(i).equals("My Info")) {
-                    Intent intentClientInfo = new Intent(ClientMyTraining.this, MyInfoClient.class);
-                    optionsSpinner.setSelection(0);
-                    intentClientInfo.putExtra("ClientUsername", client.getClientUsername());
-
-                    startActivity(intentClientInfo);
-
-                }
-                if (adapterView.getItemAtPosition(i).equals("Login with Trainer")) {
-                    Intent intentClientInfo = new Intent(ClientMyTraining.this, LoginWithTrainer.class);
-                    optionsSpinner.setSelection(0);
-                    intentClientInfo.putExtra("Client", client);
-
-                    startActivity(intentClientInfo);
-
-                }
-                if (adapterView.getItemAtPosition(i).equals("Logout")) {
-                    Intent intentLogout = new Intent(ClientMyTraining.this, MainActivity.class);
-                    // End all previous activities and go back to main page
-                    intentLogout.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intentLogout);
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public void onClick(View view) {
+                clientOptionImgButton.animate().rotation(clientOptionImgButton.getRotation()-360).setDuration(500).start();
+                openClientOptionDialog();
             }
         });
 
+    }
+
+    private void openClientOptionDialog() {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
+        View mView = getLayoutInflater().inflate(R.layout.client_options_dialog, null);
+
+        ImageButton myTrainingBtn = (ImageButton) mView.findViewById(R.id.myTrainingImgBtn);
+        ImageButton loginWithTrainerBtn = (ImageButton) mView.findViewById(R.id.loginWithTrainerOptionButton);
+        ImageButton logoutImgBtn = (ImageButton) mView.findViewById(R.id.logoutOptionBtn);
+        ImageButton myInfoBtn = (ImageButton) mView.findViewById(R.id.myInfoOptionButton);
+
+
+        mBuilder.setView(mView);
+        AlertDialog dialog = mBuilder.create();
+        dialog.show();
+
+        myInfoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentClientInfo = new Intent(ClientMyTraining.this, MyInfoClient.class);
+                intentClientInfo.putExtra("ClientUsername", client.getClientUsername());
+
+                startActivity(intentClientInfo);
+
+                dialog.dismiss();
+            }
+        });
+
+        myTrainingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clientOptionImgButton.animate().rotation(clientOptionImgButton.getRotation()-360).setDuration(500).start();
+                dialog.dismiss();
+            }
+        });
+
+        loginWithTrainerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentClientInfo = new Intent(ClientMyTraining.this, LoginWithTrainer.class);
+                intentClientInfo.putExtra("Client", client);
+
+                startActivity(intentClientInfo);
+                dialog.dismiss();
+            }
+        });
+
+        logoutImgBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentLogout = new Intent(ClientMyTraining.this,MainActivity.class);
+                // End all previous activities and go back to main page
+                intentLogout.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intentLogout);
+                dialog.dismiss();
+            }
+        });
 
     }
 

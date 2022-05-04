@@ -13,6 +13,8 @@
     <color name="yellow">#E9CB0C</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="whiteHint">#BEBEBE</color>
+     <color name="dialogueBackgroundColor">#5D6671</color>
+
 
 
 </resources>

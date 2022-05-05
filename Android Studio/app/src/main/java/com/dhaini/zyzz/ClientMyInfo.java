@@ -48,6 +48,7 @@ public class ClientMyInfo extends AppCompatActivity {
     private String hoursDay;
     private String trainingPreference;
     private String objectives;
+    private Client client;
     private getClientInfoAPI get_clientInfoAPI;
     private clientUpdateInfoAPI updateClientInfoAPI;
 
@@ -57,10 +58,14 @@ public class ClientMyInfo extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE); //hide the actionbar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
+
         setContentView(R.layout.activity_client_my_info);
 
-        clientUsername = getIntent().getStringExtra("ClientUsername");
-        Log.i("Message info",clientUsername);
+        // Get client Data from ClientMyTraining
+        client = getIntent().getParcelableExtra("Client");
+
+        clientUsername = client.getClientUsername();
+
 
         ageTextView =(TextView) findViewById(R.id.AgeInput);
         heightEditText = (EditText) findViewById(R.id.heightInput);
@@ -151,7 +156,9 @@ public class ClientMyInfo extends AppCompatActivity {
             super.onPostExecute(s);
             try {
                 toastMessage(s).show();
+                // Going back to ClientMyTraining
                 Intent intent = new Intent(ClientMyInfo.this,ClientMyTraining.class);
+                intent.putExtra("Client",client);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 

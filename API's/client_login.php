@@ -33,6 +33,7 @@ $verifyPassword = password_verify($password,$hashedPassword);
 
 if($verifyPassword){
     // Get the name of the user to welcome him
+    // Not prone to SQL Injection
     $fullNameQuery = $mysqli->query("SELECT full_name, client_id from client where username='$username'");
 
     $fetchFullName = mysqli_fetch_assoc($fullNameQuery);
@@ -42,6 +43,7 @@ if($verifyPassword){
     $splitFullName = explode(" ", $fullName);
     $name = $splitFullName[0];
     
+    // Not prone to SQL Injection
     $planIDQuery = $mysqli->query("SELECT plan_id from login_trainer_client where client_id='$clientID'");
     
     if($planIDQuery->num_rows>0){

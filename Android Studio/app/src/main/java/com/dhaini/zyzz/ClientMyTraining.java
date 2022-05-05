@@ -96,7 +96,7 @@ public class ClientMyTraining extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intentClientInfo = new Intent(ClientMyTraining.this, ClientMyInfo.class);
-                intentClientInfo.putExtra("ClientUsername", client.getClientUsername());
+                intentClientInfo.putExtra("Client", client);
 
                 startActivity(intentClientInfo);
 

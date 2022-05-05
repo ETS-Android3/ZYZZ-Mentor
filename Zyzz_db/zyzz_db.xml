@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+- phpMyAdmin XML Dump
+- version 5.1.1
+- https://www.phpmyadmin.net
+-
+- Host: 127.0.0.1
+- Generation Time: May 05, 2022 at 04:11 PM
+- Server version: 8.0.28
+- PHP Version: 8.1.2
+-->
+
+<pma_xml_export version="1.0" xmlns:pma="https://www.phpmyadmin.net/some_doc_url/">
+    <!--
+    - Structure schemas
+    -->
+    <pma:structure_schemas>
+        <pma:database name="zyzz_db" collation="utf8mb4_0900_ai_ci" charset="utf8mb4">
+            <pma:table name="client">
+                CREATE TABLE `client` (
+                  `username` varchar(20) NOT NULL,
+                  `full_name` varchar(50) NOT NULL,
+                  `password` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                  `email` varchar(50) NOT NULL,
+                  `dob` varchar(20) NOT NULL,
+                  `gender` varchar(10) NOT NULL,
+                  `register_date` date NOT NULL,
+                  `client_id` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                  PRIMARY KEY (`username`),
+                  KEY `client_id` (`client_id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            </pma:table>
+            <pma:table name="client_info">
+                CREATE TABLE `client_info` (
+                  `client_id` varchar(6) NOT NULL,
+                  `client_username` varchar(20) NOT NULL,
+                  `age` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                  `height` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                  `weight` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                  `past_injuries` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                  `health_issues` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                  `days_per_week` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                  `hours_per_day` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                  `training_preference` varchar(50) NOT NULL,
+                  `objectives` text NOT NULL,
+                  PRIMARY KEY (`client_id`),
+                  KEY `client_username` (`client_username`),
+                  CONSTRAINT `client_info_ibfk_1` FOREIGN KEY (`client_username`) REFERENCES `client` (`username`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            </pma:table>
+            <pma:table name="client_questions">
+                CREATE TABLE `client_questions` (
+                  `question` varchar(200) NOT NULL,
+                  `trainer_username` varchar(30) NOT NULL,
+                  `client_id` varchar(6) NOT NULL,
+                  `answer` text,
+                  PRIMARY KEY (`question`),
+                  KEY `client_id` (`client_id`),
+                  KEY `trainer_username` (`trainer_username`),
+                  CONSTRAINT `client_questions_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `client_info` (`client_id`),
+                  CONSTRAINT `client_questions_ibfk_2` FOREIGN KEY (`trainer_username`) REFERENCES `trainer` (`username`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            </pma:table>
+            <pma:table name="exercise">
+                CREATE TABLE `exercise` (
+                  `exercise_id` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                  `exercise_name` varchar(30) NOT NULL,
+                  `comments` text,
+                  `client_feedback` text,
+                  `workout_id` varchar(6) NOT NULL,
+                  `position` int NOT NULL,
+                  PRIMARY KEY (`exercise_id`),
+                  KEY `workout_id` (`workout_id`),
+                  CONSTRAINT `exercise_ibfk_3` FOREIGN KEY (`workout_id`) REFERENCES `workout` (`workout_id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            </pma:table>
+            <pma:table name="login_trainer_client">
+                CREATE TABLE `login_trainer_client` (
+                  `plan_id` varchar(6) NOT NULL,
+                  `client_id` varchar(6) NOT NULL,
+                  `client_fullname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                  `trainer_username` varchar(30) NOT NULL,
+                  PRIMARY KEY (`plan_id`),
+                  KEY `client_id` (`client_id`),
+                  KEY `trainer_username` (`trainer_username`),
+                  CONSTRAINT `login_trainer_client_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `client_info` (`client_id`),
+                  CONSTRAINT `login_trainer_client_ibfk_2` FOREIGN KEY (`trainer_username`) REFERENCES `trainer` (`username`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            </pma:table>
+            <pma:table name="sets">
+                CREATE TABLE `sets` (
+                  `set_id` varchar(6) NOT NULL,
+                  `set_name` varchar(30) NOT NULL,
+                  `exercise_id` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                  `reps` varchar(30) DEFAULT NULL,
+                  `client_reps` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT &#039;0&#039;,
+                  `weight` varchar(30) DEFAULT NULL,
+                  `client_weight` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT &#039;0&#039;,
+                  `complete` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT &#039;0&#039;,
+                  PRIMARY KEY (`set_id`),
+                  KEY `exercise_id` (`exercise_id`),
+                  CONSTRAINT `sets_ibfk_3` FOREIGN KEY (`exercise_id`) REFERENCES `exercise` (`exercise_id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            </pma:table>
+            <pma:table name="trainer">
+                CREATE TABLE `trainer` (
+                  `username` varchar(30) NOT NULL,
+                  `full_name` varchar(50) NOT NULL,
+                  `dob` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                  `gender` varchar(10) NOT NULL,
+                  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                  `register_date` date NOT NULL,
+                  `password` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                  PRIMARY KEY (`username`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            </pma:table>
+            <pma:table name="workout">
+                CREATE TABLE `workout` (
+                  `workout_id` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                  `workout_name` varchar(30) NOT NULL,
+                  `plan_id` varchar(6) NOT NULL,
+                  `position` int NOT NULL,
+                  PRIMARY KEY (`workout_id`),
+                  KEY `plan_id` (`plan_id`),
+                  CONSTRAINT `workout_ibfk_1` FOREIGN KEY (`plan_id`) REFERENCES `login_trainer_client` (`plan_id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            </pma:table>
+        </pma:database>
+    </pma:structure_schemas>
+
+    <!--
+    - Database: 'zyzz_db'
+    -->
+    <database name="zyzz_db">
+        <!-- Table client -->
+        <table name="client">
+            <column name="username">alichehade</column>
+            <column name="full_name">Ali Chehade</column>
+            <column name="password">$2y$10$WTErLf/RkuR9rIgsR2aU8ewywFAok.mTVsoCAdc8aftBjHU5GALLW</column>
+            <column name="email">jamil.awada@lau.edu</column>
+            <column name="dob">21 - 4 - 2022</column>
+            <column name="gender">Male</column>
+            <column name="register_date">2022-04-21</column>
+            <column name="client_id">X4PHWB</column>
+        </table>
+        <table name="client">
+            <column name="username">charbel2</column>
+            <column name="full_name">Charbel Daoud</column>
+            <column name="password">$2y$10$eOa0XiZ2PmTwCbLrp5NwNe.P01NrNr8JphzH9VNzvfEHbqWb/S1aS</column>
+            <column name="email">mohamad.dhaini02@lau.edu</column>
+            <column name="dob">3 - 7 - 1997</column>
+            <column name="gender">Male</column>
+            <column name="register_date">2022-05-03</column>
+            <column name="client_id">1J7YNX</column>
+        </table>
+        <table name="client">
+            <column name="username">JamilAwada123</column>
+            <column name="full_name">Jamil Awada</column>
+            <column name="password">$2y$10$0QkHLRX69SmaHPCRlRJTUetzpQHNQ6arbNGxxU8OmylxlLlneJn9m</column>
+            <column name="email">jamilawada@gmail.com</column>
+            <column name="dob">24 - 5 - 2002</column>
+            <column name="gender">Male</column>
+            <column name="register_date">2022-05-04</column>
+            <column name="client_id">8SQ6XW</column>
+        </table>
+        <table name="client">
+            <column name="username">mdhaini2</column>
+            <column name="full_name">Abdallah Dhaini</column>
+            <column name="password">$2y$10$gGqJgLPE6nqnaEwsaAK36.WaSQfMvs/oLRgIOL4c3qii8sNVzWcu6</column>
+            <column name="email">mohamad.dhaini@lau.edu</column>
+            <column name="dob">17-9-2002</column>
+            <column name="gender">Male</column>
+            <column name="register_date">2022-04-07</column>
+            <column name="client_id">IT6J7R</column>
+        </table>
+        <!-- Table client_info -->
+        <table name="client_info">
+            <column name="client_id">1J7YNX</column>
+            <column name="client_username">charbel2</column>
+            <column name="age">25</column>
+            <column name="height">170</column>
+            <column name="weight">80</column>
+            <column name="past_injuries">Broken Elbow</column>
+            <column name="health_issues">Diabetes</column>
+            <column name="days_per_week">4</column>
+            <column name="hours_per_day">2</column>
+            <column name="training_preference">Powerlifting</column>
+            <column name="objectives">Lift 200Kg</column>
+        </table>
+        <table name="client_info">
+            <column name="client_id">8SQ6XW</column>
+            <column name="client_username">JamilAwada123</column>
+            <column name="age">20</column>
+            <column name="height">190</column>
+            <column name="weight">36</column>
+            <column name="past_injuries">Broken Back</column>
+            <column name="health_issues">None</column>
+            <column name="days_per_week">5</column>
+            <column name="hours_per_day">2</column>
+            <column name="training_preference">light</column>
+            <column name="objectives">the olympia </column>
+        </table>
+        <table name="client_info">
+            <column name="client_id">IT6J7R</column>
+            <column name="client_username">mdhaini2</column>
+            <column name="age">20</column>
+            <column name="height">12</column>
+            <column name="weight">19</column>
+            <column name="past_injuries">Broken Nose</column>
+            <column name="health_issues">Anger issues</column>
+            <column name="days_per_week">2</column>
+            <column name="hours_per_day">9</column>
+            <column name="training_preference">Powerlifting</column>
+            <column name="objectives">Lift 250kg</column>
+        </table>
+        <table name="client_info">
+            <column name="client_id">X4PHWB</column>
+            <column name="client_username">alichehade</column>
+            <column name="age">0</column>
+            <column name="height">173</column>
+            <column name="weight">80</column>
+            <column name="past_injuries">Broken elbow</column>
+            <column name="health_issues">None</column>
+            <column name="days_per_week">3</column>
+            <column name="hours_per_day">3</column>
+            <column name="training_preference">Body Building</column>
+            <column name="objectives">Be like Cbum</column>
+        </table>
+        <!-- Table client_questions -->
+        <!-- Table exercise -->
+        <table name="exercise">
+            <column name="exercise_id">4S0N3Q</column>
+            <column name="exercise_name">Bench Press</column>
+            <column name="comments">Goooo</column>
+            <column name="client_feedback">Easy </column>
+            <column name="workout_id">K3CMN8</column>
+            <column name="position">0</column>
+        </table>
+        <table name="exercise">
+            <column name="exercise_id">CLQHY0</column>
+            <column name="exercise_name">Shoulder Press</column>
+            <column name="comments">Focus on mind muscle connection</column>
+            <column name="client_feedback">Easyy</column>
+            <column name="workout_id">LPTF4Y</column>
+            <column name="position">0</column>
+        </table>
+        <table name="exercise">
+            <column name="exercise_id">H2RV67</column>
+            <column name="exercise_name">Dumbell Shoulder Press</column>
+            <column name="comments">Go as Explosive as you can
+</column>
+            <column name="client_feedback">lemon squeezy</column>
+            <column name="workout_id">LPTF4Y</column>
+            <column name="position">1</column>
+        </table>
+        <table name="exercise">
+            <column name="exercise_id">TK2XWN</column>
+            <column name="exercise_name">Pull Ups</column>
+            <column name="comments">Focus on mind muscle connection</column>
+            <column name="client_feedback">No Troubles</column>
+            <column name="workout_id">K3CMN8</column>
+            <column name="position">1</column>
+        </table>
+        <!-- Table login_trainer_client -->
+        <table name="login_trainer_client">
+            <column name="plan_id">0X98TA</column>
+            <column name="client_id">IT6J7R</column>
+            <column name="client_fullname">Abdallah Dhaini</column>
+            <column name="trainer_username">mdhaini10</column>
+        </table>
+        <table name="login_trainer_client">
+            <column name="plan_id">PQ7CR6</column>
+            <column name="client_id">1J7YNX</column>
+            <column name="client_fullname">Charbel Daoud</column>
+            <column name="trainer_username">mdhaini10</column>
+        </table>
+        <!-- Table sets -->
+        <table name="sets">
+            <column name="set_id">93GWQI</column>
+            <column name="set_name">Paused Set</column>
+            <column name="exercise_id">H2RV67</column>
+            <column name="reps">10</column>
+            <column name="client_reps">0</column>
+            <column name="weight">100KG</column>
+            <column name="client_weight">0</column>
+            <column name="complete">0</column>
+        </table>
+        <table name="sets">
+            <column name="set_id">GI0S9W</column>
+            <column name="set_name">Working Set 1</column>
+            <column name="exercise_id">H2RV67</column>
+            <column name="reps">15</column>
+            <column name="client_reps">0</column>
+            <column name="weight">100kg</column>
+            <column name="client_weight">0</column>
+            <column name="complete">0</column>
+        </table>
+        <table name="sets">
+            <column name="set_id">K3TXZC</column>
+            <column name="set_name">Top Set</column>
+            <column name="exercise_id">TK2XWN</column>
+            <column name="reps">1</column>
+            <column name="client_reps">2</column>
+            <column name="weight">130kg</column>
+            <column name="client_weight">130kg</column>
+            <column name="complete">0</column>
+        </table>
+        <table name="sets">
+            <column name="set_id">Q5ZI47</column>
+            <column name="set_name">Top Set</column>
+            <column name="exercise_id">4S0N3Q</column>
+            <column name="reps">18</column>
+            <column name="client_reps">19</column>
+            <column name="weight">131kg</column>
+            <column name="client_weight">131kg</column>
+            <column name="complete">1</column>
+        </table>
+        <!-- Table trainer -->
+        <table name="trainer">
+            <column name="username">fadiAmad10</column>
+            <column name="full_name">Fadi Amad</column>
+            <column name="dob">21 - 4 - 2001</column>
+            <column name="gender">Male</column>
+            <column name="email">fadi.amad@lau.edu</column>
+            <column name="register_date">2022-04-21</column>
+            <column name="password">$2y$10$8iQ8SL75KddPWgtNpjndjuW1/JNtWe1BEZwtFGZjWGX234KbnFND.</column>
+        </table>
+        <table name="trainer">
+            <column name="username">mdhaini10</column>
+            <column name="full_name">Mohamad Dhaini</column>
+            <column name="dob">17 - 9 - 2002</column>
+            <column name="gender">Male</column>
+            <column name="email">mohamad.dhaini02@lau.edu</column>
+            <column name="register_date">2022-04-06</column>
+            <column name="password">$2y$10$WnBLI0EFVC4.bttYltjmUuqXyjmkzm66mCmAm31Pv92fxl.013/TG</column>
+        </table>
+        <!-- Table workout -->
+        <table name="workout">
+            <column name="workout_id">DRQWBH</column>
+            <column name="workout_name">Lower Day</column>
+            <column name="plan_id">PQ7CR6</column>
+            <column name="position">1</column>
+        </table>
+        <table name="workout">
+            <column name="workout_id">K3CMN8</column>
+            <column name="workout_name">Push Day</column>
+            <column name="plan_id">0X98TA</column>
+            <column name="position">0</column>
+        </table>
+        <table name="workout">
+            <column name="workout_id">LPTF4Y</column>
+            <column name="workout_name">Upper Day</column>
+            <column name="plan_id">PQ7CR6</column>
+            <column name="position">0</column>
+        </table>
+        <table name="workout">
+            <column name="workout_id">N58DQ1</column>
+            <column name="workout_name">Pull Day</column>
+            <column name="plan_id">0X98TA</column>
+            <column name="position">1</column>
+        </table>
+    </database>
+</pma_xml_export>

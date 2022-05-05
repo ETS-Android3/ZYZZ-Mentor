@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class MyClientsAdapter extends RecyclerView.Adapter<MyClientsAdapter.myClientsViewHolder> {
+
     private ArrayList<TrainerClients> myClientsList;
     private OnItemClickListener mListener;
 

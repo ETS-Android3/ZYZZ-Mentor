@@ -62,7 +62,7 @@ public class ClientRegister extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_client_register);
 
-        // Calendar Picker setup
+        // DOB Calendar Picker setup
         final Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -95,7 +95,7 @@ public class ClientRegister extends AppCompatActivity {
             }
         };
 
-        //Spinner Initialization
+        // Gender Spinner Initialization
         List<String> genders = Arrays.asList("Male", "Female");
         genderSpinner = findViewById(R.id.genderInputClient);
 
@@ -186,20 +186,21 @@ public class ClientRegister extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
             try {
 
-                if(s.equalsIgnoreCase("Client registered")){
+                if(result.equalsIgnoreCase("Client registered")){
 
                     toastMessage("Welcome "+ fullName);
                     Intent intent = new Intent(ClientRegister.this, ClientLogin.class);
                     startActivity(intent);
                 }
                 else{
-                    toastMessage(s);
+                    // If result != Client registered the user get a message from the backend informing him about the issue
+                    toastMessage(result);
                 }
-                toastMessage(s);
+                toastMessage(result);
             } catch (Exception e) {
                 e.printStackTrace();
             }

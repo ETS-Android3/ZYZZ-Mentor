@@ -71,7 +71,21 @@ public class TrainerMyClients extends AppCompatActivity {
 
     }
 
-
+    public void buildRecyclerView(){
+        myClientsListRecyclerView = findViewById(R.id.myClientRecyclerView);
+        myClientsLayoutManager = new LinearLayoutManager(TrainerMyClients.this);
+        myClientsAdapter = new MyClientsAdapter(trainerClientList);
+        myClientsListRecyclerView.setLayoutManager(myClientsLayoutManager);
+        myClientsListRecyclerView.setAdapter(myClientsAdapter);
+        myClientsAdapter.setOnItemClickListener(new MyClientsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent trainerSelectedClientIntent = new Intent(TrainerMyClients.this, TrainerSelectedClient.class);
+                trainerSelectedClientIntent.putExtra("Client", trainerClientList.get(position));
+                startActivity(trainerSelectedClientIntent);
+            }
+        });
+    }
 
     private void openTrainerOptionDialog() {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
@@ -181,19 +195,5 @@ public class TrainerMyClients extends AppCompatActivity {
         return toast;
     }
 
-    public void buildRecyclerView(){
-        myClientsListRecyclerView = findViewById(R.id.myClientRecyclerView);
-        myClientsLayoutManager = new LinearLayoutManager(TrainerMyClients.this);
-        myClientsAdapter = new MyClientsAdapter(trainerClientList);
-        myClientsListRecyclerView.setLayoutManager(myClientsLayoutManager);
-        myClientsListRecyclerView.setAdapter(myClientsAdapter);
-        myClientsAdapter.setOnItemClickListener(new MyClientsAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                Intent trainerSelectedClientIntent = new Intent(TrainerMyClients.this, TrainerSelectedClient.class);
-                trainerSelectedClientIntent.putExtra("Client", trainerClientList.get(position));
-                startActivity(trainerSelectedClientIntent);
-            }
-        });
-    }
+
 }

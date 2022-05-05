@@ -50,12 +50,13 @@ public class ClientMyTraining extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_client_my_training);
 
+        // Get client Data from loginActivity
         client = getIntent().getParcelableExtra("Client");
 
-        // Initializing API URL
+
         // In case getClientPlanID() is null;
         try {
-
+            // Initializing API URL
             String getMyClient_url = "http://10.0.2.2/ZYZZ/get_trainer_client_workouts.php?planID=" + client.getClientPlanID();
             getClientWorkoutAPI = new GetClientWorkoutAPI();
             getClientWorkoutAPI.execute(getMyClient_url);
@@ -172,9 +173,6 @@ public class ClientMyTraining extends AppCompatActivity {
         protected void onPostExecute(String values) {
             super.onPostExecute(values);
             try {
-                Log.i("message", values);
-                // Getting all the info for each client from the database
-
 
                 JSONArray clientWorkoutJson = new JSONArray(values);
                 workoutsList = new ArrayList<>();
@@ -198,9 +196,6 @@ public class ClientMyTraining extends AppCompatActivity {
                     workoutsList.add(workout);
 
                 }
-                Collections.sort(workoutsList, Workout.workoutPosition);
-
-
                 buildRecyclerView();
 
             } catch (Exception e) {

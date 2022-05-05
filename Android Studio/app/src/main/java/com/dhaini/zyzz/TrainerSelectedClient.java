@@ -119,6 +119,79 @@ public class TrainerSelectedClient extends AppCompatActivity {
         startActivity(intentViewClientInfo);
     }
 
+    public void buildRecyclerView() {
+        clientSelectedRecyclerView = findViewById(R.id.ClientSelectedRecyclerView);
+        workoutLayoutManager = new LinearLayoutManager(TrainerSelectedClient.this);
+        workoutAdapter = new WorkoutAdapter(workoutsList);
+        clientSelectedRecyclerView.setLayoutManager(workoutLayoutManager);
+
+        ItemTouchHelper.Callback callback = new myItemTouchHelper(workoutAdapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        workoutAdapter.setItemTouchHelper(itemTouchHelper);
+        itemTouchHelper.attachToRecyclerView(clientSelectedRecyclerView);
+
+        clientSelectedRecyclerView.setAdapter(workoutAdapter);
+
+        workoutAdapter.setOnItemClickListener(new WorkoutAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+
+                Intent intent = new Intent(TrainerSelectedClient.this, TrainerSelectedWorkout.class);
+                intent.putExtra("Workout", workoutsList.get(position));
+                startActivity(intent);
+            }
+
+            @Override
+            public void onDeleteClick(int position) {
+                openConfirmationDialog(position);
+            }
+        });
+
+
+    }
+
+    private void openConfirmationDialog(int position) {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
+        View mView = getLayoutInflater().inflate(R.layout.confirmation_dialogue, null);
+
+        TextView confirmationMessageTextView = (TextView) mView.findViewById(R.id.messageConfirmation);
+        confirmationMessageTextView.setText("Are you sure you want to delete " + workoutsList.get(position).getWorkoutName() + " ?");
+        Button yesButton = (Button) mView.findViewById(R.id.YesButton);
+        Button noButton = (Button) mView.findViewById(R.id.NoButton);
+
+        mBuilder.setView(mView);
+        AlertDialog dialog = mBuilder.create();
+        dialog.show();
+
+        yesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String deleteWorkout_url = "http://10.0.2.2/ZYZZ/delete_workout.php?workoutID=" + workoutsList.get(position).getWorkoutID();
+                deleteWorkoutAPI = new DeleteWorkoutAPI();
+                deleteWorkoutAPI.execute(deleteWorkout_url);
+
+                workoutsList.remove(position);
+                workoutAdapter.notifyItemRemoved(position);
+
+                dialog.dismiss();
+            }
+        });
+
+        noButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+    }
+
+
+    public Toast toastMessage(String message) {
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
+        return toast;
+    }
+
     class AddClientWorkoutAPI extends AsyncTask<String, Void, String> {
 
         @Override
@@ -246,8 +319,6 @@ public class TrainerSelectedClient extends AppCompatActivity {
 
                     }
 
-                    Collections.sort(workoutsList, Workout.workoutPosition);
-
                 }
                 buildRecyclerView();
 
@@ -256,80 +327,6 @@ public class TrainerSelectedClient extends AppCompatActivity {
 
             }
         }
-    }
-
-
-    public void buildRecyclerView() {
-        clientSelectedRecyclerView = findViewById(R.id.ClientSelectedRecyclerView);
-        workoutLayoutManager = new LinearLayoutManager(TrainerSelectedClient.this);
-        workoutAdapter = new WorkoutAdapter(workoutsList);
-        clientSelectedRecyclerView.setLayoutManager(workoutLayoutManager);
-
-        ItemTouchHelper.Callback callback = new myItemTouchHelper(workoutAdapter);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-        workoutAdapter.setItemTouchHelper(itemTouchHelper);
-        itemTouchHelper.attachToRecyclerView(clientSelectedRecyclerView);
-
-        clientSelectedRecyclerView.setAdapter(workoutAdapter);
-
-        workoutAdapter.setOnItemClickListener(new WorkoutAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-
-                Intent intent = new Intent(TrainerSelectedClient.this, TrainerSelectedWorkout.class);
-                intent.putExtra("Workout", workoutsList.get(position));
-                startActivity(intent);
-            }
-
-            @Override
-            public void onDeleteClick(int position) {
-                openConfirmationDialog(position);
-            }
-        });
-
-
-    }
-
-    private void openConfirmationDialog(int position) {
-        AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
-        View mView = getLayoutInflater().inflate(R.layout.confirmation_dialogue, null);
-
-        TextView confirmationMessageTextView = (TextView) mView.findViewById(R.id.messageConfirmation);
-        confirmationMessageTextView.setText("Are you sure you want to delete " + workoutsList.get(position).getWorkoutName() + " ?");
-        Button yesButton = (Button) mView.findViewById(R.id.YesButton);
-        Button noButton = (Button) mView.findViewById(R.id.NoButton);
-
-        mBuilder.setView(mView);
-        AlertDialog dialog = mBuilder.create();
-        dialog.show();
-
-        yesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String deleteWorkout_url = "http://10.0.2.2/ZYZZ/delete_workout.php?workoutID=" + workoutsList.get(position).getWorkoutID();
-                deleteWorkoutAPI = new DeleteWorkoutAPI();
-                deleteWorkoutAPI.execute(deleteWorkout_url);
-
-                workoutsList.remove(position);
-                workoutAdapter.notifyItemRemoved(position);
-
-                dialog.dismiss();
-            }
-        });
-
-        noButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-    }
-
-
-    public Toast toastMessage(String message) {
-        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
-        return toast;
     }
 
 

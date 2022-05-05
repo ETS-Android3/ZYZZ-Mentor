@@ -123,7 +123,7 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
     @Override
     public void onItemSwiped(int position) {
 
-        // If the user is a client and swiped change the status of the set
+        // If the user is a client and swiped on item  it change the status of the set
         // from complete to incomplete and viceVersa and of course we update it to the database
         if (user.equalsIgnoreCase("Client")) {
 
@@ -142,8 +142,7 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
             String updateSet_url = "http://10.0.2.2/ZYZZ/client_update_set_complete.php?setID=" + set_id + "&complete=" + updatedInfo;
             updateSetCompleteAPI.execute(updateSet_url);
 
-        }
-        else if(user.equalsIgnoreCase("Trainer")){
+        } else if (user.equalsIgnoreCase("Trainer")) {
             notifyDataSetChanged();
         }
 
@@ -173,15 +172,12 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
     public void onBindViewHolder(@NonNull ClientSetAdapter.ClientSetViewHolder holder, int position) {
         SetClient currentSet = setClientList.get(position);
 
-        // If the user is a trainer he can't edit the client weight and reps;
-        if (user.equalsIgnoreCase("Trainer")) {
-            holder.setWeightEditText.setEnabled(false);
-            holder.setRepsEditText.setEnabled(false);
-        }
+        holder.setWeightEditText.setEnabled(false);
+        holder.setRepsEditText.setEnabled(false);
 
         holder.setNameTextView.setText(currentSet.getSetName());
 
-        // Check if the client completed his set if not we hide the completed line imageView
+        // Check if the client completed his set if it is we change the colorText of the set name to green
 
         if (currentSet.getCompleted() == 0) {
             holder.setNameTextView.setTextColor(Color.parseColor("#000000"));
@@ -194,6 +190,7 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
         if (currentSet.getClientReps().equalsIgnoreCase("0")) {
             holder.setRepsEditText.setText(currentSet.getTrainerReps());
         } else {
+
             // Check if the trainer and client reps are the same if not we change the text color to Red to highlight that the client changed the reps
             if (!currentSet.getClientReps().equalsIgnoreCase(currentSet.getTrainerReps())) {
                 holder.setRepsEditText.setTextColor(Color.parseColor("#FF0000"));
@@ -206,6 +203,7 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
         if (currentSet.getClientWeight().equalsIgnoreCase("0")) {
             holder.setWeightEditText.setText(currentSet.getTrainerWeight());
         } else {
+
             // Check if the trainer and client weights are the same
             // if not we change the text color to Red to highlight that the client changed the weights
             if (!currentSet.getClientWeight().equalsIgnoreCase(currentSet.getTrainerWeight())) {
@@ -224,8 +222,6 @@ public class ClientSetAdapter extends RecyclerView.Adapter<ClientSetAdapter.Clie
         }
         return setClientList.size();
     }
-
-
 
 
     public class UpdateSetCompleteAPI extends AsyncTask<String, Void, String> {

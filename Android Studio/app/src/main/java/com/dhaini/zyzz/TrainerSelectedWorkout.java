@@ -235,7 +235,12 @@ public class TrainerSelectedWorkout extends AppCompatActivity {
     }
 
 
-    //////////////////////////////////////// API Classes///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public Toast toastMessage(String message) {
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
+        return toast;
+    }
+
+    //////////////////////////////////////// API Classes ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     class GetExercisesAPI extends AsyncTask<String, Void, String> {
@@ -279,13 +284,9 @@ public class TrainerSelectedWorkout extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
-
-                Log.i("Message",s);
                 JSONArray exerciseJsonArray = new JSONArray(s);
 
-                if (exerciseJsonArray.length() == 0) {
-
-                } else {
+                if (exerciseJsonArray.length() != 0) {
 
                     trainerExerciseList = new ArrayList<>();
 
@@ -297,10 +298,12 @@ public class TrainerSelectedWorkout extends AppCompatActivity {
 
                         ArrayList<SetTrainer> setTrainerList = new ArrayList<>();
 
+                        // Get the sets belonging to the exercise at index i
                         for (int j = 0; j < setJsonArray.length(); j++) {
                             JSONObject setJsonObject = setJsonArray.getJSONObject(j);
                             String setName = setJsonObject.getString("set_name");
 
+                            // If there is no set assigned
                             if (setName.equalsIgnoreCase("null")) {
                                 break;
                             } else {
@@ -319,7 +322,7 @@ public class TrainerSelectedWorkout extends AppCompatActivity {
                         String comments = ExerciseJsonObject.getString("comments");
                         String workoutID = ExerciseJsonObject.getString("workout_id");
 
-                        if(comments.equalsIgnoreCase("null")) comments = "";
+                        if (comments.equalsIgnoreCase("null")) comments = "";
 
                         int workoutPosition = Integer.valueOf(ExerciseJsonObject.getString("position"));
 
@@ -474,20 +477,20 @@ public class TrainerSelectedWorkout extends AppCompatActivity {
 
     public class DeleteExerciseAPI extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... urls) {
-            // URL and HTTP initialization to connect to API 2
+            // URL and HTTP initialization to connect to API
             URL url;
             HttpURLConnection http;
 
             try {
-                // Connect to API 2
+                // Connect to API
                 url = new URL(urls[0]);
                 http = (HttpURLConnection) url.openConnection();
 
-                // Retrieve API 2 content
+                // Retrieve API  content
                 InputStream in = http.getInputStream();
                 InputStreamReader reader = new InputStreamReader(in);
 
-                // Read API 2 content line by line
+                // Read API content line by line
                 BufferedReader br = new BufferedReader(reader);
                 StringBuilder sb = new StringBuilder();
 
@@ -497,7 +500,7 @@ public class TrainerSelectedWorkout extends AppCompatActivity {
                 }
 
                 br.close();
-                // Return content from API 2
+                // Return content from API
                 return sb.toString();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -518,8 +521,5 @@ public class TrainerSelectedWorkout extends AppCompatActivity {
         }
     }
 
-    public Toast toastMessage(String message) {
-        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
-        return toast;
-    }
+
 }

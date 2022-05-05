@@ -47,9 +47,11 @@ public class ClientSelectedWorkout extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         requestWindowFeature(Window.FEATURE_NO_TITLE); //hide the actionbar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
+
         setContentView(R.layout.activity_client_selected_workout);
 
         workoutSelectedBannerNameTextView = (TextView) findViewById(R.id.ClientBannerWorkoutName);
@@ -57,24 +59,23 @@ public class ClientSelectedWorkout extends AppCompatActivity {
         workoutSelected = getIntent().getParcelableExtra("Workout");
         user = getIntent().getStringExtra("User");
 
-        if(user.equalsIgnoreCase("Trainer")){
-            workoutSelectedBannerNameTextView.setText(workoutSelected.getWorkoutName()+ " Feedback");
-        }
-        else{
+        if (user.equalsIgnoreCase("Trainer")) {
+            workoutSelectedBannerNameTextView.setText(workoutSelected.getWorkoutName() + " Feedback");
+        } else {
             workoutSelectedBannerNameTextView.setText(workoutSelected.getWorkoutName());
         }
 
         refreshImgBtn = (ImageButton) findViewById(R.id.refreshBtn);
-        refreshImgBtn.animate().rotation(refreshImgBtn.getRotation()+720).setDuration(1000).start();
+        refreshImgBtn.animate().rotation(refreshImgBtn.getRotation() + 720).setDuration(1000).start();
 
         refreshImgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                refreshImgBtn.animate().rotation(refreshImgBtn.getRotation()+720).setDuration(1000).start();
+                refreshImgBtn.animate().rotation(refreshImgBtn.getRotation() + 720).setDuration(1000).start();
                 finish();
-                overridePendingTransition( 0, 0);
+                overridePendingTransition(0, 0);
                 startActivity(getIntent());
-                overridePendingTransition( 0, 0);
+                overridePendingTransition(0, 0);
             }
         });
         getExercisesAPI = new GetExercisesAPI();
@@ -82,6 +83,14 @@ public class ClientSelectedWorkout extends AppCompatActivity {
 
     }
 
+    public void buildRecyclerView() {
+        WorkoutSelectedRecyclerView = findViewById(R.id.ClientWorkoutSelectedRecyclerView);
+        clientExerciseLayoutManager = new LinearLayoutManager(ClientSelectedWorkout.this);
+        clientExerciseAdapter = new ClientExerciseAdapter(ClientSelectedWorkout.this, clientExerciseList, user);
+        WorkoutSelectedRecyclerView.setLayoutManager(clientExerciseLayoutManager);
+        WorkoutSelectedRecyclerView.setAdapter(clientExerciseAdapter);
+
+    }
 
     class GetExercisesAPI extends AsyncTask<String, Void, String> {
 
@@ -170,6 +179,7 @@ public class ClientSelectedWorkout extends AppCompatActivity {
                         String workoutID = ExerciseJsonObject.getString("workout_id");
                         String feedbacks = ExerciseJsonObject.getString("client_feedback");
 
+
                         if (feedbacks.equalsIgnoreCase("null")) {
                             feedbacks = "";
                         }
@@ -192,13 +202,6 @@ public class ClientSelectedWorkout extends AppCompatActivity {
             }
         }
 
-        public void buildRecyclerView() {
-            WorkoutSelectedRecyclerView = findViewById(R.id.ClientWorkoutSelectedRecyclerView);
-            clientExerciseLayoutManager = new LinearLayoutManager(ClientSelectedWorkout.this);
-            clientExerciseAdapter = new ClientExerciseAdapter(ClientSelectedWorkout.this, clientExerciseList, user);
-            WorkoutSelectedRecyclerView.setLayoutManager(clientExerciseLayoutManager);
-            WorkoutSelectedRecyclerView.setAdapter(clientExerciseAdapter);
 
-        }
     }
 }

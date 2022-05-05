@@ -151,7 +151,8 @@ public class TrainerSetAdapter extends RecyclerView.Adapter<TrainerSetAdapter.Tr
         holder.setWeightEditText.setText(currentSet.getWeight());
 
 
-        // If the trainer want to edit the setName or Reps or Weight after he finish editing using UpdateSetAPI we update the data change in the database
+        // If the trainer want to edit the setName or Reps or Weight after he finish editing using UpdateSetAPI we update the data changed in the database
+
         //////////////////////// Set Name /////////////////////////
         holder.setNameEditText.addTextChangedListener(new TextWatcher() {
             @Override
